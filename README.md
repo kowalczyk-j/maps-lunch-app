@@ -1,8 +1,8 @@
 # BulionApp
 
-**Grupa nr 23**: Magda Dudek, Kinga Świderek, Jakub Kowalczyk
+**Grupa nr 23**: Magdalena Dudek, Kinga Świderek, Jakub Kowalczyk
 
-**Wstępna deklaracja technologii**: Python QT
+**Wstępna deklaracja technologii**: Android Studio + Java, aby móc stworzyć aplikację mobilną dla systemu Android
 
 ## Opis
 
