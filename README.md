@@ -16,3 +16,6 @@ Opcjonalną dodatkową funkcjonalnością będzie możliwość socjalizowania si
 **Administratorzy** aplikacji zarządzają listą pokazywanych restauracji, aktualizują lunche, a w tym ich ceny, dostępność i warunki promocji. Ponadto, moderują opinie - mogą je usuwać, gdy są wulgarne lub nieadekwatne. Starają się na bieżąco dbać o najlepszy User Experience.
 
 **Właściciele restauracji** mogą współpracować z administratorami - dostępne będą sponsorowane oferty, które są bardziej widoczne i oznaczone logo jakości. Ponadto właściciel po zweryfikowaniu będzie miał możliwość aktualizowania oferty na prawach administratora.
+
+## Diagram
+![diagram](https://gitlab-stud.elka.pw.edu.pl/4750b741-0809-41ef-889f-a9d0fbe27a76)
