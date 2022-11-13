@@ -18,4 +18,4 @@ Opcjonalną dodatkową funkcjonalnością będzie możliwość socjalizowania si
 **Właściciele restauracji** mogą współpracować z administratorami - dostępne będą sponsorowane oferty, które są bardziej widoczne i oznaczone logo jakości. Ponadto właściciel po zweryfikowaniu będzie miał możliwość aktualizowania oferty na prawach administratora.
 
 ## Diagram
-![diagram](https://drive.google.com/file/d/1K4uKwsBwreyL07By6OyFEr34mJFKVBSu/preview)
+![diagram](https://fv9-5.failiem.lv/thumb_show.php?i=7ptasrfjz&download_checksum=879014c330363f259cc888d4efb7dc7b04f197a7&download_timestamp=1668352891)
