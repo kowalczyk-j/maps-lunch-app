@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import pw.pap22z.bulionapp.databinding.FragmentProfileBinding
+import pw.pap22z.bulionapp.src.Restaurant
 import pw.pap22z.bulionapp.src.User
 
 class ProfileFragment : Fragment() {
