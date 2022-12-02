@@ -1,7 +1,8 @@
-package pw.pap22z.bulionapp
+package pw.pap22z.bulionapp.ui.profile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import pw.pap22z.bulionapp.R
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

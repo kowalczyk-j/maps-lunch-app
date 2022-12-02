@@ -13,21 +13,21 @@
         android:theme="@style/Theme.BulionApp"
         tools:targetApi="31">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.profile.SettingsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MyFavoritesActivity"
+            android:name=".ui.profile.MyFavoritesActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MyReviewsActivity"
+            android:name=".ui.profile.MyReviewsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

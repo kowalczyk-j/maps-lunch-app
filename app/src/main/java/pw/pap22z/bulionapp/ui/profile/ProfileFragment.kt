@@ -10,10 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBindings
-import pw.pap22z.bulionapp.MyFavoritesActivity
-import pw.pap22z.bulionapp.MyReviewsActivity
 import pw.pap22z.bulionapp.R
-import pw.pap22z.bulionapp.SettingsActivity
 import pw.pap22z.bulionapp.databinding.FragmentProfileBinding
 import pw.pap22z.bulionapp.src.User
 
