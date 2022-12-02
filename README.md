@@ -2,7 +2,7 @@
 
 **Grupa nr 23**: Magdalena Dudek, Kinga Świderek, Jakub Kowalczyk
 
-**Wstępna deklaracja technologii**: Android Studio + Java, aby móc stworzyć aplikację mobilną dla systemu Android
+**Wstępna deklaracja technologii**: Android Studio + Kotlin, aby móc stworzyć aplikację mobilną dla systemu Android
 
 ## Opis
 
