@@ -1,14 +1,20 @@
 package pw.pap22z.bulionapp.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewbinding.ViewBindings
+import pw.pap22z.bulionapp.MyFavoritesActivity
+import pw.pap22z.bulionapp.MyReviewsActivity
+import pw.pap22z.bulionapp.R
+import pw.pap22z.bulionapp.SettingsActivity
 import pw.pap22z.bulionapp.databinding.FragmentProfileBinding
-import pw.pap22z.bulionapp.src.Restaurant
 import pw.pap22z.bulionapp.src.User
 
 class ProfileFragment : Fragment() {
@@ -19,7 +25,7 @@ class ProfileFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    val user: User = User("Kinga")
+    private val user: User = User("Kinga")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +42,31 @@ class ProfileFragment : Fragment() {
         profileViewModel.text.observe(viewLifecycleOwner) {
             textView.text = "$it ${user.username}"
         }
+
+        val myReviewsBtn = ViewBindings.findChildViewById<Button>(root, R.id.reviewsBtn)
+        if (myReviewsBtn != null) {
+            myReviewsBtn.setOnClickListener{
+                val intent = Intent(activity, MyReviewsActivity::class.java)
+                activity?.startActivity(intent)
+            }
+        }
+
+        val myFavoritesBtn = ViewBindings.findChildViewById<Button>(root, R.id.favoritesBtn)
+        if (myFavoritesBtn != null) {
+            myFavoritesBtn.setOnClickListener{
+                val intent = Intent(activity, MyFavoritesActivity::class.java)
+                activity?.startActivity(intent)
+            }
+        }
+
+        val settingsBtn = ViewBindings.findChildViewById<Button>(root, R.id.settingsBtn)
+        if (settingsBtn != null) {
+            settingsBtn.setOnClickListener{
+                val intent = Intent(activity, SettingsActivity::class.java)
+                activity?.startActivity(intent)
+            }
+        }
+
         return root
     }
 
