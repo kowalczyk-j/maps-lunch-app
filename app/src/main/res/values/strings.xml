@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BulionApp</string>
+    <string name="title_map">Mapa</string>
+    <string name="title_search">Szukaj</string>
+    <string name="title_profile">Konto</string>
+    <string name="settings">Ustawienia</string>
+    <string name="favorites">Ulubione</string>
+    <string name="my_reviews">Moje recenzje</string>
+</resources>
