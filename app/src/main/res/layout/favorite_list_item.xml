@@ -18,6 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
+                android:layout_marginStart="16dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -40,12 +41,12 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/reviewBody"
+                android:id="@+id/address"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
+                android:layout_height="match_parent"
                 android:layout_marginVertical="@dimen/cast_libraries_material_featurehighlight_center_horizontal_offset"
-                android:text="Bardzo smaczne jedzenie, świetna atmosfera! Na pewno będę wracać :)"/>
+                android:layout_marginHorizontal="16dp"
+                android:text="Świętokrzyska 18, Warszawa" />
 
         </LinearLayout>
 

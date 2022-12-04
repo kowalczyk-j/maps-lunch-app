@@ -1,8 +1,8 @@
 package pw.pap22z.bulionapp.src
 
 
-class Restaurant constructor(val name: String) {
-    val reviews: MutableList<Review> = mutableListOf()
+class Restaurant constructor(val name: String, val address: String) {
+    val reviews: ArrayList<Review> = arrayListOf()
     var rating: Double? = null
 
     private fun updateRating() {

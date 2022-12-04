@@ -2,7 +2,6 @@ package pw.pap22z.bulionapp.ui.profile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.ActivityMyReviewsBinding
 import pw.pap22z.bulionapp.src.Restaurant
 import pw.pap22z.bulionapp.src.Review
@@ -17,11 +16,11 @@ class MyReviewsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val restaurants = arrayOf(
-            Restaurant("Fast Food"),
-            Restaurant("Chińczyk"),
-            Restaurant("Pizzeria"),
-            Restaurant("Caffe"),
-            Restaurant("Kebab")
+            Restaurant("Fast Food", "Warszawa"),
+            Restaurant("Chińczyk", "Warszawa"),
+            Restaurant("Pizzeria", "Warszawa"),
+            Restaurant("Caffe", "Warszawa"),
+            Restaurant("Kebab", "Warszawa")
         )
 
         val ratings = arrayOf(

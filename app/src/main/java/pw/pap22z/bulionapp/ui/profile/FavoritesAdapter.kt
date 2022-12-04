@@ -7,22 +7,22 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import pw.pap22z.bulionapp.R
-import pw.pap22z.bulionapp.src.Review
+import pw.pap22z.bulionapp.src.Restaurant
 
-class ReviewsAdapter (private val context: Activity, private val reviewList: ArrayList<Review>)
-    : ArrayAdapter<Review>(context, R.layout.review_list_item, reviewList) {
+class FavoritesAdapter (private val context: Activity, private val favoritesList: ArrayList<Restaurant>)
+    : ArrayAdapter<Restaurant>(context, R.layout.favorite_list_item, favoritesList) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater: LayoutInflater = LayoutInflater.from(context)
-        val view: View = inflater.inflate(R.layout.review_list_item, null)
+        val view: View = inflater.inflate(R.layout.favorite_list_item, null)
 
         val restaurantName: TextView = view.findViewById(R.id.restaurantName)
         val rating: TextView = view.findViewById(R.id.rating)
-        val reviewBody: TextView = view.findViewById(R.id.reviewBody)
+        val reviewBody: TextView = view.findViewById(R.id.address)
 
-        restaurantName.text = reviewList[position].restaurant.name
-        rating.text = (reviewList[position].rating).toString()
-        reviewBody.text = reviewList[position].reviewBody
+        restaurantName.text = favoritesList[position].name
+        rating.text = (favoritesList[position].rating).toString()
+        reviewBody.text = favoritesList[position].address
 
         return view
     }

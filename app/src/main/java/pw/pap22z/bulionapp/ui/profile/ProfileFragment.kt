@@ -10,9 +10,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBindings
+import de.hdodenhof.circleimageview.CircleImageView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.FragmentProfileBinding
 import pw.pap22z.bulionapp.src.User
+
+val user: User = User("Kinga")
 
 class ProfileFragment : Fragment() {
 
@@ -21,8 +24,6 @@ class ProfileFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
-    private val user: User = User("Kinga")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,36 +36,42 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textWelcome
+        val welcomeMsg: TextView = binding.textWelcome
         profileViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = "$it ${user.username}"
+            welcomeMsg.text = "$it ${user.username}"
         }
 
-        val myReviewsBtn = ViewBindings.findChildViewById<Button>(root, R.id.reviewsBtn)
-        if (myReviewsBtn != null) {
-            myReviewsBtn.setOnClickListener{
-                val intent = Intent(activity, MyReviewsActivity::class.java)
-                activity?.startActivity(intent)
-            }
+        /* REVIEWS BUTTON */
+        ViewBindings.findChildViewById<Button>(root, R.id.reviewsBtn)?.setOnClickListener {
+            val intent = Intent(activity, MyReviewsActivity::class.java)
+            activity?.startActivity(intent)
         }
 
-        val myFavoritesBtn = ViewBindings.findChildViewById<Button>(root, R.id.favoritesBtn)
-        if (myFavoritesBtn != null) {
-            myFavoritesBtn.setOnClickListener{
-                val intent = Intent(activity, MyFavoritesActivity::class.java)
-                activity?.startActivity(intent)
-            }
+        /* FAVORITES BUTTON */
+        ViewBindings.findChildViewById<Button>(root, R.id.favoritesBtn)?.setOnClickListener {
+            val intent = Intent(activity, MyFavoritesActivity::class.java)
+            activity?.startActivity(intent)
         }
 
-        val settingsBtn = ViewBindings.findChildViewById<Button>(root, R.id.settingsBtn)
-        if (settingsBtn != null) {
-            settingsBtn.setOnClickListener{
-                val intent = Intent(activity, SettingsActivity::class.java)
-                activity?.startActivity(intent)
-            }
+        /* SETTINGS BUTTON */
+        ViewBindings.findChildViewById<Button>(root, R.id.settingsBtn)?.setOnClickListener {
+            val intent = Intent(activity, SettingsActivity::class.java)
+            activity?.startActivity(intent)
         }
 
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val welcomeMsg: TextView = binding.textWelcome
+        welcomeMsg.text = "Witaj ${user.username}"
+
+        val profilePicture: CircleImageView = binding.avatar
+        if (user.profilePicture != null) {
+            profilePicture.setImageURI(user.profilePicture)
+        }
     }
 
     override fun onDestroyView() {
