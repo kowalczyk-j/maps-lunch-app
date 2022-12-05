@@ -7,4 +7,11 @@
     <string name="favorites">Ulubione</string>
     <string name="my_reviews">Moje recenzje</string>
     <string name="new_username">Nowa nazwa użytkownika...</string>
+
+
+    <string name="description_1">Aioli - kuchnia włoska\nLunch 3-daniowy: 29 zł \nOcena: 4.9</string>
+    <string name="description_2">Bordo Bistro - kuchnia polska\nLunch 3-daniowy: 23 zł \nOcena: 4.5</string>
+    <string name="description_3">Marcello - kuchnia włoska\nDanie dnia + napój: 29 zł \nOcena: 4.7</string>
+    <string name="description_4">Znajomi - kuchnia fusion\nLunch 2-daniowy: 19 zł\nOcena: 4.4</string>
+    <string name="description_5">La Pose - kuchnia włoska, amerykańska\nLunch 2-daniowy: 24.90 zł\nOcena: 5.0</string>
 </resources>

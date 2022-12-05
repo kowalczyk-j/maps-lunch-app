@@ -1,7 +1,7 @@
 package pw.pap22z.bulionapp.ui.profile
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import pw.pap22z.bulionapp.databinding.ActivityMyReviewsBinding
 import pw.pap22z.bulionapp.src.Restaurant
 import pw.pap22z.bulionapp.src.Review

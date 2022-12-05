@@ -2,12 +2,12 @@ package pw.pap22z.bulionapp.ui.profile
 
 import android.app.AlertDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import pw.pap22z.bulionapp.R
 
 
