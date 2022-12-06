@@ -3,7 +3,10 @@ package pw.pap22z.bulionapp.ui.search
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,13 +15,13 @@ import pw.pap22z.bulionapp.databinding.FragmentSearchBinding
 import pw.pap22z.bulionapp.src.RestaurantSearch
 import java.util.*
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), MenuProvider {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var newsArrayList: ArrayList<RestaurantSearch>
+    private lateinit var restaurantsArrayList: ArrayList<RestaurantSearch>
     private lateinit var tempArrayList: ArrayList<RestaurantSearch>
-    lateinit var imageId: ArrayList<Int>
-    lateinit var description: Array<String>
+    private lateinit var imageId: ArrayList<Int>
+    private lateinit var description: Array<String>
 
     private  lateinit var adapter: SearchAdapter
 
@@ -33,49 +36,37 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val searchViewModel =
-            ViewModelProvider(this).get(SearchViewModel::class.java)
-
+        ViewModelProvider(this)[SearchViewModel::class.java]
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        return root
+        return binding.root
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //setContentView(R.layout.fragment_search)
-        //błądsetHasOptionsMenu(true)
-        dataInitialize()
-        recyclerView = view.findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.setHasFixedSize(true)
-        adapter = SearchAdapter(tempArrayList)
-        recyclerView.adapter = adapter
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.search_menu_item, menu)
+//        val item = menu.findItem(R.id.search_action)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu_item,menu)
-        val item = menu.findItem(R.id.search_action)
-        val searchView = item.actionView as SearchView
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        val searchView = menuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("Not yet implemented")
+                return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
 
                 tempArrayList.clear()
                 val searchText = newText!!.lowercase(Locale.getDefault())
                 if (searchText.isNotEmpty()){
 
-                    newsArrayList.forEach {
+                    restaurantsArrayList.forEach {
                         if (it.description.lowercase(Locale.getDefault()).contains(searchText)){
                             tempArrayList.add(it)
                         }
@@ -85,19 +76,67 @@ class SearchFragment : Fragment() {
                 }else{
 
                     tempArrayList.clear()
-                    tempArrayList.addAll(newsArrayList)
+                    tempArrayList.addAll(restaurantsArrayList)
                     recyclerView.adapter!!.notifyDataSetChanged()
 
                 }
                 return false
             }
         })
-
-        super.onCreateOptionsMenu(menu, inflater)
+        return false
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //setContentView(R.layout.fragment_search)
+        dataInitialize()
+        recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
+        adapter = SearchAdapter(tempArrayList)
+        recyclerView.adapter = adapter
+    }
+
+//    @Deprecated("Deprecated in Java")
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.search_menu_item,menu)
+//        val item = menu.findItem(R.id.search_action)
+//        val searchView = item.actionView as SearchView
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return true
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//
+//                tempArrayList.clear()
+//                val searchText = newText!!.lowercase(Locale.getDefault())
+//                if (searchText.isNotEmpty()){
+//
+//                    restaurantsArrayList.forEach {
+//                        if (it.description.lowercase(Locale.getDefault()).contains(searchText)){
+//                            tempArrayList.add(it)
+//                        }
+//                    }
+//                    recyclerView.adapter!!.notifyDataSetChanged()
+//
+//                }else{
+//
+//                    tempArrayList.clear()
+//                    tempArrayList.addAll(restaurantsArrayList)
+//                    recyclerView.adapter!!.notifyDataSetChanged()
+//
+//                }
+//                return false
+//            }
+//        })
+//
+//        @Suppress("DEPRECATION")
+//        super.onCreateOptionsMenu(menu, inflater)
+//    }
     private fun dataInitialize(){
-        newsArrayList = arrayListOf<RestaurantSearch>()
-        tempArrayList = arrayListOf<RestaurantSearch>()
+        restaurantsArrayList = arrayListOf()
+        tempArrayList = arrayListOf()
         imageId = arrayListOf(
             R.drawable.a,
             R.drawable.b,
@@ -113,23 +152,11 @@ class SearchFragment : Fragment() {
             getString(R.string.description_5),
 
         )
-//        news = arrayOf(
-//            getString(R.string.news_a),
-//            getString(R.string.news_b),
-//            getString(R.string.news_c),
-//            getString(R.string.news_d),
-//            getString(R.string.news_e),
-//            getString(R.string.news_f),
-//            getString(R.string.news_g),
-//            getString(R.string.news_h),
-//            getString(R.string.news_i),
-//            getString(R.string.news_j),
-//        )
         for(i in imageId.indices){
             val restaurant = RestaurantSearch(imageId[i], description[i])
-            newsArrayList.add(restaurant)
+            restaurantsArrayList.add(restaurant)
         }
-        tempArrayList.addAll(newsArrayList)
+        tempArrayList.addAll(restaurantsArrayList)
     }
 }
 
