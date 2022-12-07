@@ -3,15 +3,15 @@ package pw.pap22z.bulionapp.ui.search
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.imageview.ShapeableImageView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.src.RestaurantSearch
 
-class SearchAdapter(private val newsList: ArrayList<RestaurantSearch>) : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
+class SearchAdapter(private var restaurantsList: ArrayList<RestaurantSearch>) : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
     class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
-        val titleImage: ShapeableImageView = itemView.findViewById(R.id.title_image)
+        val titleImage: ImageView = itemView.findViewById(R.id.title_image)
         val desciption : TextView = itemView.findViewById(R.id.tvDescription)
     }
 
@@ -22,12 +22,18 @@ class SearchAdapter(private val newsList: ArrayList<RestaurantSearch>) : Recycle
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = newsList[position]
+        val currentItem = restaurantsList[position]
         holder.titleImage.setImageResource(currentItem.titleImage)
         holder.desciption.text = currentItem.description
     }
 
     override fun getItemCount(): Int {
-        return newsList.size
+        return restaurantsList.size
     }
+
+    fun filterList(filterlist: ArrayList<RestaurantSearch>){
+        restaurantsList = filterlist
+        notifyDataSetChanged()
+    }
+
 }
