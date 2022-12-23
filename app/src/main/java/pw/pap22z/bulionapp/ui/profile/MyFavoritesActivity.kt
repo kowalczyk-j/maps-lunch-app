@@ -1,9 +1,11 @@
 package pw.pap22z.bulionapp.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import pw.pap22z.bulionapp.databinding.ActivityMyFavoritesBinding
 import pw.pap22z.bulionapp.src.Restaurant
+import pw.pap22z.bulionapp.ui.restaurant.RestaurantActivity
 
 class MyFavoritesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyFavoritesBinding
@@ -27,6 +29,21 @@ class MyFavoritesActivity : AppCompatActivity() {
             favoritesList.add(restaurants[i])
         }
 
+        binding.favoritesList.isClickable = true
+
         binding.favoritesList.adapter = FavoritesAdapter(this, favoritesList)
+
+        binding.favoritesList.setOnItemClickListener {parent, view, position, id ->
+            val restaurant = favoritesList[position]
+            val intent = Intent(this, RestaurantActivity::class.java)
+
+            intent.putExtra("name", restaurant.name)
+            intent.putExtra("address", restaurant.address)
+            intent.putExtra("rating", restaurant.rating.toString())
+//            intent.putExtra("reviews", restaurant.reviews)
+
+            startActivity(intent)
+
+        }
     }
 }

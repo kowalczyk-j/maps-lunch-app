@@ -3,7 +3,7 @@ package pw.pap22z.bulionapp.src
 
 class Restaurant constructor(val name: String, val address: String) {
     val reviews: ArrayList<Review> = arrayListOf()
-    var rating: Double? = null
+    var rating: Double = 0.0
 
     private fun updateRating() {
         if (reviews.size != 0) {

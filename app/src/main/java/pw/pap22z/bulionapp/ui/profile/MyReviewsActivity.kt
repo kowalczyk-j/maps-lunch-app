@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import pw.pap22z.bulionapp.databinding.ActivityMyReviewsBinding
 import pw.pap22z.bulionapp.src.Restaurant
 import pw.pap22z.bulionapp.src.Review
+import pw.pap22z.bulionapp.src.User
 
 class MyReviewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyReviewsBinding
@@ -39,8 +40,10 @@ class MyReviewsActivity : AppCompatActivity() {
             "Otrzymałam nie to co zamawiałam"
         )
 
+        val user = User("Kinga")
+
         for(i in restaurants.indices) {
-            reviewList.add(Review(ratings[i], reviews[i], restaurants[i]))
+            reviewList.add(Review(ratings[i], reviews[i], restaurants[i], user))
         }
 
         binding.listReviews.adapter = ReviewsAdapter(this, reviewList)
