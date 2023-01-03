@@ -8,7 +8,7 @@ import pw.pap22z.bulionapp.databinding.SearchListItemBinding
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
 
-    private var oldData = emptyList<Restaurant>()
+    private val allRestaurants = ArrayList<Restaurant>()
 
     class MyViewHolder(val binding: SearchListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -23,16 +23,17 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.titleImageTV.text = oldData[position].titleImage
-        holder.binding.descriptionTV.text = oldData[position].description
+        holder.binding.titleImageTV.text = allRestaurants[position].titleImage
+        holder.binding.descriptionTV.text = allRestaurants[position].description
     }
 
     override fun getItemCount(): Int {
-        return oldData.size
+        return allRestaurants.size
     }
 
     fun setData(newData: List<Restaurant>){
-        oldData = newData
+        allRestaurants.clear()
+        allRestaurants.addAll(newData)
         notifyDataSetChanged()
     }
 

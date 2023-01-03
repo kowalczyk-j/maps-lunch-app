@@ -6,14 +6,13 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import dagger.hilt.android.AndroidEntryPoint
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.FragmentSearchBinding
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
 
     // This property is only valid between onCreateView and
@@ -21,7 +20,8 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    private val searchViewModel: SearchViewModel by viewModels()
+    //private val searchViewModel: SearchViewModel by viewModels()
+    lateinit var viewModel: SearchViewModel
     //private val sAdapter: SearchAdapter by lazy { SearchAdapter() }
 
     //private lateinit var recyclerView: RecyclerView
@@ -63,6 +63,10 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
                 setHasFixedSize(true)
             }
         }
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        ).get(SearchViewModel::class.java)
         //searchViewModel.insertData(Restaurant("Aioli", "Włoska"))
         //sAdapter.setData(listOf(Restaurant("aioli", "test1"), Restaurant("lapose", "test2")))
 //        searchViewModel.readData.observe(viewLifecycleOwner) {
