@@ -1,13 +1,29 @@
 package pw.pap22z.bulionapp.ui.search
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import pw.pap22z.bulionapp.data.Restaurant
+import pw.pap22z.bulionapp.data.RestaurantDao
+import javax.inject.Inject
 
-class SearchViewModel : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val  repository: RestaurantDao,
+) : ViewModel()
+{
+    val readData = repository.readData().asLiveData()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is search Fragment"
+    fun insertData(restaurant: Restaurant){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertData(restaurant)
+        }
     }
-    val text: LiveData<String> = _text
+    fun searchDatabase(searchQuery: String): LiveData<List<Restaurant>> {
+        return repository.searchDatabase(searchQuery).asLiveData()
+    }
 }
