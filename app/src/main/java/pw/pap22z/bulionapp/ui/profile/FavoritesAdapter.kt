@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.src.Restaurant
@@ -17,12 +18,16 @@ class FavoritesAdapter (private val context: Activity, private val favoritesList
         val view: View = inflater.inflate(R.layout.favorite_list_item, null)
 
         val restaurantName: TextView = view.findViewById(R.id.restaurantName)
+        val restaurantLogo: ImageView = view.findViewById(R.id.restaurantLogo)
         val rating: TextView = view.findViewById(R.id.rating)
-        val reviewBody: TextView = view.findViewById(R.id.address)
+        val menu: TextView = view.findViewById(R.id.menu)
+        val hours: TextView = view.findViewById(R.id.lunchHours)
 
         restaurantName.text = favoritesList[position].name
         rating.text = (favoritesList[position].rating).toString()
-        reviewBody.text = favoritesList[position].address
+        restaurantLogo.setImageDrawable(favoritesList[position].logo)
+        menu.text = favoritesList[position].menu
+        "W godzinach ${favoritesList[position].hourStart}-${favoritesList[position].hourEnd}".also { hours.text = it }
 
         return view
     }

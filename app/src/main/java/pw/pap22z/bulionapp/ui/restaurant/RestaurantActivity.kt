@@ -2,11 +2,11 @@ package pw.pap22z.bulionapp.ui.restaurant
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.ActivityRestaurantBinding
 import pw.pap22z.bulionapp.src.Restaurant
 import pw.pap22z.bulionapp.src.Review
 import pw.pap22z.bulionapp.src.User
-import pw.pap22z.bulionapp.ui.restaurant.ReviewsAdapter
 
 class RestaurantActivity : AppCompatActivity() {
 
@@ -21,10 +21,12 @@ class RestaurantActivity : AppCompatActivity() {
         val name = intent.getStringExtra("name")
         val address = intent.getStringExtra("address")
         val rating = intent.getStringExtra("rating")
+        val menu = intent.getStringExtra("menu")
 
         binding.restaurantName.text = name
         binding.address.text = address
         binding.rating.text = rating
+        binding.dishesText.text = menu
 
         val users = arrayOf(
             User("Kinga"),
@@ -44,10 +46,14 @@ class RestaurantActivity : AppCompatActivity() {
             "Dla mnie wszystko świetnie, na najwyższym poziomie"
         )
 
-        val restaurant = Restaurant("Aioli", "Swietokrzyska 18, Warszawa")
+        val restaurant = getDrawable(R.drawable.a)?.let {
+            Restaurant("Aioli", "Świętokrzyska 18, Warszawa",
+                it, "Lunch 3-daniowy: 29 zł", "12.00", "17.00"
+            )
+        }
 
         for(i in ratings.indices) {
-            reviewList.add(Review(ratings[i], reviews[i], restaurant, users[i]))
+            reviewList.add(Review(ratings[i], reviews[i], restaurant!!, users[i]))
         }
 
         binding.reviews.adapter = ReviewsAdapter(this, reviewList)
