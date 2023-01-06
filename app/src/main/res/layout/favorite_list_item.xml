@@ -43,10 +43,10 @@
             <TextView
                 android:id="@+id/address"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginVertical="@dimen/cast_libraries_material_featurehighlight_center_horizontal_offset"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="Świętokrzyska 18, Warszawa" />
+                android:layout_marginVertical="@dimen/cast_libraries_material_featurehighlight_center_horizontal_offset"
+                android:text="nazwa: Aioli \nile_dan: 3 dania czy_napoj: + napój\ngodziny:12:00-17:00 czy_vege: Vege" />
 
         </LinearLayout>
 

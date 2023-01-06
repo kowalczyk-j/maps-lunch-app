@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import pw.pap22z.bulionapp.R
-import pw.pap22z.bulionapp.src.Review
+import pw.pap22z.bulionapp.data.entities.Review
 
-class ReviewsAdapter (private val context: Activity, private val reviewList: ArrayList<Review>)
+class ReviewsAdapter (private val context: Activity, private val reviewList: List<Review>)
     : ArrayAdapter<Review>(context, R.layout.review_list_item, reviewList) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -20,9 +20,9 @@ class ReviewsAdapter (private val context: Activity, private val reviewList: Arr
         val rating: TextView = view.findViewById(R.id.rating)
         val reviewBody: TextView = view.findViewById(R.id.reviewBody)
 
-        restaurantName.text = reviewList[position].restaurant.name
-        rating.text = (reviewList[position].rating).toString()
-        reviewBody.text = reviewList[position].reviewBody
+        //restaurantName.text = reviewList[position].restaurant.name
+        //rating.text = (reviewList[position].rating).toString()
+        reviewBody.text = reviewList[position].review_body
 
         return view
     }

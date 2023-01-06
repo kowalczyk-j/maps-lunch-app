@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android' version '2.41' apply false
+    id 'kotlin-parcelize'
 //    id 'dagger.hilt.android.plugin'
 }
 

@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pw.pap22z.bulionapp.data.Repository
-import pw.pap22z.bulionapp.data.Restaurant
 import pw.pap22z.bulionapp.data.RestaurantDatabase
+import pw.pap22z.bulionapp.data.entities.Restaurant
 
 
 class SearchViewModel (application: Application) : AndroidViewModel(application){

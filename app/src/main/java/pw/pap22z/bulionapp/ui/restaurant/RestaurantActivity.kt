@@ -1,12 +1,11 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.ActivityRestaurantBinding
-import pw.pap22z.bulionapp.src.Restaurant
 import pw.pap22z.bulionapp.src.Review
 import pw.pap22z.bulionapp.src.User
-import pw.pap22z.bulionapp.ui.restaurant.ReviewsAdapter
 
 class RestaurantActivity : AppCompatActivity() {
 
@@ -18,13 +17,14 @@ class RestaurantActivity : AppCompatActivity() {
         binding = ActivityRestaurantBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val name = intent.getStringExtra("name")
-        val address = intent.getStringExtra("address")
-        val rating = intent.getStringExtra("rating")
+//        val name = intent.getStringExtra("name")
+//        val address = intent.getStringExtra("address")
+//        val rating = intent.getStringExtra("rating")
+        val restaurant = intent.getParcelableExtra("restaurant", Restaurant::class.java)
 
-        binding.restaurantName.text = name
-        binding.address.text = address
-        binding.rating.text = rating
+        binding.restaurantName.text = restaurant!!.titleImage
+        binding.address.text = restaurant.description
+        //binding.rating.text = rating
 
         val users = arrayOf(
             User("Kinga"),
@@ -44,10 +44,10 @@ class RestaurantActivity : AppCompatActivity() {
             "Dla mnie wszystko świetnie, na najwyższym poziomie"
         )
 
-        val restaurant = Restaurant("Aioli", "Swietokrzyska 18, Warszawa")
+        //val restaurant11 = Restaurant("Aioli", "Swietokrzyska 18, Warszawa")
 
         for(i in ratings.indices) {
-            reviewList.add(Review(ratings[i], reviews[i], restaurant, users[i]))
+            reviewList.add(Review(ratings[i], reviews[i], users[i]))
         }
 
         binding.reviews.adapter = ReviewsAdapter(this, reviewList)
