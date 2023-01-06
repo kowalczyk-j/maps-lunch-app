@@ -1,7 +1,9 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.ActivityRestaurantBinding
 import pw.pap22z.bulionapp.src.Restaurant
@@ -18,6 +20,7 @@ class RestaurantActivity : AppCompatActivity() {
         binding = ActivityRestaurantBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        put extra: restaurant id, then search for restaurant with such id
         val name = intent.getStringExtra("name")
         val address = intent.getStringExtra("address")
         val rating = intent.getStringExtra("rating")
@@ -57,5 +60,13 @@ class RestaurantActivity : AppCompatActivity() {
         }
 
         binding.reviews.adapter = ReviewsAdapter(this, reviewList)
+
+        val addReviewBtn: Button = findViewById<Button>(R.id.addReview)
+        addReviewBtn.setOnClickListener{
+            val intent = Intent(this, WriteReview::class.java)
+            this?.startActivity(intent)
+        }
+
     }
+
 }
