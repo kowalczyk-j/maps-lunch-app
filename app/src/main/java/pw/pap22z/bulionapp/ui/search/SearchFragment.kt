@@ -11,6 +11,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import pw.pap22z.bulionapp.R
+import pw.pap22z.bulionapp.data.entities.Lunch
+import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.FragmentSearchBinding
 import pw.pap22z.bulionapp.ui.restaurant.RestaurantActivity
 
@@ -47,21 +49,36 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         ).get(SearchViewModel::class.java)
 
-//        viewModel.insertData(Restaurant("si ristorante", "test id 0"))
-//        viewModel.insertData(Restaurant("aioli", "test id 1"))
+        viewModel.insertRestaurant(Restaurant(1,"si ristorante", "test id 1"))
+        viewModel.insertRestaurant(Restaurant(2,"aioli", "test id 2"))
+        viewModel.insertRestaurant(Restaurant(3,"Lapose", "test id 3"))
+        viewModel.insertLunch(Lunch(1, "lunch do si ristorante", 1))
+        viewModel.insertLunch(Lunch(2, "lunch do aioli", 2))
+        viewModel.insertLunch(Lunch(3, "lunch do lapose", 3))
 
         viewModel.allRestaurants.observe(viewLifecycleOwner) { list ->
             list?.let {
                 sAdapter.setData(it)
             }
         }
+
+//        viewModel.lunch.observe(viewLifecycleOwner) {
+//            Toast.makeText(requireContext(), "lunch: ${it.lunch_id}", Toast.LENGTH_SHORT).show()
+//        }
+
         sAdapter.setOnItemCLickListener(object : SearchAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                //Toast.makeText(requireContext(), "Clicked $position . item", Toast.LENGTH_SHORT).show()
                 val restaurant = viewModel.allRestaurants.value?.get(position)
+                val res_id = restaurant?.restaurant_id
+                viewModel.getLunchWithRestaurant(res_id!!)
+//                Toast.makeText(requireContext(), "Position: $position . lunch: $lunch restaurant id: $res_id", Toast.LENGTH_SHORT).show()
                 val intent = Intent(context, RestaurantActivity::class.java)
                 intent.putExtra("restaurant", restaurant)
-                startActivity(intent)
+                viewModel.lunch.observe(viewLifecycleOwner) {
+                    //Toast.makeText(requireContext(), "lunch: ${it.lunch_id}", Toast.LENGTH_SHORT).show()
+                    intent.putExtra("lunch", it)
+                    startActivity(intent)
+                }
             }
         })
         //search
@@ -79,7 +96,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
             }
             override fun onQueryTextChange(query: String): Boolean {
                 val searchQuery = "%$query%"
-                viewModel.searchDatabase(searchQuery).observe(viewLifecycleOwner) { list ->
+                viewModel.searchRestaurant(searchQuery).observe(viewLifecycleOwner) { list ->
                     list.let {
                         sAdapter.setData(it)
                     }

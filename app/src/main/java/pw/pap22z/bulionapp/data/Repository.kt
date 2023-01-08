@@ -1,24 +1,32 @@
 package pw.pap22z.bulionapp.data
 
-import androidx.lifecycle.LiveData
-import pw.pap22z.bulionapp.data.entities.Restaurant
 
-
-class Repository(private val restaurantDao: RestaurantDao) {
-
-    val allRestaurants: LiveData<List<Restaurant>> = restaurantDao.readData()
-
-//    fun readData(): LiveData<List<Restaurant>> {
-//        return restaurantDao.readData()
-//        //Flow można zmienić na LiveData
+//class Repository(private val restaurantDao: RestaurantDao, private val lunchDao: LunchDao) {
+//
+//    //val allRestaurants: LiveData<List<Restaurant>> = getRestaurants()
+//
+//    fun getRestaurants(): LiveData<List<Restaurant>> {
+//        return restaurantDao.getRestaurants()
 //    }
-
-    suspend fun insertData(restaurant: Restaurant) {
-        restaurantDao.insertData(restaurant)
-    }
-
-    fun searchDatabase(searchQuery: String): LiveData<List<Restaurant>> {
-        return restaurantDao.searchDatabase(searchQuery)
-    }
-
-}
+//
+//    fun getLunchWithRestaurant(restaurantId: Int): LiveData<Lunch> {
+//        return lunchDao.getLunchWithRestaurant(restaurantId)
+//    }
+//
+//    fun getLunches() : LiveData<List<Lunch>> {
+//        return lunchDao.getLunches()
+//    }
+//
+//    suspend fun insertRestaurant(restaurant: Restaurant) {
+//        restaurantDao.insertRestaurant(restaurant)
+//    }
+//
+//    suspend fun insertLunch(lunch: Lunch) {
+//        lunchDao.insertLunch(lunch)
+//    }
+//
+//    fun searchRestaurant(searchQuery: String): LiveData<List<Restaurant>> {
+//        return restaurantDao.searchRestaurant(searchQuery)
+//    }
+//
+//}

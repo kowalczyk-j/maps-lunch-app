@@ -8,7 +8,7 @@ import pw.pap22z.bulionapp.databinding.SearchListItemBinding
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
 
-    private val allRestaurants = ArrayList<Restaurant>()
+    private val allRestaurants = mutableListOf<Restaurant>()
 
     class MyViewHolder(val binding: SearchListItemBinding, listener: onItemClickListener) : RecyclerView.ViewHolder(binding.root) {
         init {

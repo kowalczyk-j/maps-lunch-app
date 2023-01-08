@@ -7,8 +7,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity
-data class Review(
-    @PrimaryKey val review_id: Int,
-    val review_body: String,
+data class Lunch(
+    @PrimaryKey val lunch_id: Int,
+    val lunch_body: String,
     val restaurantId: Int
 ): Parcelable
