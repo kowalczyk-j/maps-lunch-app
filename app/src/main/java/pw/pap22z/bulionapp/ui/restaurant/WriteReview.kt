@@ -33,7 +33,7 @@ class WriteReview : AppCompatActivity() {
         val addBtn: Button = findViewById<Button>(R.id.add)
 
         addBtn.setOnClickListener{
-            Toast.makeText(this, "Dodano recenzję ${rating}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Dodano recenzję", Toast.LENGTH_SHORT).show()
             println(rating)
             println(reviewBody)
             finish()
