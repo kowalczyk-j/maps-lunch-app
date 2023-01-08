@@ -1,11 +1,6 @@
 package pw.pap22z.bulionapp.src
 
-class Review constructor(var rating: Double, var reviewBody: String, var restaurant: Restaurant,
-                         var user: User) {
+import java.io.Serializable
 
-    init {
-        restaurant.reviews.add(this)
-        user.reviews.add(this)
-    }
-
-}
+data class Review (var rating: Double, var reviewBody: String, var restaurant: Restaurant,
+                   var user: User) : Serializable

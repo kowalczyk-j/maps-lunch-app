@@ -1,21 +1,40 @@
 package pw.pap22z.bulionapp.ui.profile
 
 import android.app.Activity
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.src.Restaurant
 
 class FavoritesAdapter (private val context: Activity, private val favoritesList: ArrayList<Restaurant>)
-    : ArrayAdapter<Restaurant>(context, R.layout.favorite_list_item, favoritesList) {
+    : RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val inflater: LayoutInflater = LayoutInflater.from(context)
-        val view: View = inflater.inflate(R.layout.favorite_list_item, null)
+    private lateinit var listener: onItemClickListener
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        var itemView: View? = null
+        itemView = LayoutInflater.from(context).inflate(R.layout.favorite_list_item, parent, false)
+        return ViewHolder(itemView, this.listener)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.restaurantName.text = favoritesList[position].name
+        holder.restaurantLogo.setImageURI(Uri.parse(favoritesList[position].logoUriStr))
+        holder.rating.text = favoritesList[position].rating.toString()
+        holder.menu.text = favoritesList[position].menu
+        "Od ${favoritesList[position].hourStart} do ${favoritesList[position].hourEnd}".also { holder.hours.text = it }
+    }
+
+    override fun getItemCount(): Int {
+        return favoritesList.size
+    }
+
+    class ViewHolder(view: View, listener: onItemClickListener) : RecyclerView.ViewHolder(view!!) {
 
         val restaurantName: TextView = view.findViewById(R.id.restaurantName)
         val restaurantLogo: ImageView = view.findViewById(R.id.restaurantLogo)
@@ -23,12 +42,25 @@ class FavoritesAdapter (private val context: Activity, private val favoritesList
         val menu: TextView = view.findViewById(R.id.menu)
         val hours: TextView = view.findViewById(R.id.lunchHours)
 
-        restaurantName.text = favoritesList[position].name
-        rating.text = (favoritesList[position].rating).toString()
-        restaurantLogo.setImageDrawable(favoritesList[position].logo)
-        menu.text = favoritesList[position].menu
-        "W godzinach ${favoritesList[position].hourStart}-${favoritesList[position].hourEnd}".also { hours.text = it }
+        init {
 
-        return view
+            view.setOnClickListener {
+                listener.onItemClick(absoluteAdapterPosition)
+            }
+
+        }
+
+    }
+
+    interface onItemClickListener {
+
+        fun onItemClick(position: Int)
+
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener){
+
+        this.listener = listener
+
     }
 }

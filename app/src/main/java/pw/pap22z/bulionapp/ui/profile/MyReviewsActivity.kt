@@ -2,6 +2,8 @@ package pw.pap22z.bulionapp.ui.profile
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.ActivityMyReviewsBinding
 import pw.pap22z.bulionapp.src.Restaurant
@@ -18,20 +20,15 @@ class MyReviewsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val restaurants = arrayOf(
-            getDrawable(R.drawable.a)?.let {
-                Restaurant("Aioli", "Świętokrzyska 18, Warszawa",
-                    it, "Lunch 3-daniowy: 29 zł", "12.00", "17.00"
-                )
-            },
-            getDrawable(R.drawable.b)?.let {
-                Restaurant("Bordo Bistro", "Świętokrzyska 18, Warszawa",
-                    it, "Lunch 3-daniowy: 23 zł", "12.00", "15.00"
-                )
-            },getDrawable(R.drawable.c)?.let {
-                Restaurant("Marcello", "Świętokrzyska 18, Warszawa",
-                    it, "Danie dnia + napój: 29 zł", "15.00", "17.00"
-                )
-            },
+            Restaurant("Aioli", "Świętokrzyska 18, Warszawa", "android.resource://pw.pap22z.bulionapp/drawable/a",
+                "Lunch 3-daniowy: 29 zł", "12.00", "17.00"
+            ),
+            Restaurant("Bordo Bistro", "Świętokrzyska 18, Warszawa", "android.resource://pw.pap22z.bulionapp/drawable/b",
+                "Lunch 3-daniowy: 23 zł", "12.00", "15.00"
+            ),
+            Restaurant("Marcello", "Świętokrzyska 18, Warszawa", "android.resource://pw.pap22z.bulionapp/drawable/c",
+                "Danie dnia + napój: 29 zł", "15.00", "17.00"
+            )
         )
 
         val ratings = arrayOf(
@@ -49,9 +46,12 @@ class MyReviewsActivity : AppCompatActivity() {
         val user = User("Kinga")
 
         for(i in restaurants.indices) {
-            reviewList.add(Review(ratings[i], reviews[i], restaurants[i]!!, user))
+            reviewList.add(Review(ratings[i], reviews[i], restaurants[i], user))
         }
 
-        binding.listReviews.adapter = ReviewsAdapter(this, reviewList)
+        val recyclerViewReviews: RecyclerView = findViewById(R.id.listReviews)
+        recyclerViewReviews.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerViewReviews.adapter = ReviewsAdapter(this, reviewList)
     }
+
 }

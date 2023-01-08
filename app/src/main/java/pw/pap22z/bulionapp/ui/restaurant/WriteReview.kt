@@ -9,6 +9,9 @@ import android.widget.EditText
 import android.widget.Toast
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.ActivityWriteReviewBinding
+import pw.pap22z.bulionapp.src.Restaurant
+import pw.pap22z.bulionapp.src.Review
+import pw.pap22z.bulionapp.src.User
 
 class WriteReview : AppCompatActivity() {
 
@@ -18,6 +21,8 @@ class WriteReview : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWriteReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val restaurant: Restaurant = intent.extras!!.get("restaurant") as Restaurant
 
         val ratings = listOf(1, 2, 3, 4, 5)
         val adapter = ArrayAdapter(this, R.layout.rating_list_item, ratings)
@@ -33,9 +38,10 @@ class WriteReview : AppCompatActivity() {
         val addBtn: Button = findViewById<Button>(R.id.add)
 
         addBtn.setOnClickListener{
-            Toast.makeText(this, "Dodano recenzję", Toast.LENGTH_SHORT).show()
-            println(rating)
-            println(reviewBody)
+            if (rating != null) {
+                Toast.makeText(this, "Dodano recenzję", Toast.LENGTH_SHORT).show()
+                restaurant.reviews.add(Review(rating!!.toDouble(), reviewBody.toString(), restaurant, User("Kinga")))
+            }
             finish()
         }
     }
