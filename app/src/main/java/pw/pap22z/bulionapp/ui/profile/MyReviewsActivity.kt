@@ -6,10 +6,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.ActivityMyReviewsBinding
+import pw.pap22z.bulionapp.src.Restaurant
+import pw.pap22z.bulionapp.src.Review
+import pw.pap22z.bulionapp.src.User
+
 
 class MyReviewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyReviewsBinding
-    private lateinit var reviewList: List<Review>
+    private lateinit var reviewList: ArrayList<Review>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

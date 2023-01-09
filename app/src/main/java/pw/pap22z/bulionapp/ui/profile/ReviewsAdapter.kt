@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
-import pw.pap22z.bulionapp.data.entities.Review
 
-class ReviewsAdapter (private val context: Activity, private val reviewList: ArrayList<Review>)
+class ReviewsAdapter(private val context: Activity, private val reviewList: ArrayList<pw.pap22z.bulionapp.src.Review>)
     : RecyclerView.Adapter<ReviewsAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
