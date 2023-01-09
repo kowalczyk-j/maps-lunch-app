@@ -1,39 +1,55 @@
 package pw.pap22z.bulionapp.ui.search
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import pw.pap22z.bulionapp.R
-import pw.pap22z.bulionapp.src.RestaurantSearch
+import pw.pap22z.bulionapp.data.entities.Restaurant
+import pw.pap22z.bulionapp.databinding.SearchListItemBinding
 
-class SearchAdapter(private var restaurantsList: ArrayList<RestaurantSearch>) : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
-    class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
-        val titleImage: ImageView = itemView.findViewById(R.id.title_image)
-        val desciption : TextView = itemView.findViewById(R.id.tvDescription)
+class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
+
+    private val allRestaurants = mutableListOf<Restaurant>()
+
+    class MyViewHolder(val binding: SearchListItemBinding, listener: onItemClickListener) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            itemView.setOnClickListener {
+                listener.onItemClick(adapterPosition)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.search_list_item,
-        parent, false)
-        return MyViewHolder(itemView)
+        return MyViewHolder(
+            SearchListItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ), mListener)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = restaurantsList[position]
-        holder.titleImage.setImageResource(currentItem.titleImage)
-        holder.desciption.text = currentItem.description
+        holder.binding.titleImageTV.text = allRestaurants[position].titleImage
+        holder.binding.descriptionTV.text = allRestaurants[position].description
     }
 
     override fun getItemCount(): Int {
-        return restaurantsList.size
+        return allRestaurants.size
     }
 
-    fun filterList(filterlist: ArrayList<RestaurantSearch>){
-        restaurantsList = filterlist
+    fun setData(newData: List<Restaurant>){
+        allRestaurants.clear()
+        allRestaurants.addAll(newData)
         notifyDataSetChanged()
+    }
+
+    private lateinit var mListener: onItemClickListener
+
+    interface onItemClickListener{
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemCLickListener(listener: onItemClickListener){
+        mListener = listener
     }
 
 }

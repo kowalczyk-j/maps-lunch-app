@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Button
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.ActivityRestaurantBinding
-import pw.pap22z.bulionapp.src.Restaurant
 import pw.pap22z.bulionapp.src.Review
 import pw.pap22z.bulionapp.src.User
 import java.io.Serializable
