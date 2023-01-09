@@ -9,4 +9,23 @@
         android:icon="@drawable/ic_baseline_search_24"
         app:showAsAction="ifRoom"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
+    <item
+        android:icon="@drawable/ic_sort"
+        android:title="Sort"
+        app:showAsAction="always">
+
+        <menu>
+
+            <item
+                android:id="@+id/action_sort_by_name"
+                android:title="Sortuj alfabetycznie" />
+
+            <item
+                android:id="@+id/action_sort_by_price"
+                android:title="Sortuj od najtańszych" />
+
+        </menu>
+
+    </item>
 </menu>

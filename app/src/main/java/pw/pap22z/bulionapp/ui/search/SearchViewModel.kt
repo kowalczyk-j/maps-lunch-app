@@ -33,8 +33,12 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
 
     fun getRestaurants(): LiveData<List<Restaurant>> {
         return dao.getRestaurants()
-
     }
+
+    fun sortRestaurantsByName(): LiveData<List<Restaurant>> {
+        return dao.sortRestaurantsByName()
+    }
+
 
     fun getLunches() : LiveData<List<Lunch>> {
         return ldao.getLunches()

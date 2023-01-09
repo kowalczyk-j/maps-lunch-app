@@ -1,7 +1,6 @@
 package pw.pap22z.bulionapp.ui.profile
 
 import android.app.Activity
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,7 @@ class FavoritesAdapter (private val context: Activity)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.restaurantName.text = favoritesList[position].titleImage
+        //holder.restaurantName.text = favoritesList[position].titleImage
 //        holder.restaurantLogo.setImageURI(Uri.parse(favoritesList[position].logoUriStr))
 //        holder.rating.text = favoritesList[position].rating.toString()
         holder.menu.text = favoritesList[position].description

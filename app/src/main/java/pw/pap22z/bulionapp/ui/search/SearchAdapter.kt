@@ -3,6 +3,7 @@ package pw.pap22z.bulionapp.ui.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.SearchListItemBinding
 
@@ -28,7 +29,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.titleImageTV.text = allRestaurants[position].titleImage
+        holder.binding.titleImageTV.load(allRestaurants[position].titleImage)
         holder.binding.descriptionTV.text = allRestaurants[position].description
     }
 

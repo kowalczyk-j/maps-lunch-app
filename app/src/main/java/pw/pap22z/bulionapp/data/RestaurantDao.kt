@@ -3,7 +3,6 @@ package pw.pap22z.bulionapp.data
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import pw.pap22z.bulionapp.data.entities.Restaurant
-import pw.pap22z.bulionapp.data.entities.Review
 
 //Dao - database access object, tutaj zapisuje się SQLowe rzeczy
 @Dao
@@ -13,6 +12,9 @@ interface RestaurantDao {
     fun getRestaurants(): LiveData<List<Restaurant>>
     //LiveData - przepływ służący do optymalnego zarządzania wątkami przy obsługiwaniu
     //wielu danych, jeżeli jest to nie trzeba robić suspend fun
+
+    @Query("SELECT * FROM restaurant ORDER BY lower(description) ASC")
+    fun sortRestaurantsByName(): LiveData<List<Restaurant>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRestaurant(restaurant: Restaurant)

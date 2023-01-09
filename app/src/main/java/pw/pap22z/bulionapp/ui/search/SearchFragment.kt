@@ -1,20 +1,29 @@
 package pw.pap22z.bulionapp.ui.search
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.request.SuccessResult
+import kotlinx.coroutines.launch
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.Lunch
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.FragmentSearchBinding
 import pw.pap22z.bulionapp.ui.restaurant.RestaurantActivity
+import java.io.Serializable
 
 class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
 
@@ -49,19 +58,23 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         ).get(SearchViewModel::class.java)
 
-        viewModel.insertRestaurant(Restaurant(1,"si ristorante", "test id 1"))
-        viewModel.insertRestaurant(Restaurant(2,"aioli", "test id 2"))
-        viewModel.insertRestaurant(Restaurant(3,"Lapose", "test id 3"))
-        viewModel.insertLunch(Lunch(1, "lunch do si ristorante", 1))
-        viewModel.insertLunch(Lunch(2, "lunch do aioli", 2))
-        viewModel.insertLunch(Lunch(3, "lunch do lapose", 3))
+        lifecycleScope.launch{
+            viewModel.insertRestaurant(Restaurant(1, getBitmap("https://sztuczne-rosliny.pl/wp-content/uploads/2020/01/aioli-logo.jpg"), "Aioli"))
+            viewModel.insertRestaurant(Restaurant(2,getBitmap("https://scontent-waw1-1.xx.fbcdn.net/v/t39.30808-6/274794981_3190194264597526_5426536868885463001_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=vNQCuQQjFzgAX9DhdL_&tn=8PjPVEGI7UyzNc8K&_nc_ht=scontent-waw1-1.xx&oh=00_AfAYGi0B3fDJfVh6D-scN4kjxiw8xkeWwdxtKX_OZKpXZw&oe=63C101FA"), "Si Ristorante"))
+            viewModel.insertRestaurant(Restaurant(3,getBitmap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc8rJzveezG9V3n6LJ-URWPi6znY4PIaVk2g&usqp=CAU"), "La Pose"))
+            viewModel.insertLunch(Lunch(1, "lunch do si ristorante", 1))
+            viewModel.insertLunch(Lunch(2, "lunch do aioli", 2))
+            viewModel.insertLunch(Lunch(3, "lunch do lapose", 3))
+        }
+
+
+
 
         viewModel.allRestaurants.observe(viewLifecycleOwner) { list ->
             list?.let {
                 sAdapter.setData(it)
             }
         }
-
 
         sAdapter.setOnItemCLickListener(object : SearchAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
@@ -70,7 +83,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
                 viewModel.getLunchWithRestaurant(res_id!!)
 //                Toast.makeText(requireContext(), "Position: $position . lunch: $lunch restaurant id: $res_id", Toast.LENGTH_SHORT).show()
                 val intent = Intent(context, RestaurantActivity::class.java)
-                intent.putExtra("restaurant", restaurant)
+                intent.putExtra("restaurant", restaurant as Serializable)
                 startActivity(intent)
             }
         })
@@ -101,7 +114,31 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
 
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return true
+        return when (menuItem.itemId) {
+            R.id.action_sort_by_name -> {
+                viewModel.sortRestaurantsByName().observe(viewLifecycleOwner) { list ->
+                    list.let {
+                        sAdapter.setData(it)
+                    }
+                }
+                Toast.makeText(requireContext(), "Posortowano alfabetycznie", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_sort_by_price -> {
+                Toast.makeText(requireContext(), "Posortowano od najtańszych", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> true
+    }}
+
+    private  suspend fun getBitmap(url: String): Bitmap {
+        val loading = ImageLoader(context!!)
+        val request = ImageRequest.Builder(context!!)
+            .data(url)
+            .build()
+
+        val result = (loading.execute(request) as SuccessResult).drawable
+        return (result as BitmapDrawable).bitmap
     }
 
     override fun onDestroyView() {

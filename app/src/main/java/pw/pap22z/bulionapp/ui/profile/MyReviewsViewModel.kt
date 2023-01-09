@@ -17,13 +17,13 @@ class MyReviewsViewModel(application: Application) : AndroidViewModel(applicatio
     val restaurantDao by lazy {RestaurantDatabase.getDatabase(application).restaurantDao()}
 
     init {
-        allReviews = getReviews()
+//        allReviews = getReviews()
         allRestaurants = getRestaurants()
     }
 
-    fun getReviews(): LiveData<List<Review>> {
-        return reviewDao.getReviews()
-    }
+//    fun getReviews(): LiveData<List<Review>> {
+//        return reviewDao.getReviews()
+//    }
 
     fun getRestaurants(): LiveData<List<Restaurant>> {
         return restaurantDao.getRestaurants()
