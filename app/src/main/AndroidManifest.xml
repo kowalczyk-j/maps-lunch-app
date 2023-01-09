@@ -13,7 +13,11 @@
         android:theme="@style/Theme.BulionApp"
         tools:targetApi="31">
         <activity
+<<<<<<< app/src/main/AndroidManifest.xml
             android:name=".SearchActivity"
+=======
+            android:name=".ui.restaurant.WriteReview"
+>>>>>>> app/src/main/AndroidManifest.xml
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

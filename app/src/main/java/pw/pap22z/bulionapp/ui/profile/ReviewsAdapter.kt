@@ -4,26 +4,41 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.Review
 
-class ReviewsAdapter (private val context: Activity, private val reviewList: List<Review>)
-    : ArrayAdapter<Review>(context, R.layout.review_list_item, reviewList) {
+class ReviewsAdapter (private val context: Activity, private val reviewList: ArrayList<Review>)
+    : RecyclerView.Adapter<ReviewsAdapter.ViewHolder>(){
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val inflater: LayoutInflater = LayoutInflater.from(context)
-        val view: View = inflater.inflate(R.layout.review_list_item, null)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        var itemView: View? = null
+        itemView = LayoutInflater.from(context).inflate(R.layout.review_list_item, parent, false)
+        return ViewHolder(itemView)
+    }
 
-        val restaurantName: TextView = view.findViewById(R.id.restaurantName)
-        val rating: TextView = view.findViewById(R.id.rating)
-        val reviewBody: TextView = view.findViewById(R.id.reviewBody)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.restaurantName.text = reviewList[position].restaurant.name
+        holder.rating.text = reviewList[position].rating.toString()
+        holder.reviewBody.text = reviewList[position].reviewBody
+    }
 
-        //restaurantName.text = reviewList[position].restaurant.name
-        //rating.text = (reviewList[position].rating).toString()
-        reviewBody.text = reviewList[position].review_body
+    override fun getItemCount(): Int {
+        return reviewList.size
+    }
 
-        return view
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view!!) {
+
+        val restaurantName: TextView
+        val rating: TextView
+        val reviewBody: TextView
+
+        init {
+            restaurantName = view.findViewById(R.id.restaurantName)
+            rating = view.findViewById(R.id.rating)
+            reviewBody = view.findViewById(R.id.reviewBody)
+        }
+
     }
 }
