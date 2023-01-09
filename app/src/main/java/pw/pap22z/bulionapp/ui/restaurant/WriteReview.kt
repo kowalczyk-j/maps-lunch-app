@@ -8,8 +8,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import pw.pap22z.bulionapp.R
+import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.ActivityWriteReviewBinding
-import pw.pap22z.bulionapp.src.Restaurant
 import pw.pap22z.bulionapp.src.Review
 import pw.pap22z.bulionapp.src.User
 
@@ -40,7 +40,7 @@ class WriteReview : AppCompatActivity() {
         addBtn.setOnClickListener{
             if (rating != null) {
                 Toast.makeText(this, "Dodano recenzję", Toast.LENGTH_SHORT).show()
-                restaurant.reviews.add(Review(rating!!.toDouble(), reviewBody.toString(), restaurant, User("Kinga")))
+//                restaurant.reviews.add(Review(rating!!.toDouble(), reviewBody.toString(), restaurant, User("Kinga")))
             }
             finish()
         }

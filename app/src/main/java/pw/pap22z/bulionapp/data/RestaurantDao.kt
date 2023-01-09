@@ -3,6 +3,7 @@ package pw.pap22z.bulionapp.data
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import pw.pap22z.bulionapp.data.entities.Restaurant
+import pw.pap22z.bulionapp.data.entities.Review
 
 //Dao - database access object, tutaj zapisuje się SQLowe rzeczy
 @Dao

@@ -6,16 +6,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import pw.pap22z.bulionapp.data.entities.Lunch
 import pw.pap22z.bulionapp.data.entities.Restaurant
+import pw.pap22z.bulionapp.data.entities.Review
 
 //tutaj jest definiowana baza danych z encjami
 @Database(
-    entities = [Restaurant::class, Lunch::class], //lista encji
+    entities = [Restaurant::class, Lunch::class, Review::class], //lista encji
     version = 1,    //nieistotne
     exportSchema = false
 )
 abstract class RestaurantDatabase: RoomDatabase() {
     abstract fun restaurantDao(): RestaurantDao
     abstract fun lunchDao(): LunchDao
+    abstract fun reviewDao(): ReviewDao
 
     companion object {
         // Singleton gwarantuje jedną instację bazy w czasie uzytkowania

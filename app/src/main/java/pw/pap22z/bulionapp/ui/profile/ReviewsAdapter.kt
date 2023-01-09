@@ -8,7 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
 
-class ReviewsAdapter(private val context: Activity, private val reviewList: ArrayList<pw.pap22z.bulionapp.src.Review>)
+class ReviewsAdapter(private val context: Activity,
+                     private val reviewList: ArrayList<pw.pap22z.bulionapp.src.Review>)
     : RecyclerView.Adapter<ReviewsAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,7 +28,7 @@ class ReviewsAdapter(private val context: Activity, private val reviewList: Arra
         return reviewList.size
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view!!) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val restaurantName: TextView
         val rating: TextView

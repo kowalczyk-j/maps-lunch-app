@@ -9,12 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
-import pw.pap22z.bulionapp.src.Restaurant
+import pw.pap22z.bulionapp.data.entities.Restaurant
 
-class FavoritesAdapter (private val context: Activity, private val favoritesList: ArrayList<Restaurant>)
+class FavoritesAdapter (private val context: Activity)
     : RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
     private lateinit var listener: onItemClickListener
+    private var favoritesList = mutableListOf<Restaurant>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var itemView: View? = null
@@ -23,18 +24,24 @@ class FavoritesAdapter (private val context: Activity, private val favoritesList
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.restaurantName.text = favoritesList[position].name
-        holder.restaurantLogo.setImageURI(Uri.parse(favoritesList[position].logoUriStr))
-        holder.rating.text = favoritesList[position].rating.toString()
-        holder.menu.text = favoritesList[position].menu
-        "Od ${favoritesList[position].hourStart} do ${favoritesList[position].hourEnd}".also { holder.hours.text = it }
+        holder.restaurantName.text = favoritesList[position].titleImage
+//        holder.restaurantLogo.setImageURI(Uri.parse(favoritesList[position].logoUriStr))
+//        holder.rating.text = favoritesList[position].rating.toString()
+        holder.menu.text = favoritesList[position].description
+//        "Od ${favoritesList[position].hourStart} do ${favoritesList[position].hourEnd}".also { holder.hours.text = it }
     }
 
     override fun getItemCount(): Int {
         return favoritesList.size
     }
 
-    class ViewHolder(view: View, listener: onItemClickListener) : RecyclerView.ViewHolder(view!!) {
+    fun setData(newData: List<Restaurant>) {
+        favoritesList.clear()
+        favoritesList.addAll(newData)
+        notifyDataSetChanged()
+    }
+
+    class ViewHolder(view: View, listener: onItemClickListener) : RecyclerView.ViewHolder(view) {
 
         val restaurantName: TextView = view.findViewById(R.id.restaurantName)
         val restaurantLogo: ImageView = view.findViewById(R.id.restaurantLogo)

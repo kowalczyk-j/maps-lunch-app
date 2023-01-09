@@ -5,11 +5,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
+import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.ActivityRestaurantBinding
-import pw.pap22z.bulionapp.src.Restaurant
 import pw.pap22z.bulionapp.src.Review
 import pw.pap22z.bulionapp.src.User
+import pw.pap22z.bulionapp.ui.profile.RestaurantReviewsAdapter
 import java.io.Serializable
 
 class RestaurantActivity : AppCompatActivity() {
@@ -21,13 +24,13 @@ class RestaurantActivity : AppCompatActivity() {
         binding = ActivityRestaurantBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val restaurant: Restaurant = intent.extras!!.get("restaurant") as Restaurant
+        val restaurant: Restaurant? = intent.getParcelableExtra("restaurant")
 
-        binding.restaurantName.text = restaurant.name
-        binding.address.text = restaurant.address
-        binding.rating.text = restaurant.rating.toString()
-        binding.dishesText.text = restaurant.menu
-        binding.restaurantLogo.setImageURI(Uri.parse(restaurant.logoUriStr))
+        binding.restaurantName.text = restaurant?.titleImage
+//        binding.address.text = restaurant.address
+//        binding.rating.text = restaurant.rating.toString()
+        binding.dishesText.text = restaurant?.description
+//        binding.restaurantLogo.setImageURI(Uri.parse(restaurant.logoUriStr))
 
         val users = arrayOf(
             User("Kinga"),
@@ -39,7 +42,7 @@ class RestaurantActivity : AppCompatActivity() {
 
         val ratings = arrayOf(4.5, 4.0, 5.0, 4.0, 5.0)
 
-        val reviews = arrayOf(
+        val reviewBodys = arrayOf(
             "Bardzo smaczne jedzenie, świetna atmosfera. Będę polecać wszystkim znajomym :)",
             "Niedopieczony kurczak",
             "Wszystko w porządku",
@@ -47,16 +50,24 @@ class RestaurantActivity : AppCompatActivity() {
             "Dla mnie wszystko świetnie, na najwyższym poziomie"
         )
 
+        val reviews = arrayListOf<Review>()
+
+        val temp_restaurant = pw.pap22z.bulionapp.src.Restaurant("Aioli",
+            "Świętokrzyska 18, Warszawa",
+            "Uri", "", "", "")
+
         for(i in ratings.indices) {
-            restaurant.reviews.add(Review(ratings[i], reviews[i], restaurant, users[i]))
+            reviews.add(Review(ratings[i], reviewBodys[i], temp_restaurant, users[i]))
         }
 
-        binding.reviews.adapter = ReviewsAdapter(this, restaurant.reviews)
+        val recyclerViewReviews: RecyclerView = findViewById(R.id.reviews)
+        recyclerViewReviews.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerViewReviews.adapter = RestaurantReviewsAdapter(this, reviews)
 
         val addReviewBtn: Button = findViewById<Button>(R.id.addReview)
         addReviewBtn.setOnClickListener{
             val intent = Intent(this, WriteReview::class.java)
-            intent.putExtra("restaurant", restaurant as Serializable)
+            intent.putExtra("restaurant", restaurant)
             this.startActivity(intent)
         }
 

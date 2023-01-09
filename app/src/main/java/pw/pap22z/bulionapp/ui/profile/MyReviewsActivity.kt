@@ -13,12 +13,12 @@ import pw.pap22z.bulionapp.src.User
 
 class MyReviewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyReviewsBinding
-    private lateinit var reviewList: ArrayList<Review>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyReviewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        var reviewList: ArrayList<Review> = arrayListOf()
 
         val restaurants = arrayOf(
             Restaurant("Aioli", "Świętokrzyska 18, Warszawa", "android.resource://pw.pap22z.bulionapp/drawable/a",

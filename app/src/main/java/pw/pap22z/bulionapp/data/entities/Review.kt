@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Entity
 data class Review(
     @PrimaryKey val review_id: Int,
+    val rating: Int,
     val review_body: String,
     val restaurantId: Int
 ): Parcelable
