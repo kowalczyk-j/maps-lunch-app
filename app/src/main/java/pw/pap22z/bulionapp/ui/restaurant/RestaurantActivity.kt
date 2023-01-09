@@ -1,9 +1,11 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import pw.pap22z.bulionapp.data.entities.Lunch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import pw.pap22z.bulionapp.data.RestaurantDatabase
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.ActivityRestaurantBinding
 import pw.pap22z.bulionapp.src.Review
@@ -24,13 +26,18 @@ class RestaurantActivity : AppCompatActivity() {
 //        val rating = intent.getStringExtra("rating")
 
         val restaurant = intent.getParcelableExtra("restaurant", Restaurant::class.java)
-        val lunch = intent.getParcelableExtra("lunch", Lunch::class.java)
-        Toast.makeText(this, "Test: Lunch body: - ${lunch?.lunch_body}", Toast.LENGTH_SHORT).show()
+        //val lunch = intent.getParcelableExtra("lunch", Lunch::class.java)
 
+        CoroutineScope(Dispatchers.Main).launch {
+            val ldao by lazy { RestaurantDatabase.getDatabase(application).lunchDao() }
+            val lunch = ldao.getLunchWithRestaurant(restaurant!!.restaurant_id)
+            binding.address.text = lunch!!.lunch_body
+        }
         binding.restaurantName.text = restaurant!!.titleImage
-        binding.address.text = lunch!!.lunch_body
+
 //        //binding.rating.text = restaurant.restaurant_id.toString()
 //
+
         val users = arrayOf(
             User("Kinga"),
             User("Abc123"),

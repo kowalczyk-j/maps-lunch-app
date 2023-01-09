@@ -62,9 +62,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
             }
         }
 
-//        viewModel.lunch.observe(viewLifecycleOwner) {
-//            Toast.makeText(requireContext(), "lunch: ${it.lunch_id}", Toast.LENGTH_SHORT).show()
-//        }
 
         sAdapter.setOnItemCLickListener(object : SearchAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
@@ -74,11 +71,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
 //                Toast.makeText(requireContext(), "Position: $position . lunch: $lunch restaurant id: $res_id", Toast.LENGTH_SHORT).show()
                 val intent = Intent(context, RestaurantActivity::class.java)
                 intent.putExtra("restaurant", restaurant)
-                viewModel.lunch.observe(viewLifecycleOwner) {
-                    //Toast.makeText(requireContext(), "lunch: ${it.lunch_id}", Toast.LENGTH_SHORT).show()
-                    intent.putExtra("lunch", it)
-                    startActivity(intent)
-                }
+                startActivity(intent)
             }
         })
         //search
