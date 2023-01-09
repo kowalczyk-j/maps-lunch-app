@@ -60,7 +60,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
 
         lifecycleScope.launch{
             viewModel.insertRestaurant(Restaurant(1, getBitmap("https://sztuczne-rosliny.pl/wp-content/uploads/2020/01/aioli-logo.jpg"), "Aioli"))
-            viewModel.insertRestaurant(Restaurant(2,getBitmap("https://scontent-waw1-1.xx.fbcdn.net/v/t39.30808-6/274794981_3190194264597526_5426536868885463001_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=vNQCuQQjFzgAX9DhdL_&tn=8PjPVEGI7UyzNc8K&_nc_ht=scontent-waw1-1.xx&oh=00_AfAYGi0B3fDJfVh6D-scN4kjxiw8xkeWwdxtKX_OZKpXZw&oe=63C101FA"), "Si Ristorante"))
+            viewModel.insertRestaurant(Restaurant(2,getBitmap("https://i.postimg.cc/c1fxvrvS/274794981-3190194264597526-5426536868885463001-n.jpg"), "Si Ristorante"))
             viewModel.insertRestaurant(Restaurant(3,getBitmap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc8rJzveezG9V3n6LJ-URWPi6znY4PIaVk2g&usqp=CAU"), "La Pose"))
             viewModel.insertLunch(Lunch(1, "lunch do si ristorante", 1))
             viewModel.insertLunch(Lunch(2, "lunch do aioli", 2))
