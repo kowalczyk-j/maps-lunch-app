@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.ActivityMyFavoritesBinding
 import pw.pap22z.bulionapp.ui.restaurant.RestaurantActivity
+import java.io.Serializable
 
 class MyFavoritesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyFavoritesBinding
@@ -53,7 +54,7 @@ class MyFavoritesActivity : AppCompatActivity() {
             override fun onItemClick(position: Int) {
                 val intent = Intent(context, RestaurantActivity::class.java)
                 val restaurant = viewModel.allRestaurants.value?.get(position)
-                //intent.putExtra("restaurant", restaurant)
+                intent.putExtra("restaurant", restaurant as Serializable)
                 startActivity(intent)
             }
 

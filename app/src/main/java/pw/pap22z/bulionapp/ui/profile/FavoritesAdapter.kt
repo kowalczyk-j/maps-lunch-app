@@ -23,10 +23,10 @@ class FavoritesAdapter (private val context: Activity)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //holder.restaurantName.text = favoritesList[position].titleImage
-//        holder.restaurantLogo.setImageURI(Uri.parse(favoritesList[position].logoUriStr))
+        holder.restaurantName.text = favoritesList[position].description
+        holder.restaurantLogo.setImageBitmap(favoritesList[position].titleImage)
 //        holder.rating.text = favoritesList[position].rating.toString()
-        holder.menu.text = favoritesList[position].description
+//        holder.menu.text = favoritesList[position].description
 //        "Od ${favoritesList[position].hourStart} do ${favoritesList[position].hourEnd}".also { holder.hours.text = it }
     }
 

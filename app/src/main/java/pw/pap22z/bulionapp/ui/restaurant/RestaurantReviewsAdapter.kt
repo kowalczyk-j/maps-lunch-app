@@ -14,13 +14,14 @@ class RestaurantReviewsAdapter (private val context: Activity, private val revie
     : RecyclerView.Adapter<RestaurantReviewsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var itemView: View? = null
-        itemView = LayoutInflater.from(context).inflate(R.layout.restaurant_review_item, parent, false)
+        var itemView: View = LayoutInflater.from(context).inflate(R.layout.restaurant_review_item, parent, false)
         return ViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.profilePic.setImageURI(reviewsList[position].user.profilePicture)
+        if (reviewsList[position].user.profilePicture != null) {
+            holder.profilePic.setImageBitmap(reviewsList[position].user.profilePicture)
+        }
         holder.username.text = reviewsList[position].user.username
         holder.rating.text = reviewsList[position].rating.toString()
         holder.reviewBody.text = reviewsList[position].reviewBody

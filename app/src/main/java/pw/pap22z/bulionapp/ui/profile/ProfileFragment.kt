@@ -70,7 +70,7 @@ class ProfileFragment : Fragment() {
 
         val profilePicture: CircleImageView = binding.avatar
         if (user.profilePicture != null) {
-            profilePicture.setImageURI(user.profilePicture)
+            profilePicture.setImageBitmap(user.profilePicture)
         }
     }
 

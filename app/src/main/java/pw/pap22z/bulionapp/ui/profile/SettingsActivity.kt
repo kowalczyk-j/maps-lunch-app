@@ -3,6 +3,7 @@ package pw.pap22z.bulionapp.ui.profile
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -60,7 +61,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && data != null) {
             contentResolver.takePersistableUriPermission(data.data!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            user.profilePicture = data.data
+            user.profilePicture = MediaStore.Images.Media.getBitmap(contentResolver, data.data)
         }
     }
 

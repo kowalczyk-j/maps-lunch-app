@@ -1,5 +1,6 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import pw.pap22z.bulionapp.databinding.ActivityRestaurantBinding
 import pw.pap22z.bulionapp.src.Review
 import pw.pap22z.bulionapp.src.User
 import pw.pap22z.bulionapp.ui.profile.RestaurantReviewsAdapter
+import java.io.Serializable
 
 class RestaurantActivity : AppCompatActivity() {
 
@@ -23,11 +25,11 @@ class RestaurantActivity : AppCompatActivity() {
 
         val restaurant: Restaurant? = intent.getParcelableExtra("restaurant")
 
-        //binding.restaurantName.text = restaurant?.titleImage
+        binding.restaurantName.text = restaurant?.description
 //        binding.address.text = restaurant.address
 //        binding.rating.text = restaurant.rating.toString()
-        binding.dishesText.text = restaurant?.description
-//        binding.restaurantLogo.setImageURI(Uri.parse(restaurant.logoUriStr))
+//        binding.dishesText.text = restaurant?.description
+        binding.restaurantLogo.setImageBitmap(restaurant?.titleImage)
 
         val users = arrayOf(
             User("Kinga"),
@@ -63,9 +65,9 @@ class RestaurantActivity : AppCompatActivity() {
 
         val addReviewBtn: Button = findViewById<Button>(R.id.addReview)
         addReviewBtn.setOnClickListener{
-//            val intent = Intent(this, WriteReview::class.java)
-//            intent.putExtra("restaurant", restaurant)
-//            this.startActivity(intent)
+            val intent = Intent(this, WriteReview::class.java)
+            intent.putExtra("restaurant", restaurant as Serializable)
+            this.startActivity(intent)
         }
 
     }
