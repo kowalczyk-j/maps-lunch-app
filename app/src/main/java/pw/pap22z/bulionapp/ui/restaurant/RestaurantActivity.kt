@@ -71,6 +71,13 @@ class RestaurantActivity : AppCompatActivity() {
             this.startActivity(intent)
         }
 
+        val updateLunchBtn: Button = findViewById<Button>(R.id.updateLunch)
+        updateLunchBtn.setOnClickListener{
+            val intent = Intent(this, UpdateLunch::class.java)
+            intent.putExtra("restaurant", restaurant)
+            this.startActivity(intent)
+        }
+
     }
 
 }

@@ -13,6 +13,13 @@
         android:theme="@style/Theme.BulionApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.restaurant.UpdateLunch"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.restaurant.WriteReview"
             android:exported="false">
             <meta-data

@@ -14,4 +14,15 @@
     <string name="description_3">Marcello - kuchnia włoska\nDanie dnia + napój: 29 zł \nOcena: 4.7</string>
     <string name="description_4">Znajomi - kuchnia fusion\nLunch 2-daniowy: 19 zł\nOcena: 4.4</string>
     <string name="description_5">La Pose - kuchnia włoska, amerykańska\nLunch 2-daniowy: 24.90 zł\nOcena: 5.0</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_update_lunch">UpdateLunch</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
