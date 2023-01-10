@@ -19,11 +19,31 @@
 
             <item
                 android:id="@+id/action_sort_by_name"
-                android:title="Sortuj alfabetycznie" />
+                android:title="Nazwa (od a do z)" />
+
+            <item
+                android:id="@+id/action_sort_by_vegan"
+                android:title="Dostępne dania vege" />
+
+            <item
+                android:id="@+id/action_sort_by_dishes"
+                android:title="Liczba dań (najwięcej)" />
 
             <item
                 android:id="@+id/action_sort_by_price"
-                android:title="Sortuj od najtańszych" />
+                android:title="Cena (od najniższych)" />
+
+            <item
+                android:id="@+id/action_sort_by_price_reverse"
+                android:title="Cena (od najwyższych)" />
+
+            <item
+                android:id="@+id/action_sort_by_rating"
+                android:title="Ocena (od najwyższych)" />
+
+            <item
+                android:id="@+id/action_sort_by_hours"
+                android:title="Godziny (dostępne najdłużej)" />
 
         </menu>
 

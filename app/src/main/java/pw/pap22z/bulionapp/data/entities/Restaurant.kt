@@ -5,13 +5,21 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
-import java.io.Serializable
 
-//zdefiniowanie encji = tabeli
 @Parcelize
 @Entity
 data class Restaurant(
     @PrimaryKey val restaurant_id: Int,
     val titleImage: Bitmap,
-    val description: String
-): Parcelable, Serializable
+    val name: String,
+    val rating: Float,
+    val cuisine_type: String,
+    val address: String,
+    // Lunch info
+    val price: Float,
+    val hour_start: Int,
+    val hour_end: Int,
+    val num_dishes: Int,
+    val is_vege: Boolean,
+    val lunch_info: String
+): Parcelable

@@ -23,7 +23,7 @@ class FavoritesAdapter (private val context: Activity)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.restaurantName.text = favoritesList[position].description
+        holder.restaurantName.text = favoritesList[position].name
         holder.restaurantLogo.setImageBitmap(favoritesList[position].titleImage)
 //        holder.rating.text = favoritesList[position].rating.toString()
 //        holder.menu.text = favoritesList[position].description

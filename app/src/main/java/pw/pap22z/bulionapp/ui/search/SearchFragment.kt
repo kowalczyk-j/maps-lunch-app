@@ -19,11 +19,9 @@ import coil.request.ImageRequest
 import coil.request.SuccessResult
 import kotlinx.coroutines.launch
 import pw.pap22z.bulionapp.R
-import pw.pap22z.bulionapp.data.entities.Lunch
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.FragmentSearchBinding
 import pw.pap22z.bulionapp.ui.restaurant.RestaurantActivity
-import java.io.Serializable
 
 class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
 
@@ -59,31 +57,28 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
         ).get(SearchViewModel::class.java)
 
         lifecycleScope.launch{
-            viewModel.insertRestaurant(Restaurant(1, getBitmap("https://sztuczne-rosliny.pl/wp-content/uploads/2020/01/aioli-logo.jpg"), "Aioli"))
-            viewModel.insertRestaurant(Restaurant(2,getBitmap("https://i.postimg.cc/c1fxvrvS/274794981-3190194264597526-5426536868885463001-n.jpg"), "Si Ristorante"))
-            viewModel.insertRestaurant(Restaurant(3,getBitmap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc8rJzveezG9V3n6LJ-URWPi6znY4PIaVk2g&usqp=CAU"), "La Pose"))
-            viewModel.insertLunch(Lunch(1, "lunch do si ristorante", 1))
-            viewModel.insertLunch(Lunch(2, "lunch do aioli", 2))
-            viewModel.insertLunch(Lunch(3, "lunch do lapose", 3))
+            viewModel.insertRestaurant(Restaurant(1, getBitmap("https://sztuczne-rosliny.pl/wp-content/uploads/2020/01/aioli-logo.jpg"),
+                "Aioli", 4.5F, "Włoska", "Chmielna 26", 26.90F, 12, 17, 3, true,
+            "Zupa: zupa z zielonym groszkiem\n 1 z 3 dań głównych do wyboru: \n1. Chutney Jalapeno Burger \n2. Tuna Salad \n3. Pizza Chorizo\n Minideser: Budyń "))
+            viewModel.insertRestaurant(Restaurant(2,getBitmap("https://i.postimg.cc/c1fxvrvS/274794981-3190194264597526-5426536868885463001-n.jpg"),
+                "Si Ristorante", 4.7F, "Włoska", "Marszałkowska 115", 27.90F, 12, 16, 3, false,
+                "Zupa: Zupa soczewicowa z pomidorami i suszoną miętą\n 1 z 2 dań głównych do wyboru: 1. Pierś indyka z krokietem z dynią, duszonymi pieczarkami i sosem ziołowym" +
+                        " 2. Calzone ze szpinakiem i camembertem\n Deser: Brownie czekoladowe "))
+            viewModel.insertRestaurant(Restaurant(3,getBitmap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc8rJzveezG9V3n6LJ-URWPi6znY4PIaVk2g&usqp=CAU"),
+                "La Pose", 4.2F, "Amerykańska, włoska, fusion", "Mazowiecka 6/8", 24.90F, 12, 17, 2, true,
+                "Pon.-pt.:\nZupa dnia + 1 z 12 dań głównych do wyboru\nOferta specjalna: Do kawy/herbaty wybrane śniadanie za 1 zł codziennie do 13.00"))
         }
 
-
-
-
         viewModel.allRestaurants.observe(viewLifecycleOwner) { list ->
-            list?.let {
-                sAdapter.setData(it)
-            }
+            list?.let { sAdapter.setData(it) }
         }
 
         sAdapter.setOnItemCLickListener(object : SearchAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
                 val restaurant = viewModel.allRestaurants.value?.get(position)
-                val res_id = restaurant?.restaurant_id
-                viewModel.getLunchWithRestaurant(res_id!!)
 //                Toast.makeText(requireContext(), "Position: $position . lunch: $lunch restaurant id: $res_id", Toast.LENGTH_SHORT).show()
                 val intent = Intent(context, RestaurantActivity::class.java)
-                intent.putExtra("restaurant", restaurant as Serializable)
+                intent.putExtra("restaurant", restaurant)
                 startActivity(intent)
             }
         })
@@ -96,6 +91,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
         menuInflater.inflate(R.menu.search_menu_item, menu)
         val itemView = menu.findItem(R.id.search_action)
         val searchView = itemView.actionView as SearchView
+        searchView.queryHint = "Znajdź swój ulubiony bulion..."
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String): Boolean {
                 return true
@@ -103,9 +99,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
             override fun onQueryTextChange(query: String): Boolean {
                 val searchQuery = "%$query%"
                 viewModel.searchRestaurant(searchQuery).observe(viewLifecycleOwner) { list ->
-                    list.let {
-                        sAdapter.setData(it)
-                    }
+                    list.let { sAdapter.setData(it) }
                 }
                 return true
             }
@@ -116,18 +110,56 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
             R.id.action_sort_by_name -> {
-                viewModel.sortRestaurantsByName().observe(viewLifecycleOwner) { list ->
-                    list.let {
-                        sAdapter.setData(it)
-                    }
+                viewModel.getRestaurants().observe(viewLifecycleOwner) { list ->
+                    list.let { sAdapter.setData(it) }
                 }
                 Toast.makeText(requireContext(), "Posortowano alfabetycznie", Toast.LENGTH_SHORT).show()
                 true
             }
+            R.id.action_sort_by_vegan -> {
+                viewModel.sortRestaurantsByVege().observe(viewLifecycleOwner) { list ->
+                    list.let { sAdapter.setData(it) }
+                }
+                Toast.makeText(requireContext(), "Pokazano tylko restauracje z opcjami vege", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_sort_by_dishes -> {
+                viewModel.sortRestaurantsByDishes().observe(viewLifecycleOwner) { list ->
+                    list.let { sAdapter.setData(it) }
+                }
+                Toast.makeText(requireContext(), "Posortowano od największej liczby dań", Toast.LENGTH_SHORT).show()
+                true
+            }
             R.id.action_sort_by_price -> {
+                viewModel.sortRestaurantsByPrice().observe(viewLifecycleOwner) { list ->
+                    list.let { sAdapter.setData(it) }
+                }
                 Toast.makeText(requireContext(), "Posortowano od najtańszych", Toast.LENGTH_SHORT).show()
                 true
             }
+            R.id.action_sort_by_price_reverse -> {
+                viewModel.sortRestaurantsByPriceDESC().observe(viewLifecycleOwner) { list ->
+                    list.let { sAdapter.setData(it) }
+                }
+                Toast.makeText(requireContext(), "Posortowano od najdroższych", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_sort_by_rating -> {
+                viewModel.sortRestaurantsByRating().observe(viewLifecycleOwner) { list ->
+                    list.let { sAdapter.setData(it) }
+                }
+                Toast.makeText(requireContext(), "Posortowano od najlepiej ocenianych", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_sort_by_hours -> {
+                viewModel.sortRestaurantsByCloseHour().observe(viewLifecycleOwner) { list ->
+                    list.let { sAdapter.setData(it) }
+                }
+                Toast.makeText(requireContext(), "Posortowano od najdłużej dostępnych", Toast.LENGTH_SHORT).show()
+                true
+            }
+
+
             else -> true
     }}
 
@@ -139,6 +171,13 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
 
         val result = (loading.execute(request) as SuccessResult).drawable
         return (result as BitmapDrawable).bitmap
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getRestaurants().observe(viewLifecycleOwner) { list ->
+            list.let { sAdapter.setData(it) }
+        }
     }
 
     override fun onDestroyView() {

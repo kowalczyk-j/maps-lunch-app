@@ -23,13 +23,14 @@ class RestaurantActivity : AppCompatActivity() {
         binding = ActivityRestaurantBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val restaurant: Restaurant? = intent.getParcelableExtra("restaurant")
+        //val restaurant: Restaurant? = intent.getParcelableExtra("restaurant")
+        val restaurant = intent.getParcelableExtra("restaurant", Restaurant::class.java)
 
-        binding.restaurantName.text = restaurant?.description
-//        binding.address.text = restaurant.address
-//        binding.rating.text = restaurant.rating.toString()
-//        binding.dishesText.text = restaurant?.description
-        binding.restaurantLogo.setImageBitmap(restaurant?.titleImage)
+        binding.restaurantName.text = restaurant!!.name
+        binding.address.text = restaurant.address
+        binding.dishesText.text = restaurant.lunch_info
+        binding.restaurantLogo.setImageBitmap(restaurant.titleImage)
+        binding.rating.text = restaurant.rating.toString()
 
         val users = arrayOf(
             User("Kinga"),
