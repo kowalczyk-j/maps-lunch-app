@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.Restaurant
 
@@ -23,11 +24,15 @@ class FavoritesAdapter (private val context: Activity)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.restaurantLogo.load(favoritesList[position].titleImage)
         holder.restaurantName.text = favoritesList[position].name
-        holder.restaurantLogo.setImageBitmap(favoritesList[position].titleImage)
-//        holder.rating.text = favoritesList[position].rating.toString()
-//        holder.menu.text = favoritesList[position].description
-//        "Od ${favoritesList[position].hourStart} do ${favoritesList[position].hourEnd}".also { holder.hours.text = it }
+        holder.menu.text = favoritesList[position].num_dishes.toString() + " dania"
+        holder.hours.text = favoritesList[position].hour_start.toString() + ".00-" +
+                favoritesList[position].hour_end.toString() + ".00"
+        holder.rating.text = favoritesList[position].rating.toString()
+        holder.typeCuisine.text = "Kuchnia " + favoritesList[position].cuisine_type
+        holder.price.text = favoritesList[position].price.toString() + "zł"
+        holder.isVegan.visibility = if (favoritesList[position].is_vege) View.VISIBLE else View.GONE
     }
 
     override fun getItemCount(): Int {
@@ -47,6 +52,10 @@ class FavoritesAdapter (private val context: Activity)
         val rating: TextView = view.findViewById(R.id.rating)
         val menu: TextView = view.findViewById(R.id.menu)
         val hours: TextView = view.findViewById(R.id.lunchHours)
+        val typeCuisine: TextView = view.findViewById(R.id.typeCuisine)
+        val price: TextView = view.findViewById(R.id.price)
+        val isVegan: ImageView = view.findViewById(R.id.isVegan)
+
 
         init {
 

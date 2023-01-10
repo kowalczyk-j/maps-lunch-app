@@ -22,7 +22,7 @@ class WriteReview : AppCompatActivity() {
         binding = ActivityWriteReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val restaurant: Restaurant = intent.extras!!.get("restaurant") as Restaurant
+        val restaurant = intent.getParcelableExtra("restaurant", Restaurant::class.java)
 
         val ratings = listOf(1, 2, 3, 4, 5)
         val adapter = ArrayAdapter(this, R.layout.rating_list_item, ratings)
