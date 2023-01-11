@@ -31,7 +31,8 @@ interface RestaurantDao {
     @Query("SELECT * FROM restaurant ORDER BY hour_end DESC")
     fun sortRestaurantsByCloseHour(): LiveData<List<Restaurant>>
 
-
+    @Query("UPDATE restaurant SET latitude = :latitude, longitude = :longitude WHERE restaurant_id = :restaurantId")
+    suspend fun updateCoordinates(restaurantId: Int, latitude: Double, longitude: Double)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRestaurant(restaurant: Restaurant)

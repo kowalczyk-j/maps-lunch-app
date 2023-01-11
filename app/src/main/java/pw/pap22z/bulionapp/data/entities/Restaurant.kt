@@ -21,5 +21,7 @@ data class Restaurant(
     val hour_end: Int,
     val num_dishes: Int,
     val is_vege: Boolean,
-    val lunch_info: String
+    val lunch_info: String,
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0
 ): Parcelable
