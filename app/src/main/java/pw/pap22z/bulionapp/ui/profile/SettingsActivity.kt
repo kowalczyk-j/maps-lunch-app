@@ -9,12 +9,20 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import pw.pap22z.bulionapp.R
+import pw.pap22z.bulionapp.data.entities.User
+import pw.pap22z.bulionapp.ui.restaurant.RestaurantViewModel
+import pw.pap22z.bulionapp.ui.search.SearchViewModel
 
 
 class SettingsActivity : AppCompatActivity() {
 
     lateinit var profilePicture: ImageView
+    lateinit var viewModel: ProfileViewModel
+    lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +34,13 @@ class SettingsActivity : AppCompatActivity() {
         val profileLayout = layoutInflater.inflate(R.layout.fragment_profile, null)
         profilePicture = profileLayout.findViewById(R.id.avatar)
 
+        user = intent.getParcelableExtra("user", User::class.java)!!
+
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        ).get(ProfileViewModel::class.java)
+
         setUsernameBtn.setOnClickListener{
             val builder = AlertDialog.Builder(this)
             val dialogLayout = layoutInflater.inflate(R.layout.edit_username, null)
@@ -35,7 +50,9 @@ class SettingsActivity : AppCompatActivity() {
                 setTitle("Zmień nazwę użytkownika")
                 setPositiveButton("Ok") {dialog, which ->
                     if (editText.text.toString() != "") {
-                        user.username = editText.text.toString()
+                        lifecycleScope.launch {
+                            viewModel.updateUsername(user.user_id, editText.text.toString())
+                        }
                     }
                 }
                 setNegativeButton("Anuluj") {dialog, which ->
@@ -61,7 +78,12 @@ class SettingsActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && data != null) {
             contentResolver.takePersistableUriPermission(data.data!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            user.profilePicture = MediaStore.Images.Media.getBitmap(contentResolver, data.data)
+            lifecycleScope.launch {
+                viewModel.updateProfilePic(
+                    user.user_id,
+                    MediaStore.Images.Media.getBitmap(contentResolver, data.data)
+                )
+        }
         }
     }
 

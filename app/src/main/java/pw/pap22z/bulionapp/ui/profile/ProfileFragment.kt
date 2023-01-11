@@ -7,19 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBindings
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import pw.pap22z.bulionapp.R
+import pw.pap22z.bulionapp.data.entities.User
 import pw.pap22z.bulionapp.databinding.FragmentProfileBinding
-import pw.pap22z.bulionapp.src.User
 
-val user: User = User("Kinga")
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
+    var user: User? = null
+    lateinit var profileViewModel: ProfileViewModel
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -30,16 +36,32 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val profileViewModel =
-            ViewModelProvider(this).get(ProfileViewModel::class.java)
+        profileViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        ).get(ProfileViewModel::class.java)
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val welcomeMsg: TextView = binding.textWelcome
-        profileViewModel.text.observe(viewLifecycleOwner) {
-            welcomeMsg.text = "$it ${user.username}"
+        CoroutineScope(Dispatchers.Main).launch {
+
+            user = profileViewModel.getUser(1)
+
         }
+
+        println("${user?.username}")
+
+        if (user == null) {
+            user = User(1, "Kinga", null)
+        }
+
+        lifecycleScope.launch {
+            profileViewModel.insertUser(user!!)
+        }
+
+        val welcomeMsg: TextView = binding.textWelcome
+        welcomeMsg.text = "Witaj ${user!!.username}"
 
         /* REVIEWS BUTTON */
         ViewBindings.findChildViewById<Button>(root, R.id.reviewsBtn)?.setOnClickListener {
@@ -56,6 +78,7 @@ class ProfileFragment : Fragment() {
         /* SETTINGS BUTTON */
         ViewBindings.findChildViewById<Button>(root, R.id.settingsBtn)?.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)
+            intent.putExtra("user", user)
             activity?.startActivity(intent)
         }
 
@@ -65,12 +88,16 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        CoroutineScope(Dispatchers.Main).launch {
+            user = profileViewModel.getUser(1)
+        }
+
         val welcomeMsg: TextView = binding.textWelcome
-        welcomeMsg.text = "Witaj ${user.username}"
+        welcomeMsg.text = "Witaj ${user!!.username}"
 
         val profilePicture: CircleImageView = binding.avatar
-        if (user.profilePicture != null) {
-            profilePicture.setImageBitmap(user.profilePicture)
+        if (user!!.profile_pic != null) {
+            profilePicture.setImageBitmap(user!!.profile_pic)
         }
     }
 

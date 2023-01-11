@@ -1,13 +1,37 @@
 package pw.pap22z.bulionapp.ui.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.graphics.Bitmap
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import pw.pap22z.bulionapp.data.RestaurantDatabase
+import pw.pap22z.bulionapp.data.entities.User
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "Witaj"
+    val userDao by lazy {RestaurantDatabase.getDatabase(application).userDao()}
+
+    fun updateUsername(userId: Int, newUsername: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userDao.updateUsername(userId, newUsername)
+        }
     }
-    val text: LiveData<String> = _text
+
+    fun updateProfilePic(userId: Int, newPic: Bitmap) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userDao.updateProfilePic(userId, newPic)
+        }
+    }
+
+    fun insertUser(user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userDao.insertUser(user)
+        }
+    }
+
+    suspend fun getUser(userId: Int): User {
+        return userDao.getUser(userId)
+    }
+
 }
