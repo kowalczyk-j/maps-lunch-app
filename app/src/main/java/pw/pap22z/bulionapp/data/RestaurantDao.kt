@@ -37,7 +37,7 @@ interface RestaurantDao {
     suspend fun insertRestaurant(restaurant: Restaurant)
     //suspend - Można zawiesić wykonanie funkcji do późniejszego wykonania bez blokowania głownego wątku.
 
-    @Query("SELECT * FROM restaurant WHERE name LIKE :searchQuery or lunch_info LIKE :searchQuery ORDER BY restaurant_id ASC")
+    @Query("SELECT * FROM restaurant WHERE name LIKE :searchQuery or lunch_info LIKE :searchQuery or cuisine_type LIKE :searchQuery ORDER BY lower(name) ASC")
     fun searchRestaurant(searchQuery: String): LiveData<List<Restaurant>>
 
     @Query("UPDATE restaurant SET lunch_info = :newLunch WHERE restaurant_id = :restaurantId")

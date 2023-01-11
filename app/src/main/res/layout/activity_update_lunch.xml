@@ -7,37 +7,67 @@
     android:padding="24dp"
     tools:context=".ui.restaurant.RestaurantActivity">
 
-    <EditText
-        android:id="@+id/updateStarter_et"
+    <TextView
+        android:id="@+id/lunchUpdaterHead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="0dp"
+        android:ems="10"
+        android:text="Edytor lunchu"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lunchUpdaterInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:text="Uzupełnij tylko odpowiednie pola.\nDania główne do wyboru należy rozdzielić spójnikiem 'lub'.\nPole dodatkowe informacje jest opcjonalne i zawiera informacje o promocjach specjalnych w danym dniu."
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunchUpdaterHead" />
+
+    <EditText
+        android:id="@+id/updateStarter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="Starter / Zupa"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/lunchUpdaterInfo" />
 
     <EditText
         android:id="@+id/updateMainDish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="Danie główne"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/updateStarter_et" />
+        app:layout_constraintTop_toBottomOf="@+id/updateStarter" />
 
     <EditText
         android:id="@+id/updateDessert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="Deser"
         android:inputType="text"
@@ -46,15 +76,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/updateMainDish" />
 
-    <Button
-        android:id="@+id/update_btn"
+    <EditText
+        android:id="@+id/updateInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Aktualizuj lunch"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Dodatkowe informacje"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/updateDessert" />
+
+    <Button
+        android:id="@+id/update_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Aktualizuj lunch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/updateInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
