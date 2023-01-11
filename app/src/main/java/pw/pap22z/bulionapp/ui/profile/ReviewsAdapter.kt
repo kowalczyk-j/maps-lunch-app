@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
+import pw.pap22z.bulionapp.data.entities.Restaurant
+import pw.pap22z.bulionapp.data.entities.Review
 
-class ReviewsAdapter(private val context: Activity,
-                     private val reviewList: ArrayList<pw.pap22z.bulionapp.src.Review>)
+class ReviewsAdapter(private val context: Activity)
     : RecyclerView.Adapter<ReviewsAdapter.ViewHolder>(){
+
+    private val userReviews = mutableListOf<Review>()
+    private val allRestaurants = mutableListOf<Restaurant>()
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var itemView: View? = null
@@ -19,13 +24,25 @@ class ReviewsAdapter(private val context: Activity,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.restaurantName.text = reviewList[position].restaurant.name
-        holder.rating.text = reviewList[position].rating.toString()
-        holder.reviewBody.text = reviewList[position].reviewBody
+        holder.restaurantName.text = userReviews[position].restaurant?.name
+        holder.rating.text = userReviews[position].review_rating.toString()
+        holder.reviewBody.text = userReviews[position].review_body
     }
 
     override fun getItemCount(): Int {
-        return reviewList.size
+        return userReviews.size
+    }
+
+    fun setData(newData: List<Review>) {
+        userReviews.clear()
+        userReviews.addAll(newData)
+        notifyDataSetChanged()
+    }
+
+    fun setRestaurantData(newData: List<Restaurant>) {
+        allRestaurants.clear()
+        allRestaurants.addAll(newData)
+        notifyDataSetChanged()
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

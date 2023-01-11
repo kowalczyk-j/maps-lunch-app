@@ -10,6 +10,9 @@ interface RestaurantDao {
 
     @Query("SELECT * FROM restaurant ORDER BY lower(name) ASC")
     fun getRestaurants(): LiveData<List<Restaurant>>
+
+    @Query("SELECT * FROM restaurant WHERE restaurant_id = :id")
+    fun getRestaurantById(id: Int): LiveData<Restaurant>
     //LiveData - przepływ służący do optymalnego zarządzania wątkami przy obsługiwaniu
     //wielu danych, jeżeli jest to nie trzeba robić suspend fun
 

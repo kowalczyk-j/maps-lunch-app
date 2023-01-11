@@ -8,10 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
-import pw.pap22z.bulionapp.src.Review
+import pw.pap22z.bulionapp.data.entities.Review
 
-class RestaurantReviewsAdapter (private val context: Activity, private val reviewsList: ArrayList<Review>)
+class RestaurantReviewsAdapter (private val context: Activity)
     : RecyclerView.Adapter<RestaurantReviewsAdapter.ViewHolder>() {
+
+    private val restaurantReviews = mutableListOf<Review>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var itemView: View = LayoutInflater.from(context).inflate(R.layout.restaurant_review_item, parent, false)
@@ -19,19 +21,25 @@ class RestaurantReviewsAdapter (private val context: Activity, private val revie
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (reviewsList[position].user.profilePicture != null) {
-            holder.profilePic.setImageBitmap(reviewsList[position].user.profilePicture)
+        if (restaurantReviews[position].user.profile_pic != null) {
+            holder.profilePic.setImageBitmap(restaurantReviews[position].user.profile_pic)
         }
-        holder.username.text = reviewsList[position].user.username
-        holder.rating.text = reviewsList[position].rating.toString()
-        holder.reviewBody.text = reviewsList[position].reviewBody
+        holder.username.text = restaurantReviews[position].user.username
+        holder.rating.text = restaurantReviews[position].review_rating.toString()
+        holder.reviewBody.text = restaurantReviews[position].review_body
     }
 
     override fun getItemCount(): Int {
-        return reviewsList.size
+        return restaurantReviews.size
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view!!) {
+    fun setData(newData: List<Review>) {
+        restaurantReviews.clear()
+        restaurantReviews.addAll(newData)
+        notifyDataSetChanged()
+    }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val profilePic: ImageView = view.findViewById(R.id.profilePicture)
         val username: TextView = view.findViewById(R.id.username)

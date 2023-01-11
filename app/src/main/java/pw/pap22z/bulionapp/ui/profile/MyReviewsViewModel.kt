@@ -3,29 +3,39 @@ package pw.pap22z.bulionapp.ui.profile
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pw.pap22z.bulionapp.data.RestaurantDatabase
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.data.entities.Review
 
 class MyReviewsViewModel(application: Application) : AndroidViewModel(application){
-    lateinit var allReviews: LiveData<List<Review>>
-    lateinit var allRestaurants: LiveData<List<Restaurant>>
-    var restaurant = MutableLiveData<Restaurant>()
+    lateinit var userReviews: LiveData<List<Review>>
 
     val reviewDao by lazy {RestaurantDatabase.getDatabase(application).reviewDao()}
-    val restaurantDao by lazy {RestaurantDatabase.getDatabase(application).restaurantDao()}
 
     init {
-//        allReviews = getReviews()
-        allRestaurants = getRestaurants()
+        userReviews = getReviewsWithUser(1)
     }
 
-//    fun getReviews(): LiveData<List<Review>> {
-//        return reviewDao.getReviews()
-//    }
+    fun getReviewsWithUser(userId: Int): LiveData<List<Review>> {
+        userReviews = reviewDao.getReviewsWithUser(userId)
+        return userReviews
+    }
 
-    fun getRestaurants(): LiveData<List<Restaurant>> {
-        return restaurantDao.getRestaurants()
+    suspend fun findRestaurantById(restaurantId: Int): LiveData<Restaurant> {
+        return withContext(viewModelScope.coroutineContext) {
+            RestaurantDatabase.getDatabase(
+                getApplication()
+            ).restaurantDao().getRestaurantById(restaurantId)
+        }
+    }
+
+    fun insertReview(review: Review) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reviewDao.insertReview(review)
+        }
     }
 }
