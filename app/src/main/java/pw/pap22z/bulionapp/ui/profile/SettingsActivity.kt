@@ -11,11 +11,12 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.User
-import pw.pap22z.bulionapp.ui.restaurant.RestaurantViewModel
-import pw.pap22z.bulionapp.ui.search.SearchViewModel
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -34,12 +35,20 @@ class SettingsActivity : AppCompatActivity() {
         val profileLayout = layoutInflater.inflate(R.layout.fragment_profile, null)
         profilePicture = profileLayout.findViewById(R.id.avatar)
 
-        user = intent.getParcelableExtra("user", User::class.java)!!
+//        user = intent.getParcelableExtra("user", User::class.java)!!
 
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
         ).get(ProfileViewModel::class.java)
+
+        val retrieveUser = CoroutineScope(Dispatchers.IO).launch {
+            user = viewModel.getUser(1)
+        }
+
+        runBlocking {
+            retrieveUser.join() // wait until child coroutine completes
+        }
 
         setUsernameBtn.setOnClickListener{
             val builder = AlertDialog.Builder(this)

@@ -16,6 +16,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.User
 import pw.pap22z.bulionapp.databinding.FragmentProfileBinding
@@ -24,7 +25,7 @@ import pw.pap22z.bulionapp.databinding.FragmentProfileBinding
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
-    var user: User? = null
+    lateinit var user: User
     lateinit var profileViewModel: ProfileViewModel
 
     // This property is only valid between onCreateView and
@@ -44,21 +45,19 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        CoroutineScope(Dispatchers.Main).launch {
+//        user = User(1, "Kinga", null)
 
+        val retrieveUser = CoroutineScope(Dispatchers.IO).launch {
             user = profileViewModel.getUser(1)
-
         }
 
-        println("${user?.username}")
-
-        if (user == null) {
-            user = User(1, "Kinga", null)
+        runBlocking {
+            retrieveUser.join() // wait until child coroutine completes
         }
 
-        lifecycleScope.launch {
-            profileViewModel.insertUser(user!!)
-        }
+//        lifecycleScope.launch {
+//            profileViewModel.insertUser(user)
+//        }
 
         val welcomeMsg: TextView = binding.textWelcome
         welcomeMsg.text = "Witaj ${user!!.username}"
@@ -78,7 +77,7 @@ class ProfileFragment : Fragment() {
         /* SETTINGS BUTTON */
         ViewBindings.findChildViewById<Button>(root, R.id.settingsBtn)?.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)
-            intent.putExtra("user", user)
+//            intent.putExtra("user", user)
             activity?.startActivity(intent)
         }
 
@@ -88,8 +87,12 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        CoroutineScope(Dispatchers.Main).launch {
+        val retrieveUser = CoroutineScope(Dispatchers.IO).launch {
             user = profileViewModel.getUser(1)
+        }
+
+        runBlocking {
+            retrieveUser.join() // wait until child coroutine completes
         }
 
         val welcomeMsg: TextView = binding.textWelcome
