@@ -7,10 +7,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.ActivityMainBinding
 
 //@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+
+
 
     private lateinit var binding: ActivityMainBinding
 

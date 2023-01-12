@@ -1,6 +1,7 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +13,6 @@ import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.data.entities.User
 import pw.pap22z.bulionapp.databinding.ActivityRestaurantBinding
-import pw.pap22z.bulionapp.ui.profile.MyReviewsViewModel
 import pw.pap22z.bulionapp.ui.profile.RestaurantReviewsAdapter
 
 class RestaurantActivity : AppCompatActivity() {
@@ -89,6 +89,14 @@ class RestaurantActivity : AppCompatActivity() {
             val intent = Intent(this, UpdateLunch::class.java)
             intent.putExtra("restaurant", restaurant)
             this.startActivity(intent)
+        }
+
+        val openLinkButton: Button = findViewById<Button>(R.id.button_open_link)
+        openLinkButton.setOnClickListener {
+            val url = "https://www.facebook.com/AIOLICantineSwietokrzyska/photos/a.540039119386448/6038734066183565/"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
         }
 
     }

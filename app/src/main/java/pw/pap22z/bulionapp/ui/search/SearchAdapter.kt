@@ -20,6 +20,13 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
         }
     }
 
+    fun setData(newData: List<Restaurant>){
+        allRestaurants.clear()
+        allRestaurants.addAll(newData)
+        notifyDataSetChanged()
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
             FavoriteListItemBinding.inflate(
@@ -43,12 +50,6 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
 
     override fun getItemCount(): Int {
         return allRestaurants.size
-    }
-
-    fun setData(newData: List<Restaurant>){
-        allRestaurants.clear()
-        allRestaurants.addAll(newData)
-        notifyDataSetChanged()
     }
 
     private lateinit var mListener: onItemClickListener

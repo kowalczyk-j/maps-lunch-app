@@ -4,7 +4,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layoutDirection="locale"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/rounded_corners"
+    android:elevation="10dp"
+    >
+
     <TextView
         android:id="@+id/titly"
         android:layout_width="wrap_content"
@@ -23,6 +27,15 @@
         android:id="@+id/button_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show more" />
+        android:text="Show more"
+        />
+
+    <Button
+        android:id="@+id/route_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show route"
+        android:onClick="onRouteButtonClicked"
+        />
 
 </LinearLayout>
