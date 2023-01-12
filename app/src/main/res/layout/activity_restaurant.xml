@@ -66,12 +66,14 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/menuIcon"
+            <ImageButton
+                android:id="@+id/button_open_link"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
+                android:background="@color/white"
+                android:scaleType="fitXY"
                 android:layout_marginStart="10sp"
-                android:src="@drawable/menu_icon"
+                android:src="@drawable/menu_icon2"
                 app:flow_verticalAlign="center"
                 app:layout_constraintBottom_toBottomOf="@+id/dishesText"
                 app:layout_constraintStart_toStartOf="parent"
@@ -92,12 +94,12 @@
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/black"
                 android:text="Cena za zestaw lunchowy: 26.90"
+                android:textColor="@color/black"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button_open_link"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <TextView
@@ -107,7 +109,7 @@
                 android:text="Tutaj będą wyświetlane wszystkie informacje na temat podawanych lunchy w danym lokalu"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/menuIcon"
+                app:layout_constraintStart_toEndOf="@+id/button_open_link"
                 app:layout_constraintTop_toBottomOf="@+id/price" />
 
             <Button

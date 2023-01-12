@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.Restaurant
-import pw.pap22z.bulionapp.data.entities.User
 import pw.pap22z.bulionapp.databinding.ActivityRestaurantBinding
 import pw.pap22z.bulionapp.ui.profile.RestaurantReviewsAdapter
 
@@ -45,34 +44,6 @@ class RestaurantActivity : AppCompatActivity() {
         viewModel.getRestaurantReviews(restaurant.restaurant_id)
         viewModel.reviews.observe(this, Observer {list -> list?.let {adapter.setData(it)}})
 
-        val users = arrayOf(
-            User(1, "Kinga", null),
-            User(2, "Abc123", null),
-            User(3, "User1234", null),
-            User(4, "bot", null),
-            User(5, "AnotherUser", null)
-        )
-
-//        val ratings = arrayOf(4.5, 4.0, 5.0, 4.0, 5.0)
-//
-//        val reviewBodys = arrayOf(
-//            "Bardzo smaczne jedzenie, świetna atmosfera. Będę polecać wszystkim znajomym :)",
-//            "Niedopieczony kurczak",
-//            "Wszystko w porządku",
-//            "Jedzenie w porządku, natomiast czystość i obsługa pozostawia dużo do życzenia",
-//            "Dla mnie wszystko świetnie, na najwyższym poziomie"
-//        )
-//
-//        val reviews = arrayListOf<Review>()
-//
-//        val temp_restaurant = pw.pap22z.bulionapp.src.Restaurant("Aioli",
-//            "Świętokrzyska 18, Warszawa",
-//            "Uri", "", "", "")
-//
-//        for(i in ratings.indices) {
-//            reviews.add(Review(ratings[i], reviewBodys[i], temp_restaurant, users[i]))
-//        }
-
         val recyclerViewReviews: RecyclerView = findViewById(R.id.reviews)
         recyclerViewReviews.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerViewReviews.adapter = adapter
@@ -91,7 +62,7 @@ class RestaurantActivity : AppCompatActivity() {
             this.startActivity(intent)
         }
 
-        val openLinkButton: Button = findViewById<Button>(R.id.button_open_link)
+        val openLinkButton: ImageButton = findViewById<ImageButton>(R.id.button_open_link)
         openLinkButton.setOnClickListener {
             val url = "https://www.facebook.com/AIOLICantineSwietokrzyska/photos/a.540039119386448/6038734066183565/"
             val i = Intent(Intent.ACTION_VIEW)
