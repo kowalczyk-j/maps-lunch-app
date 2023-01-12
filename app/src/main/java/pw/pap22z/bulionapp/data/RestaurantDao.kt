@@ -37,7 +37,7 @@ interface RestaurantDao {
     @Query("UPDATE restaurant SET latitude = :latitude, longitude = :longitude WHERE restaurant_id = :restaurantId")
     suspend fun updateCoordinates(restaurantId: Int, latitude: Double, longitude: Double)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertRestaurant(restaurant: Restaurant)
     //suspend - Można zawiesić wykonanie funkcji do późniejszego wykonania bez blokowania głownego wątku.
 
