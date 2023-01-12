@@ -1,16 +1,18 @@
 package pw.pap22z.bulionapp.ui.map
 
-
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.AsyncTask
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -51,6 +53,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
         getLocationPermission()
         updateLocationUI()
         getDeviceLocation()
@@ -61,7 +67,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        Log.d("MyTag", "zaczynam")
 
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -116,6 +122,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             map?.let { addMarkerToMap(it, restaurant.latitude, restaurant.longitude, restaurant.name) }
             }
         */
+        map?.clear()
         for (restaurant in restaurants) {
             addRestaurantToMap(restaurant)
         }
@@ -123,8 +130,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun addRestaurantToMap (restaurant: Restaurant){
+        val snippetInfo =
+                restaurant.price.toString() +
+                restaurant.rating.toString() +
+                restaurant.hour_start.toString() + '-' +
+                restaurant.hour_end.toString()
+
         val markerOptions = MarkerOptions().position(LatLng(restaurant.latitude, restaurant.longitude)).
-        title(restaurant.name).snippet(restaurant.address)
+        title(restaurant.name).snippet(snippetInfo)
         map?.addMarker(markerOptions)
     }
 
@@ -133,16 +146,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val markerOptions = MarkerOptions().position(LatLng(latitude, longitude)).title(title)
         map.addMarker(markerOptions)
     }
+
+
     override fun onMapReady(map: GoogleMap) {
 
         this.map = map
-        /*
-        this.map?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-            // Return null here, so that getInfoContents() is called next.
-            override fun getInfoWindow(arg0: Marker): View? {
-                Log.d("MyTag", "W ŚRODKU GET INFO WINDOW")
-                return null
 
+        val infoWindowAdapter = object : GoogleMap.InfoWindowAdapter {
+            override fun getInfoWindow(p0: Marker): View? {
+                return null
             }
 
             override fun getInfoContents(marker: Marker): View {
@@ -155,14 +167,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 val textViewSnippet = view.findViewById<TextView>(R.id.snippet)
                 textViewSnippet.text = marker?.snippet
 
-                val button = view.findViewById<Button>(R.id.button_more)
-                button.text = "Show more"
-                button.setOnClickListener {
+                val infoButton = view.findViewById<Button>(R.id.button_more)
+                infoButton.text = "Show more"
+                infoButton.setOnClickListener {
                     //Perform an action when button is clicked
                 }
 
+                val routeButton = view.findViewById<Button>(R.id.route_button)
+                routeButton.setOnClickListener {
+                    // use the DirectionsApi class to request a route
+                    // from the user's current location to the clicked marker
+                }
+
                 return view
-            } */
+            }
+        }
+
+            this.map!!.setInfoWindowAdapter(infoWindowAdapter)
 
             /*val inflater = LayoutInflater.from(context)
                 val view = inflater.inflate(R.layout.custom_info_window, null)
@@ -193,6 +214,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         getDeviceLocation()
 
     }
+
     private fun getDeviceLocation() {
         try {
             if (locationPermissionGranted) {
@@ -276,9 +298,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         private const val KEY_LOCATION = "location"
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onDestroy() {
+        super.onDestroy()
+        map?.let {
+            it.clear()
+            it.mapType = GoogleMap.MAP_TYPE_NONE
+        }
+        map = null
+        //fusedLocationProviderClient.removeLocationUpdates(callback)
+        fusedLocationProviderClient.flushLocations()
+        //fusedLocationProviderClient.removeLocationUpdates(callback)
+        fusedLocationProviderClient.flushLocations()
     }
 }
 /*
