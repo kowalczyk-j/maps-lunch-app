@@ -1,5 +1,6 @@
 package pw.pap22z.bulionapp.data
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
@@ -23,5 +24,11 @@ interface ReviewDao {
         "SELECT * FROM review WHERE user_id = :userId"
     )
     fun getReviewsWithUser(userId: Int): LiveData<List<Review>>
+
+    @Query("UPDATE review SET username = :newUsername WHERE user_id = :userId")
+    suspend fun updateReviewUsername(userId: Int, newUsername: String)
+
+    @Query("UPDATE review SET profile_pic = :newProfilePic WHERE user_id = :userId")
+    suspend fun updateReviewProfilePic(userId: Int, newProfilePic: Bitmap)
 
 }

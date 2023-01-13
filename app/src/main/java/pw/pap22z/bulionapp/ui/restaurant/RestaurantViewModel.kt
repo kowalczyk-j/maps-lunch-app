@@ -1,6 +1,7 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -24,4 +25,17 @@ class RestaurantViewModel(application: Application): AndroidViewModel(applicatio
             reviewDao.insertReview(review)
         }
     }
+
+    fun updateReviewUsername(userId: Int, newUsername: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reviewDao.updateReviewUsername(userId, newUsername)
+        }
+    }
+
+    fun updateReviewProfilePic(userId: Int, newProfilePic: Bitmap) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reviewDao.updateReviewProfilePic(userId, newProfilePic)
+        }
+    }
+
 }
