@@ -1,13 +1,9 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
-import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.util.Log
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -81,7 +77,14 @@ class WriteReview : AppCompatActivity() {
                         restaurant = restaurant!!,
                         user = user
                     ))
+                    val new_rating = "%.2f".format(viewModel.getRestaurantRating(restaurant!!.restaurant_id))
+                    Log.d("TAG", "rating: $new_rating")
+                    //Toast.makeText(context, "New rating: $new_rating", Toast.LENGTH_SHORT).show()
+                    viewModel.updateRating(restaurant!!.restaurant_id, new_rating.toFloat())
                 }
+
+
+
             }
             finish()
         }

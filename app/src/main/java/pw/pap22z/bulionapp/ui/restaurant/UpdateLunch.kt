@@ -34,24 +34,25 @@ class UpdateLunch : AppCompatActivity() {
                 val mainDish : EditText = findViewById(R.id.updateMainDish)
                 val dessert : EditText = findViewById(R.id.updateDessert)
                 val info : EditText = findViewById(R.id.updateInfo)
+                val menu : EditText = findViewById(R.id.updateMenu)
                 val fields = arrayOf(starter, mainDish, dessert)
                 val notNullFields = fields.count { it.text.toString().isNotEmpty() }
                 val calendar = Calendar.getInstance()
                 val current = SimpleDateFormat("yyyy-MM-dd HH:mm").format(calendar.time)
                 val dayOfWeek = DateFormatSymbols(Locale("pl", "PL")).weekdays[calendar.get(Calendar.DAY_OF_WEEK)]
 
-            if (restaurant!!.num_dishes > notNullFields ) {
-                Toast.makeText(this, "Uzupełnij wszystkie wymagane dane!", Toast.LENGTH_SHORT).show()
-            }
-            else if (restaurant!!.num_dishes < notNullFields ) {
+            if (restaurant!!.num_dishes < notNullFields ) {
                 Toast.makeText(this, "Uzupełnij tylko odpowiednie pola!", Toast.LENGTH_SHORT).show()
             }
             else {
-                var newLunch = "Edytowano: $dayOfWeek, $current"
+                var newLunch = "Edytowano: $dayOfWeek, $current\n"
                 if (starter.text.toString().isNotEmpty()) { newLunch += starter.text.toString() }
                 if (mainDish.text.toString().isNotEmpty()) { newLunch = newLunch + "\n" + mainDish.text.toString() }
                 if (dessert.text.toString().isNotEmpty()) { newLunch = newLunch + "\n" + dessert.text.toString() }
                 if (info.text.toString().isNotEmpty()) { newLunch = newLunch + "\n" + info.text.toString() }
+                if (menu.text.toString().isNotEmpty()) {
+                    lifecycleScope.launch { dao.updateMenu(restaurant.restaurant_id, menu.text.toString())}
+                }
                 lifecycleScope.launch { dao.updateLunch(restaurant!!.restaurant_id, newLunch)}
                 Toast.makeText(this, "Pomyślnie zaktualizowano lunch", Toast.LENGTH_SHORT).show()
                 finish()

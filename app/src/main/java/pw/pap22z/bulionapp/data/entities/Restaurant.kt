@@ -12,7 +12,7 @@ data class Restaurant(
     @PrimaryKey val restaurant_id: Int,
     val titleImage: Bitmap,
     val name: String,
-    val rating: Float,
+    val rating: Float = 0.0f,
     val cuisine_type: String,
     val address: String,
     // Lunch info
@@ -23,5 +23,6 @@ data class Restaurant(
     val is_vege: Boolean,
     val lunch_info: String,
     var latitude: Double = 0.0,
-    var longitude: Double = 0.0
+    var longitude: Double = 0.0,
+    val menu: String = ""
 ): Parcelable

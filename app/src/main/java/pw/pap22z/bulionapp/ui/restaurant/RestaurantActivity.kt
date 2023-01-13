@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -93,10 +94,16 @@ class RestaurantActivity : AppCompatActivity() {
 
         val openLinkButton: Button = findViewById<Button>(R.id.button_open_link)
         openLinkButton.setOnClickListener {
-            val url = "https://www.facebook.com/AIOLICantineSwietokrzyska/photos/a.540039119386448/6038734066183565/"
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(url)
-            startActivity(i)
+            val url = restaurant.menu
+            if (url == ""){
+                Toast.makeText(this, "Restauracja nie udostępniła menu", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
+            }
+
         }
 
     }

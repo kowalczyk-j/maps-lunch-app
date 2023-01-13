@@ -37,6 +37,9 @@ interface RestaurantDao {
     @Query("UPDATE restaurant SET latitude = :latitude, longitude = :longitude WHERE restaurant_id = :restaurantId")
     suspend fun updateCoordinates(restaurantId: Int, latitude: Double, longitude: Double)
 
+    @Query("UPDATE restaurant SET rating = :rating WHERE restaurant_id = :restaurantId")
+    suspend fun updateRating(restaurantId: Int, rating: Float)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertRestaurant(restaurant: Restaurant)
     //suspend - Można zawiesić wykonanie funkcji do późniejszego wykonania bez blokowania głownego wątku.
@@ -46,6 +49,9 @@ interface RestaurantDao {
 
     @Query("UPDATE restaurant SET lunch_info = :newLunch WHERE restaurant_id = :restaurantId")
     suspend fun updateLunch(restaurantId: Int, newLunch: String)
+
+    @Query("UPDATE restaurant SET menu = :newMenu WHERE restaurant_id = :restaurantId")
+    suspend fun updateMenu(restaurantId: Int, newMenu: String)
 
     @Delete
     suspend fun delete(restaurant: Restaurant)
