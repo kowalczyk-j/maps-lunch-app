@@ -34,7 +34,7 @@ class RestaurantActivity : AppCompatActivity() {
         binding.dishesText.text = restaurant.lunch_info
         binding.restaurantLogo.setImageBitmap(restaurant.titleImage)
         binding.rating.text = restaurant.rating.toString()
-        binding.price.text = price
+        binding.price.text = "Cena za zestaw lunchowy: $price"
         binding.hours.text = "${restaurant.hour_start}.00-${restaurant.hour_end}.00"
 
         val adapter = RestaurantReviewsAdapter(this)
