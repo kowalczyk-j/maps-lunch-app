@@ -20,6 +20,8 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     private fun getRestaurants(): LiveData<List<Restaurant>> {
         return restaurantDao.getRestaurants()
     }
+
+
 /*
     fun updateRestaurantCoordinates() {
         viewModelScope.launch {
