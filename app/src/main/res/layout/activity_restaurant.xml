@@ -6,165 +6,174 @@
     android:layout_height="match_parent"
     tools:context=".ui.restaurant.RestaurantActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/restaurantLogo"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="15dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/a" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="300dp"
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/cast_libraries_material_featurehighlight_center_horizontal_offset"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/restaurantName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Restaurant Name"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/restaurantLogo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/a" />
 
-                <TextView
-                    android:id="@+id/address"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="Street 1, City"
-                    android:textAlignment="center" />
+                    android:layout_marginVertical="@dimen/cast_libraries_material_featurehighlight_center_horizontal_offset"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/hours"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="12:00-15:00"
-                    android:textAlignment="center" />
+                    <TextView
+                        android:id="@+id/restaurantName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Restaurant Name"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Street 1, City"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/hours"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="12:00-15:00"
+                        android:textAlignment="center" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ScrollView
-                android:id="@+id/scrollView2"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/dishesText"
-                        android:layout_width="300dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:text="Tutaj będą wyświetlane wszystkie informacje na temat podawanych lunchy w danym lokalu"
-                        android:textSize="18sp" />
-
-            </ScrollView>
-
-            <Button
+            <ImageButton
                 android:id="@+id/button_open_link"
-                android:layout_width="53dp"
-                android:layout_height="65dp"
-                android:drawableTop="@drawable/menu_icon" />
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:background="@color/white"
+                android:scaleType="fitXY"
+                android:layout_marginStart="10sp"
+                android:src="@drawable/menu_icon2"
+                app:flow_verticalAlign="center"
+                app:layout_constraintBottom_toBottomOf="@+id/dishesText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/dishesText" />
 
             <TextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/cast_libraries_material_featurehighlight_center_horizontal_offset"
-            android:text="24.90"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+                android:id="@+id/editInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Edytowano w czwartek 2023-01-12"
+                android:textSize="12sp"
+                android:layout_marginEnd="10sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dishesText" />
 
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cena za zestaw lunchowy: 26.90"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button_open_link"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/dishesText"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Tutaj będą wyświetlane wszystkie informacje na temat podawanych lunchy w danym lokalu"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button_open_link"
+                app:layout_constraintTop_toBottomOf="@+id/price" />
 
             <Button
                 android:id="@+id/updateLunch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:text="Aktualizuj Lunch" />
+                android:text="Aktualizuj Lunch"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/divider"
+                app:layout_constraintTop_toBottomOf="@+id/editInfo" />
 
             <Button
                 android:id="@+id/addReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Napisz recenzję" />
+                android:text="Napisz recenzję"
+                app:layout_constraintEnd_toStartOf="@+id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editInfo" />
 
-        </LinearLayout>
+            <View
+                android:id="@+id/divider"
+                android:layout_width="1dp"
+                android:layout_height="244dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="invisible"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:text="4.7/5"
+                app:layout_constraintBottom_toBottomOf="@+id/reviewsTitle"
+                app:layout_constraintStart_toEndOf="@+id/reviewsTitle"
+                app:layout_constraintTop_toTopOf="@+id/reviewsTitle" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="409dp"
-        android:layout_height="450dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+            <TextView
+                android:id="@+id/reviewsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:text="RECENZJE"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/reviews"
+                app:layout_constraintTop_toBottomOf="@id/addReview"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/restaurant_review_item" />
 
 
-        <TextView
-            android:id="@+id/rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:text="4.7/5"
-            app:layout_constraintBottom_toBottomOf="@+id/reviewsTitle"
-            app:layout_constraintStart_toEndOf="@+id/reviewsTitle"
-            app:layout_constraintTop_toTopOf="@+id/reviewsTitle" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/reviewsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:text="RECENZJE"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/reviews"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/reviews"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/restaurant_review_item" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

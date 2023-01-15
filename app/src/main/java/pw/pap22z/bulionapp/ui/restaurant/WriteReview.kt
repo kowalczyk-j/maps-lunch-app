@@ -1,9 +1,13 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RatingBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +37,8 @@ class WriteReview : AppCompatActivity() {
 
         val restaurant = intent.getParcelableExtra("restaurant", Restaurant::class.java)
 
+        findViewById<TextView>(R.id.reviewHeader).text = "Jak oceniasz lunch w ${restaurant?.name}?"
+
         val reviewsAdapter = RestaurantReviewsAdapter(this)
 
         viewModel = ViewModelProvider(this,
@@ -46,17 +52,8 @@ class WriteReview : AppCompatActivity() {
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
         ).get(ProfileViewModel::class.java)
 
-        val ratings = listOf(1, 2, 3, 4, 5)
-        val adapter = ArrayAdapter(this, R.layout.rating_list_item, ratings)
-        binding.dropdownField.setAdapter(adapter)
-
-        var rating: Int? = null
-        binding.dropdownField.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
-            rating = adapter.getItem(i)
-        }
-
+        val ratingBar = findViewById<RatingBar>(R.id.ratingBar)
         val reviewBody = findViewById<EditText>(R.id.review_body).text
-
         val addBtn: Button = findViewById<Button>(R.id.add)
 
         val retrieveUser = CoroutineScope(Dispatchers.IO).launch {
@@ -68,13 +65,14 @@ class WriteReview : AppCompatActivity() {
         }
 
         addBtn.setOnClickListener{
-            if (rating != null) {
+            if (ratingBar != null) {
+                val rating: Float = ratingBar.rating
                 Toast.makeText(this, "Dodano recenzję", Toast.LENGTH_SHORT).show()
                 lifecycleScope.launch {
                     viewModel.insertReview(Review(
-                        review_rating=rating!!,
+                        review_rating=rating,
                         review_body = reviewBody.toString(),
-                        restaurant = restaurant!!,
+                        restaurant = restaurant,
                         user = user
                     ))
                     val new_rating = "%.2f".format(viewModel.getRestaurantRating(restaurant!!.restaurant_id))

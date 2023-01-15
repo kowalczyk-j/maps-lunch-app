@@ -1,41 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layoutDirection="locale"
-    android:orientation="vertical"
-    android:background="@drawable/rounded_corners"
-    android:elevation="10dp"
-    >
-
-    <TextView
-        android:id="@+id/titly"
-        android:layout_width="wrap_content"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:background="@drawable/dialog_bg"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="#ff000000"
-        android:textStyle="bold" />
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp">
 
-    <TextView
-        android:id="@+id/snippet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#ff7f7f7f" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show more"
-        />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/logo"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/c"
+                app:civ_border_color="#FFFFFF"
+                app:civ_border_width="10dp"
+                android:layout_gravity="center"
+                />
 
-    <Button
-        android:id="@+id/route_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show route"
-        android:onClick="onRouteButtonClicked"
-        />
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Aioli"
+                android:textColor="#000"
+                android:textStyle="bold|italic" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/restaurant_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="ocena: 2.4; oferta lunchowa: cena:"
+                android:textColor="#000"
+                android:textStyle="bold|italic" />
+
+            <Button
+                android:id="@+id/button_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="STRONA RESTAURACJI" />
+
+            <Button
+                android:id="@+id/button_route"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="jak dojechać?" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

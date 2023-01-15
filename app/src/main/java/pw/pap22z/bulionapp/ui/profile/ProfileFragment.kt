@@ -24,7 +24,7 @@ import pw.pap22z.bulionapp.databinding.FragmentProfileBinding
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
-    lateinit var user: User
+    var user: User? = null
     lateinit var profileViewModel: ProfileViewModel
 
     // This property is only valid between onCreateView and
@@ -44,7 +44,6 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        user = User(1, "Kinga", null)
 
         val retrieveUser = CoroutineScope(Dispatchers.IO).launch {
             user = profileViewModel.getUser(1)
@@ -54,8 +53,11 @@ class ProfileFragment : Fragment() {
             retrieveUser.join() // wait until child coroutine completes
         }
 
-        lifecycleScope.launch {
-            profileViewModel.insertUser(user)
+        if(user == null) {
+            user = User(1, "Kinga", null)
+            lifecycleScope.launch {
+                profileViewModel.insertUser(user!!)
+            }
         }
 
         val welcomeMsg: TextView = binding.textWelcome

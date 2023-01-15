@@ -1,23 +1,24 @@
 package pw.pap22z.bulionapp.ui.map
 
+
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.os.AsyncTask
-
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
-
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -26,13 +27,11 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import java.util.*
-
-
 import pw.pap22z.bulionapp.R
-import pw.pap22z.bulionapp.data.RestaurantDatabase
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.FragmentMapBinding
+import pw.pap22z.bulionapp.ui.restaurant.RestaurantActivity
+import java.util.*
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -44,7 +43,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var lastKnownLocation: Location? = null
     private var _binding: FragmentMapBinding? = null
     private lateinit var mapViewModel: MapViewModel
-
+    //private var currentMapType = GoogleMap.MAP_TYPE_NORMAL
     private val binding get() = _binding!!
     private var restaurants: List<Restaurant> = emptyList()
 
@@ -57,14 +56,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        getLocationPermission()
-        updateLocationUI()
-        getDeviceLocation()
-        Log.d("MyTag", "zaczynam")
-
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
+
         }
 
         Log.d("MyTag", "zaczynam")
@@ -76,11 +71,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         mapViewModel = ViewModelProvider(this).get(MapViewModel::class.java)
 
-        /*
-            mapViewModel.allRestaurants.observe(viewLifecycleOwner) {
-                restaurants = it
-                updateMap()
-            } */
+
 
         mapFragment.getMapAsync(this)
 
@@ -94,57 +85,63 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
         super.onSaveInstanceState(outState)
     }
-    /*
-        private fun getCoordinates(address: String): LatLng? {
-            val geocoder = context?.let { Geocoder(it) }
-            val likeAddress = geocoder?.getFromLocationName(address + "Warszawa, Polska", 1)
-            if (likeAddress != null && likeAddress.isNotEmpty()) {
-                val lat = likeAddress[0].latitude
-                val lng = likeAddress[0].longitude
-                return LatLng(lat, lng)
-            } else {
-                // Handle the case where no results are found
-                Log.d("GEOCODER", "No results found for address: $address")
-                return null
-            }
-        }
-    */
+
     private fun updateMap() {
-        /*
-        for (restaurant in restaurants) {
-            val latLng = getCoordinates(restaurant.address)
-            latLng?.let { MarkerOptions().position(it).title("Marker in Warsaw") }
-                ?.let { map?.addMarker(it) } */
-        /*
-        for (restaurant in restaurants) {
-            Log.d("MyTag", "iteruje po mapkach!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            Log.d("Location", (restaurant.latitude).toString() + (restaurant.longitude).toString())
-            map?.let { addMarkerToMap(it, restaurant.latitude, restaurant.longitude, restaurant.name) }
-            }
-        */
         map?.clear()
         for (restaurant in restaurants) {
-            addRestaurantToMap(restaurant)
+            val marker = map?.addMarker(MarkerOptions().position(LatLng(restaurant.latitude, restaurant.longitude)).title(restaurant.name))
+            marker?.tag = restaurant
+        }
+        map?.setOnMarkerClickListener { marker ->
+            val restaurant = marker.tag as Restaurant
+            showRestaurantDialog(restaurant)
+            true
+        }
+    }
+
+
+    private val markers = mutableListOf<Marker>()
+
+    private fun showRestaurantDialog(restaurant: Restaurant) {
+
+        val builder = AlertDialog.Builder(requireContext())
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_info_window, null)
+
+        val restaurantNote = "ocena: ${restaurant.rating}; cena: ${restaurant.price} \n dostępność: ${restaurant.hour_start} - ${restaurant.hour_end}"
+
+        val infoButton = dialogView.findViewById<Button>(R.id.button_more)
+        val restaurantName = dialogView.findViewById<TextView>(R.id.name)
+        val restaurantInfo = dialogView.findViewById<TextView>(R.id.restaurant_info)
+        val route = dialogView.findViewById<Button>(R.id.button_route)
+        val photo =  dialogView.findViewById<ImageView>(R.id.logo)
+        photo.setImageBitmap(restaurant.titleImage)
+        restaurantName.text = restaurant.name
+        infoButton?.setOnClickListener {
+            if (context != null) {
+
+                val intent = Intent(context, RestaurantActivity::class.java)
+                intent.putExtra("restaurant", restaurant)
+                startActivity(intent)
+            }
         }
 
+        route?.setOnClickListener {
+            if (context != null) {
+                val mapUri: Uri = Uri.parse("geo:0,0?q=" + Uri.encode(restaurant.address))
+                val mapIntent = Intent(Intent.ACTION_VIEW, mapUri)
+                mapIntent.setPackage("com.google.android.apps.maps")
+                startActivity(mapIntent)
+            }
+        }
+        builder.setView(dialogView)
+        builder.show()
+        true
     }
-
-    private fun addRestaurantToMap (restaurant: Restaurant){
-        val snippetInfo =
-                restaurant.price.toString() +
-                restaurant.rating.toString() +
-                restaurant.hour_start.toString() + '-' +
-                restaurant.hour_end.toString()
-
-        val markerOptions = MarkerOptions().position(LatLng(restaurant.latitude, restaurant.longitude)).
-        title(restaurant.name).snippet(snippetInfo)
-        map?.addMarker(markerOptions)
-    }
-
 
     private fun addMarkerToMap(map: GoogleMap, latitude: Double, longitude: Double, title: String) {
         val markerOptions = MarkerOptions().position(LatLng(latitude, longitude)).title(title)
         map.addMarker(markerOptions)
+
     }
 
 
@@ -152,61 +149,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         this.map = map
 
-        val infoWindowAdapter = object : GoogleMap.InfoWindowAdapter {
-            override fun getInfoWindow(p0: Marker): View? {
-                return null
-            }
-
-            override fun getInfoContents(marker: Marker): View {
-                // Inflate the layouts for the info window, title and snippet.
-                val inflater = LayoutInflater.from(context)
-                val view = inflater.inflate(R.layout.custom_info_window, null)
-                val textViewTitle = view.findViewById<TextView>(R.id.titly)
-                textViewTitle.text = marker?.title
-
-                val textViewSnippet = view.findViewById<TextView>(R.id.snippet)
-                textViewSnippet.text = marker?.snippet
-
-                val infoButton = view.findViewById<Button>(R.id.button_more)
-                infoButton.text = "Show more"
-                infoButton.setOnClickListener {
-                    //Perform an action when button is clicked
-                }
-
-                val routeButton = view.findViewById<Button>(R.id.route_button)
-                routeButton.setOnClickListener {
-                    // use the DirectionsApi class to request a route
-                    // from the user's current location to the clicked marker
-                }
-
-                return view
-            }
-        }
-
-            this.map!!.setInfoWindowAdapter(infoWindowAdapter)
-
-            /*val inflater = LayoutInflater.from(context)
-                val view = inflater.inflate(R.layout.custom_info_window, null)
-
-                val infoWindow = layoutInflater.inflate(R.layout.custom_info_window,
-                    view.findViewById<FrameLayout>(R.id.map_fragment), false)
-
-                val title = infoWindow.findViewById<TextView>(R.id.titly)
-                title.text = marker.title
-                val snippet = infoWindow.findViewById<TextView>(R.id.snippet)
-                snippet.text = marker.snippet
-                Log.d("MyTag", "POD KONIEC GET INFO CONTENTS")
-                return infoWindow
-            }
-        })*/
-
-        //map.setInfoWindowAdapter(infoWindowAdapter)
 
         mapViewModel.allRestaurants.observe(viewLifecycleOwner) {
             restaurants = it
-            //mapViewModel.updateRestaurantCoordinates()
             updateMap()
         }
+
+        val markers = mutableListOf<Marker>()
+
         addMarkerToMap(map,52.237049,21.017532, "Warsaw")
 
         getLocationPermission()
@@ -296,6 +246,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         private const val API = "AIzaSyATfNmd6D0HIN6nX_37e760xZUlq_LMZYQ"
         private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
+        //private const val MAP_TYPE_KEY = "ecab326e84e0f60f"
     }
 
     override fun onDestroy() {
@@ -305,59 +256,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             it.mapType = GoogleMap.MAP_TYPE_NONE
         }
         map = null
-        //fusedLocationProviderClient.removeLocationUpdates(callback)
         fusedLocationProviderClient.flushLocations()
-        //fusedLocationProviderClient.removeLocationUpdates(callback)
         fusedLocationProviderClient.flushLocations()
     }
 }
-/*
-    override fun onMapReady(map: GoogleMap) {
-
-        this.map = map
-
-        Log.d("MyTag", "JESTEM PRZED USTAIWANIEM ONFO NA MARKERZE")
-
-        this.map?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-            // Return null here, so that getInfoContents() is called next.
-            override fun getInfoWindow(arg0: Marker): View? {
-                Log.d("MyTag", "W ŚRODKU GET INFO WINDOW")
-                return null
-
-            }
-
-            override fun getInfoContents(marker: Marker): View {
-                // Inflate the layouts for the info window, title and snippet.
-                val inflater = LayoutInflater.from(context)
-                val view = inflater.inflate(R.layout.custom_info_window, null)
-
-                val infoWindow = layoutInflater.inflate(R.layout.custom_info_window,
-                    view.findViewById<FrameLayout>(R.id.map_fragment), false)
-
-                val title = infoWindow.findViewById<TextView>(R.id.titly)
-                title.text = marker.title
-                val snippet = infoWindow.findViewById<TextView>(R.id.snippet)
-                snippet.text = marker.snippet
-                Log.d("MyTag", "POD KONIEC GET INFO CONTENTS")
-                return infoWindow
-            }
-        })
-
-
-
-        val infoWindowAdapter = object : GoogleMap.InfoWindowAdapter {
-
-            override fun getInfoContents(p0: Marker): View? {
-                val inflater = LayoutInflater.from(context)
-                val view = inflater.inflate(R.layout.custom_info_window, null)
-                val textView = view.findViewById<TextView>(R.id.textView)
-                textView.text = marker?.title
-                return view
-            }
-
-            override fun getInfoWindow(p0: Marker): View? {
-                return null
-            }
-        }
-        }
-        */

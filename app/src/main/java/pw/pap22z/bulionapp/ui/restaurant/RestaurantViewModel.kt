@@ -1,6 +1,7 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope

@@ -1,5 +1,6 @@
 package pw.pap22z.bulionapp.data
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert

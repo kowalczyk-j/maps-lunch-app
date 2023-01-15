@@ -181,9 +181,10 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
             else -> true
     }}
 
-    private  suspend fun getBitmap(url: String): Bitmap {
-        val loading = ImageLoader(requireContext())
-        val request = ImageRequest.Builder(requireContext())
+    private suspend fun getBitmap(url: String): Bitmap {
+
+        val loading = ImageLoader(context!!)
+        val request = ImageRequest.Builder(context!!)
             .data(url)
             .build()
 
