@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -62,7 +61,7 @@ class ProfileFragment : Fragment() {
         }
 
         val welcomeMsg: TextView = binding.textWelcome
-        welcomeMsg.text = "Witaj ${user!!.username}"
+        welcomeMsg.text = "Witaj ${user.username}"
 
         /* REVIEWS BUTTON */
         ViewBindings.findChildViewById<Button>(root, R.id.reviewsBtn)?.setOnClickListener {
@@ -98,11 +97,11 @@ class ProfileFragment : Fragment() {
         }
 
         val welcomeMsg: TextView = binding.textWelcome
-        welcomeMsg.text = "Witaj ${user!!.username}"
+        welcomeMsg.text = "Witaj ${user.username}"
 
         val profilePicture: CircleImageView = binding.avatar
-        if (user!!.profile_pic != null) {
-            profilePicture.setImageBitmap(user!!.profile_pic)
+        if (user.profile_pic != null) {
+            profilePicture.setImageBitmap(user.profile_pic)
         }
     }
 

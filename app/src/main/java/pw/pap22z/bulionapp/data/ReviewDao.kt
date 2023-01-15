@@ -20,15 +20,10 @@ interface ReviewDao {
     @Query("SELECT * FROM review WHERE restaurant_id = :restaurantId")
     fun getReviewsWithRestaurant(restaurantId: Int): LiveData<List<Review>>
 
-    @Query(
-        "SELECT * FROM review WHERE user_id = :userId"
-    )
+    @Query("SELECT * FROM review WHERE user_id = :userId")
     fun getReviewsWithUser(userId: Int): LiveData<List<Review>>
 
-    @Query("UPDATE review SET username = :newUsername WHERE user_id = :userId")
-    suspend fun updateReviewUsername(userId: Int, newUsername: String)
-
-    @Query("UPDATE review SET profile_pic = :newProfilePic WHERE user_id = :userId")
-    suspend fun updateReviewProfilePic(userId: Int, newProfilePic: Bitmap)
+    @Query("SELECT AVG(review_rating) FROM review WHERE restaurant_id = :restaurantId")
+    suspend fun getRestaurantRating(restaurantId: Int) : Float
 
 }

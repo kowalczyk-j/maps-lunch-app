@@ -14,6 +14,7 @@ class RestaurantViewModel(application: Application): AndroidViewModel(applicatio
     lateinit var reviews: LiveData<List<Review>>
 
     val reviewDao by lazy {RestaurantDatabase.getDatabase(application).reviewDao()}
+    val restaurantDao by lazy {RestaurantDatabase.getDatabase(application).restaurantDao()}
 
     fun getRestaurantReviews(restaurantId: Int): LiveData<List<Review>> {
         reviews = reviewDao.getReviewsWithRestaurant(restaurantId)
@@ -26,16 +27,11 @@ class RestaurantViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
 
-    fun updateReviewUsername(userId: Int, newUsername: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            reviewDao.updateReviewUsername(userId, newUsername)
-        }
+   suspend fun getRestaurantRating(restaurantId: Int): Float {
+        return reviewDao.getRestaurantRating(restaurantId)
     }
 
-    fun updateReviewProfilePic(userId: Int, newProfilePic: Bitmap) {
-        viewModelScope.launch(Dispatchers.IO) {
-            reviewDao.updateReviewProfilePic(userId, newProfilePic)
-        }
+    suspend fun updateRating(restaurantId: Int, rating: Float) {
+        return restaurantDao.updateRating(restaurantId, rating)
     }
-
 }
