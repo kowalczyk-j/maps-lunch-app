@@ -83,7 +83,7 @@
                 android:id="@+id/editInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Edytowano w czwartek 2023-01-12"
+                android:text=""
                 android:textSize="12sp"
                 android:layout_marginEnd="10sp"
                 android:textStyle="italic"

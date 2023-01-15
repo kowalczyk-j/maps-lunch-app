@@ -86,7 +86,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
                 "Zupa z soczewicy\nGnocchi z pesto bazyliowym i pomidorkami lub Polędwiczki wieprzowe w sosie musztardowym z puree i surówką lub " +
                         "Pizza z szynką i pieczarkami\nMini bezy z musem owocowym",
                 menu = "https://www.facebook.com/BistroChmielna/posts/pfbid0bj2VPjtyGX3wWuYb6r15mQzFiWg4vfhrSn5P2tRmWy9qpMaArRRVeuiTAdcC8PWPl"))
-
         }
 
         viewModel.allRestaurants.observe(viewLifecycleOwner) { list ->

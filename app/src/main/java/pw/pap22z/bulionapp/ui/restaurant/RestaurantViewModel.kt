@@ -34,4 +34,16 @@ class RestaurantViewModel(application: Application): AndroidViewModel(applicatio
     suspend fun updateRating(restaurantId: Int, rating: Float) {
         return restaurantDao.updateRating(restaurantId, rating)
     }
+
+    fun updateReviewUsername(userId: Int, newUsername: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reviewDao.updateReviewUsername(userId, newUsername)
+        }
+    }
+
+    fun updateReviewProfilePic(userId: Int, newProfilePic: Bitmap) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reviewDao.updateReviewProfilePic(userId, newProfilePic)
+        }
+    }
 }
