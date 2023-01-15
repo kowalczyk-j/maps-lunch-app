@@ -72,7 +72,7 @@ class MyReviewsActivity : AppCompatActivity() {
             viewModel.insertReview(
                 Review(
                     1,
-                    5,
+                    5.0f,
                     "Bardzo smaczne jedzenie, świetna atmosfera. Będę polecać wszystkim znajomym :)",
                 Restaurant(1, getBitmap("https://sztuczne-rosliny.pl/wp-content/uploads/2020/01/aioli-logo.jpg"),
                     "Aioli", 4.5F, "Włoska", "Chmielna 26", 26.90F, 12, 17, 3, true,

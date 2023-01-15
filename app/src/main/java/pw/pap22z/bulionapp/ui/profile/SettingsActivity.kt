@@ -2,6 +2,7 @@ package pw.pap22z.bulionapp.ui.profile
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -17,12 +18,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.User
+import pw.pap22z.bulionapp.ui.restaurant.RestaurantViewModel
 
 
 class SettingsActivity : AppCompatActivity() {
 
     lateinit var profilePicture: ImageView
     lateinit var viewModel: ProfileViewModel
+    lateinit var restaurantViewModel: RestaurantViewModel
     lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,12 +38,15 @@ class SettingsActivity : AppCompatActivity() {
         val profileLayout = layoutInflater.inflate(R.layout.fragment_profile, null)
         profilePicture = profileLayout.findViewById(R.id.avatar)
 
-//        user = intent.getParcelableExtra("user", User::class.java)!!
-
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
         ).get(ProfileViewModel::class.java)
+
+        restaurantViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        ).get(RestaurantViewModel::class.java)
 
         val retrieveUser = CoroutineScope(Dispatchers.IO).launch {
             user = viewModel.getUser(1)
@@ -60,7 +66,9 @@ class SettingsActivity : AppCompatActivity() {
                 setPositiveButton("Ok") {dialog, which ->
                     if (editText.text.toString() != "") {
                         lifecycleScope.launch {
-                            viewModel.updateUsername(user.user_id, editText.text.toString())
+                            val newUsername: String = editText.text.toString()
+                            viewModel.updateUsername(user.user_id, newUsername)
+                            restaurantViewModel.updateReviewUsername(user.user_id, newUsername)
                         }
                     }
                 }
@@ -88,10 +96,9 @@ class SettingsActivity : AppCompatActivity() {
         if (resultCode == RESULT_OK && data != null) {
             contentResolver.takePersistableUriPermission(data.data!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
             lifecycleScope.launch {
-                viewModel.updateProfilePic(
-                    user.user_id,
-                    MediaStore.Images.Media.getBitmap(contentResolver, data.data)
-                )
+                val newProfilePic: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, data.data)
+                viewModel.updateProfilePic(user.user_id, newProfilePic)
+                restaurantViewModel.updateReviewProfilePic(user.user_id, newProfilePic)
         }
         }
     }
