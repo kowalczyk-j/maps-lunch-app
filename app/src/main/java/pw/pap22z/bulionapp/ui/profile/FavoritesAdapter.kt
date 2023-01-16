@@ -29,9 +29,9 @@ class FavoritesAdapter (private val context: Activity)
         holder.menu.text = favoritesList[position].num_dishes.toString() + " dania"
         holder.hours.text = favoritesList[position].hour_start.toString() + ".00-" +
                 favoritesList[position].hour_end.toString() + ".00"
-        holder.rating.text = favoritesList[position].rating.toString()
+        holder.rating.text = "%.2f".format(favoritesList[position].rating)
         holder.typeCuisine.text = "Kuchnia " + favoritesList[position].cuisine_type
-        holder.price.text = favoritesList[position].price.toString() + "zł"
+        holder.price.text = "%.2f".format(favoritesList[position].price) + "zł"
         holder.isVegan.visibility = if (favoritesList[position].is_vege) View.VISIBLE else View.GONE
     }
 

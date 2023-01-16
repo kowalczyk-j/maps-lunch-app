@@ -67,20 +67,35 @@ class WriteReview : AppCompatActivity() {
             if (ratingBar != null) {
                 val rating: Float = ratingBar.rating
                 Toast.makeText(this, "Dodano recenzję", Toast.LENGTH_SHORT).show()
-                lifecycleScope.launch {
+                val addReviewThread = CoroutineScope(Dispatchers.IO).launch {
                     viewModel.insertReview(Review(
                         review_rating=rating,
                         review_body = reviewBody.toString(),
                         restaurant = restaurant,
                         user = user
                     ))
-                    val new_rating = viewModel.getRestaurantRating(restaurant!!.restaurant_id)
-                    Log.d("log", "new rating: $new_rating" )
-                    //Toast.makeText(context, "New rating: $new_rating", Toast.LENGTH_SHORT).show()
-                    viewModel.updateRating(restaurant!!.restaurant_id, new_rating)
+
                 }
 
+                runBlocking {
+                    addReviewThread.join() // wait until child coroutine completes
+                }
 
+//                var new_rating = 0.0f
+//
+//                val retrieveNewRating = CoroutineScope(Dispatchers.IO).launch {
+//                    new_rating = viewModel.getRestaurantRating(restaurant!!.restaurant_id)
+//                    Log.d("log", "new rating: $new_rating" )
+//                    //Toast.makeText(context, "New rating: $new_rating", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                runBlocking {
+//                    retrieveNewRating.join() // wait until child coroutine completes
+//                }
+//
+//                lifecycleScope.launch {
+//                    viewModel.updateRating(restaurant!!.restaurant_id, new_rating)
+//                }
 
             }
             finish()
