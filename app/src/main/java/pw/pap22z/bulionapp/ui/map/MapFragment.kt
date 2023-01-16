@@ -3,11 +3,16 @@ package pw.pap22z.bulionapp.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,15 +23,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.FragmentMapBinding
@@ -86,23 +89,56 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         super.onSaveInstanceState(outState)
     }
 
+    private fun createDrawableFromView(context: Context, view: View): Bitmap {
+        val displayMetrics = DisplayMetrics()
+        (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
+        view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
+        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
+        view.buildDrawingCache()
+        val bitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+
+        return bitmap
+    }
     private fun updateMap() {
+
         map?.clear()
         for (restaurant in restaurants) {
-            val marker = map?.addMarker(MarkerOptions().position(LatLng(restaurant.latitude, restaurant.longitude)).title(restaurant.name))
+            val markerView = layoutInflater.inflate(R.layout.marker_layout, null)
+            val markerImageView = markerView.findViewById<ImageView>(R.id.marker_image_view)
+            val markerTextView = markerView.findViewById<TextView>(R.id.marker_text_view)
+            markerImageView.setImageResource(R.drawable.marker)
+            markerTextView.text = restaurant.name
+
+            val marker = map?.addMarker(MarkerOptions()
+                .position(LatLng(restaurant.latitude, restaurant.longitude))
+                .title(restaurant.name)
+                .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(requireActivity(), markerView))))
             marker?.tag = restaurant
         }
+
+
+
         map?.setOnMarkerClickListener { marker ->
             val restaurant = marker.tag as Restaurant
             showRestaurantDialog(restaurant)
             true
+
         }
+
+
     }
 
 
     private val markers = mutableListOf<Marker>()
 
     private fun showRestaurantDialog(restaurant: Restaurant) {
+
+
+
 
         val builder = AlertDialog.Builder(requireContext())
         val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_info_window, null)
@@ -116,6 +152,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val photo =  dialogView.findViewById<ImageView>(R.id.logo)
         photo.setImageBitmap(restaurant.titleImage)
         restaurantName.text = restaurant.name
+        restaurantInfo.text = restaurantNote
         infoButton?.setOnClickListener {
             if (context != null) {
 
