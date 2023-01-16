@@ -1,15 +1,11 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
-import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RatingBar
-import android.widget.TextView
-import android.widget.Toast
+import android.util.Log
+import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -32,6 +28,7 @@ class WriteReview : AppCompatActivity() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var user: User
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWriteReviewBinding.inflate(layoutInflater)
@@ -77,7 +74,14 @@ class WriteReview : AppCompatActivity() {
                         restaurant = restaurant,
                         user = user
                     ))
+                    val new_rating = viewModel.getRestaurantRating(restaurant!!.restaurant_id)
+                    Log.d("log", "new rating: $new_rating" )
+                    //Toast.makeText(context, "New rating: $new_rating", Toast.LENGTH_SHORT).show()
+                    viewModel.updateRating(restaurant!!.restaurant_id, new_rating)
                 }
+
+
+
             }
             finish()
         }

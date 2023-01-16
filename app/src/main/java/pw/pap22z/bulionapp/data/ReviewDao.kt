@@ -11,7 +11,7 @@ import pw.pap22z.bulionapp.data.entities.Review
 @Dao
 interface ReviewDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertReview(review: Review)
 
 //    @Query("SELECT * FROM review ORDER BY review_id ASC")
@@ -20,15 +20,18 @@ interface ReviewDao {
     @Query("SELECT * FROM review WHERE restaurant_id = :restaurantId")
     fun getReviewsWithRestaurant(restaurantId: Int): LiveData<List<Review>>
 
-    @Query(
-        "SELECT * FROM review WHERE user_id = :userId"
-    )
+    @Query("SELECT * FROM review WHERE user_id = :userId")
     fun getReviewsWithUser(userId: Int): LiveData<List<Review>>
+
+    @Query("SELECT AVG(review_rating) FROM review WHERE restaurant_id = :restaurantId")
+    suspend fun getRestaurantRating(restaurantId: Int) : Float
 
     @Query("UPDATE review SET username = :newUsername WHERE user_id = :userId")
     suspend fun updateReviewUsername(userId: Int, newUsername: String)
 
     @Query("UPDATE review SET profile_pic = :newProfilePic WHERE user_id = :userId")
     suspend fun updateReviewProfilePic(userId: Int, newProfilePic: Bitmap)
+
+
 
 }

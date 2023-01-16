@@ -75,7 +75,7 @@ class MyReviewsActivity : AppCompatActivity() {
                     5.0f,
                     "Bardzo smaczne jedzenie, świetna atmosfera. Będę polecać wszystkim znajomym :)",
                 Restaurant(1, getBitmap("https://sztuczne-rosliny.pl/wp-content/uploads/2020/01/aioli-logo.jpg"),
-                    "Aioli", 4.5F, "Włoska", "Chmielna 26", 26.90F, 12, 17, 3, true,
+                    "Aioli", 0.0f, "Włoska", "Chmielna 26", 26.90F, 12, 17, 3, true,
                     "Zupa: zupa z zielonym groszkiem\n 1 z 3 dań głównych do wyboru: \n1. Chutney Jalapeno Burger \n2. Tuna Salad \n3. Pizza Chorizo\n Minideser: Budyń "),
                 User(
                     1,
