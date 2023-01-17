@@ -38,15 +38,34 @@
                     android:layout_marginVertical="@dimen/cast_libraries_material_featurehighlight_center_horizontal_offset"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/restaurantName"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Restaurant Name"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/restaurantName"
+                            android:layout_width="260dp"
+                            android:layout_height="wrap_content"
+                            android:text="Restaurant Name"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/favoritesBtn"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:scaleType="fitXY"
+                            android:layout_marginEnd="30dp"
+                            android:src="@drawable/not_favorite"
+                            android:baselineAlignBottom="true"
+                            android:background="@color/white"/>
+
+                    </LinearLayout>
+
+
 
                     <TextView
                         android:id="@+id/address"

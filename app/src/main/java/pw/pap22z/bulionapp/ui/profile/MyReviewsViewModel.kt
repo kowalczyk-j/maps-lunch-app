@@ -25,14 +25,6 @@ class MyReviewsViewModel(application: Application) : AndroidViewModel(applicatio
         return userReviews
     }
 
-    suspend fun findRestaurantById(restaurantId: Int): LiveData<Restaurant> {
-        return withContext(viewModelScope.coroutineContext) {
-            RestaurantDatabase.getDatabase(
-                getApplication()
-            ).restaurantDao().getRestaurantById(restaurantId)
-        }
-    }
-
     fun insertReview(review: Review) {
         viewModelScope.launch(Dispatchers.IO) {
             reviewDao.insertReview(review)

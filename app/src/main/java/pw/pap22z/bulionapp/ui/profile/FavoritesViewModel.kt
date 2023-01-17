@@ -12,7 +12,7 @@ import pw.pap22z.bulionapp.data.entities.Lunch
 import pw.pap22z.bulionapp.data.entities.Restaurant
 
 class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
-    lateinit var allRestaurants : LiveData<List<Restaurant>>
+    lateinit var favoriteRestaurants : LiveData<List<Restaurant>>
     lateinit var allLunches : LiveData<List<Lunch>>
     var lunch = MutableLiveData<Lunch>()
 
@@ -20,34 +20,16 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     val lunchDao by lazy {RestaurantDatabase.getDatabase(application).lunchDao()}
 
     init {
-        allRestaurants = getRestaurants()
+        favoriteRestaurants = getRestaurants()
         allLunches = getLunches()
     }
 
     fun getRestaurants(): LiveData<List<Restaurant>> {
-        return restaurantDao.getRestaurants()
+        return restaurantDao.getFavoriteRestaurants()
     }
 
     fun getLunches(): LiveData<List<Lunch>> {
         return lunchDao.getLunches()
-    }
-
-    fun getLunchWithRestaurant(restaurantId: Int) {
-        viewModelScope.launch {
-            lunch.postValue(lunchDao.getLunchWithRestaurant(restaurantId))
-        }
-    }
-
-    fun insertRestaurant(restaurant: Restaurant) {
-        viewModelScope.launch(Dispatchers.IO) {
-            restaurantDao.insertRestaurant(restaurant)
-        }
-    }
-
-    fun insertLunch(lunch: Lunch) {
-        viewModelScope.launch(Dispatchers.IO) {
-            lunchDao.insertLunch(lunch)
-        }
     }
 
 }

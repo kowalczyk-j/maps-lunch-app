@@ -25,6 +25,8 @@ class RestaurantActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRestaurantBinding
     private lateinit var viewModel: RestaurantViewModel
+    private lateinit var restaurant: Restaurant
+    private lateinit var favoritesBtn: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,9 @@ class RestaurantActivity : AppCompatActivity() {
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
             RestaurantViewModel::class.java)
 
-        val restaurant = intent.getParcelableExtra("restaurant", Restaurant::class.java)
+        restaurant = intent.getParcelableExtra("restaurant", Restaurant::class.java)!!
+
+        favoritesBtn = findViewById<ImageButton>(R.id.favoritesBtn)
 
         val price = "%.2f".format(restaurant!!.price)
 
@@ -108,6 +112,25 @@ class RestaurantActivity : AppCompatActivity() {
 
         }
 
+//        FAVORITES
+        if (restaurant.favorite) { favoritesBtn.setImageResource(R.drawable.favorite) }
+        else { favoritesBtn.setImageResource(R.drawable.not_favorite) }
+
+        favoritesBtn.setOnClickListener {
+            if (restaurant.favorite) {
+                val thread = CoroutineScope(Dispatchers.IO).launch { viewModel.removeFromFavorites(restaurant.restaurant_id) }
+                runBlocking { thread.join() }
+                println("nie w ulubionych")
+                favoritesBtn.setImageResource(R.drawable.not_favorite)
+            } else {
+                val thread = CoroutineScope(Dispatchers.IO).launch { viewModel.addToFavorites(restaurant.restaurant_id) }
+                runBlocking { thread.join() }
+                println("w ulubionych")
+                favoritesBtn.setImageResource(R.drawable.favorite)
+            }
+            val thread = CoroutineScope(Dispatchers.IO).launch { restaurant = viewModel.getRestaurantById(restaurant.restaurant_id) }
+            runBlocking { thread.join() }
+        }
     }
 
 }

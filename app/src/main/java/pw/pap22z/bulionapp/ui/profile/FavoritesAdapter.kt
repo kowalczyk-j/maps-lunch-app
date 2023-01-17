@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,7 @@ class FavoritesAdapter (private val context: Activity)
         holder.typeCuisine.text = "Kuchnia " + favoritesList[position].cuisine_type
         holder.price.text = "%.2f".format(favoritesList[position].price) + "zł"
         holder.isVegan.visibility = if (favoritesList[position].is_vege) View.VISIBLE else View.GONE
+        holder.favorite.visibility = if (favoritesList[position].favorite) View.VISIBLE else View.GONE
     }
 
     override fun getItemCount(): Int {
@@ -55,7 +57,7 @@ class FavoritesAdapter (private val context: Activity)
         val typeCuisine: TextView = view.findViewById(R.id.typeCuisine)
         val price: TextView = view.findViewById(R.id.price)
         val isVegan: ImageView = view.findViewById(R.id.isVegan)
-
+        val favorite: ImageButton = view.findViewById(R.id.isFavorite)
 
         init {
 

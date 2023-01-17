@@ -2,13 +2,11 @@ package pw.pap22z.bulionapp.ui.restaurant
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -80,23 +78,6 @@ class WriteReview : AppCompatActivity() {
                 runBlocking {
                     addReviewThread.join() // wait until child coroutine completes
                 }
-
-//                var new_rating = 0.0f
-//
-//                val retrieveNewRating = CoroutineScope(Dispatchers.IO).launch {
-//                    new_rating = viewModel.getRestaurantRating(restaurant!!.restaurant_id)
-//                    Log.d("log", "new rating: $new_rating" )
-//                    //Toast.makeText(context, "New rating: $new_rating", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                runBlocking {
-//                    retrieveNewRating.join() // wait until child coroutine completes
-//                }
-//
-//                lifecycleScope.launch {
-//                    viewModel.updateRating(restaurant!!.restaurant_id, new_rating)
-//                }
-
             }
             finish()
         }

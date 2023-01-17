@@ -46,6 +46,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
         holder.binding.typeCuisine.text = "Kuchnia " + allRestaurants[position].cuisine_type
         holder.binding.price.text = "%.2f".format(allRestaurants[position].price) + "zł"
         holder.binding.isVegan.visibility = if (allRestaurants[position].is_vege) View.VISIBLE else View.GONE
+        holder.binding.isFavorite.visibility = if (allRestaurants[position].favorite) View.VISIBLE else View.GONE
     }
 
     override fun getItemCount(): Int {

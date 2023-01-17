@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pw.pap22z.bulionapp.data.RestaurantDatabase
+import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.data.entities.Review
 
 class RestaurantViewModel(application: Application): AndroidViewModel(application) {
@@ -25,6 +26,22 @@ class RestaurantViewModel(application: Application): AndroidViewModel(applicatio
         viewModelScope.launch(Dispatchers.IO) {
             reviewDao.insertReview(review)
         }
+    }
+
+    fun addToFavorites(restaurantId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            restaurantDao.addToFavorites(restaurantId)
+        }
+    }
+
+    fun removeFromFavorites(restaurantId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            restaurantDao.removeFromFavorites(restaurantId)
+        }
+    }
+
+    fun getRestaurantById(restaurantId: Int): Restaurant {
+        return restaurantDao.getRestaurantById(restaurantId)
     }
 
    suspend fun getRestaurantRating(restaurantId: Int): Float {

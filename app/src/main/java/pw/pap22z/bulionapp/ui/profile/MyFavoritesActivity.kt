@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.databinding.ActivityMyFavoritesBinding
 import pw.pap22z.bulionapp.ui.restaurant.RestaurantActivity
-import java.io.Serializable
 
 class MyFavoritesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyFavoritesBinding
@@ -24,7 +23,7 @@ class MyFavoritesActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(FavoritesViewModel::class.java)
-        viewModel.allRestaurants.observe(this, Observer {list -> list?.let {adapter.setData(it)}})
+        viewModel.favoriteRestaurants.observe(this, Observer {list -> list?.let {adapter.setData(it)}})
 
         val recyclerViewFavorites: RecyclerView = findViewById(R.id.favorites_list)
 
@@ -34,7 +33,7 @@ class MyFavoritesActivity : AppCompatActivity() {
         adapter.setOnItemClickListener(object: FavoritesAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
                 val intent = Intent(context, RestaurantActivity::class.java)
-                val restaurant = viewModel.allRestaurants.value?.get(position)
+                val restaurant = viewModel.favoriteRestaurants.value?.get(position)
                 intent.putExtra("restaurant", restaurant)
                 startActivity(intent)
             }

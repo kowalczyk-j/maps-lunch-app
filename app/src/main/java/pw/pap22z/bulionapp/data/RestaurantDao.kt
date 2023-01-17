@@ -12,9 +12,12 @@ interface RestaurantDao {
     fun getRestaurants(): LiveData<List<Restaurant>>
 
     @Query("SELECT * FROM restaurant WHERE restaurant_id = :id")
-    fun getRestaurantById(id: Int): LiveData<Restaurant>
+    fun getRestaurantById(id: Int): Restaurant
     //LiveData - przepływ służący do optymalnego zarządzania wątkami przy obsługiwaniu
     //wielu danych, jeżeli jest to nie trzeba robić suspend fun
+
+    @Query("SELECT * FROM restaurant WHERE favorite = 1")
+    fun getFavoriteRestaurants(): LiveData<List<Restaurant>>
 
     @Query("SELECT * FROM restaurant WHERE is_vege = 1 ORDER BY restaurant_id ASC")
     fun sortRestaurantsByVege(): LiveData<List<Restaurant>>
@@ -52,6 +55,12 @@ interface RestaurantDao {
 
     @Query("UPDATE restaurant SET menu = :newMenu WHERE restaurant_id = :restaurantId")
     suspend fun updateMenu(restaurantId: Int, newMenu: String)
+
+    @Query("UPDATE restaurant SET favorite = 1 WHERE restaurant_id = :restaurantId")
+    suspend fun addToFavorites(restaurantId: Int)
+
+    @Query("UPDATE restaurant SET favorite = 0 WHERE restaurant_id = :restaurantId")
+    suspend fun removeFromFavorites(restaurantId: Int)
 
     @Delete
     suspend fun delete(restaurant: Restaurant)
