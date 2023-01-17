@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +39,7 @@ class RestaurantActivity : AppCompatActivity() {
 
         val price = "%.2f".format(restaurant!!.price)
 
-        var new_rating = 0.0f
+        var new_rating: Float? = null
 
         val retrieveNewRating = CoroutineScope(Dispatchers.IO).launch {
             new_rating = viewModel.getRestaurantRating(restaurant!!.restaurant_id)
@@ -53,7 +52,10 @@ class RestaurantActivity : AppCompatActivity() {
         }
 
         val updateRatingThread = CoroutineScope(Dispatchers.IO).launch {
-            viewModel.updateRating(restaurant!!.restaurant_id, new_rating)
+            if (new_rating != null) {
+                viewModel.updateRating(restaurant!!.restaurant_id, new_rating!!)
+            }
+            else { viewModel.updateRating(restaurant!!.restaurant_id, 0.0f) }
         }
 
         runBlocking {

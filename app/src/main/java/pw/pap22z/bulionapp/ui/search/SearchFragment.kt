@@ -60,12 +60,12 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
             viewModel.insertRestaurant(Restaurant(1, getBitmap("https://sztuczne-rosliny.pl/wp-content/uploads/2020/01/aioli-logo.jpg"),
                 "Aioli", 0.0f, "Włoska", "Chmielna 26", 26.90F, 12, 17, 3, true,
             "Zupa: zupa z zielonym groszkiem\n 1 z 3 dań głównych do wyboru: \n1. Chutney Jalapeno Burger \n2. Tuna Salad \n3. Pizza Chorizo\n Minideser: Budyń ",
-            menu="https://www.facebook.com/AIOLICantineSwietokrzyska/photos/a.540039119386448/6038734066183565/"))
+            menu="https://www.facebook.com/aiolixchmielna/posts/pfbid0RiU49JHTR1EpAeKsRCy3QUQ796yzuMrks8xRb4NnjaaABWYedHBEgpZ8m8VaYbpgl"))
             viewModel.insertRestaurant(Restaurant(2,getBitmap("https://i.postimg.cc/c1fxvrvS/274794981-3190194264597526-5426536868885463001-n.jpg"),
                 "Si Ristorante",0.0f, "Włoska", "Marszałkowska 115", 27.90F, 12, 16, 3, false,
                 "Zupa: Zupa soczewicowa z pomidorami i suszoną miętą\n 1 z 2 dań głównych do wyboru: 1. Pierś indyka z krokietem z dynią, duszonymi pieczarkami i sosem ziołowym" +
                         " 2. Calzone ze szpinakiem i camembertem\n Deser: Brownie czekoladowe ",
-                menu = "https://www.facebook.com/RestauracjaSi/posts/pfbid02NXgRnzB7yruRAYDkSbePgTreu76z1EjXNJkR83Vo2Qh6HE3ifcgUHaDUL82CPGNZl"))
+                menu = "https://www.facebook.com/RestauracjaSi/posts/pfbid02zdtudXAsbcEP3aKnnp58bf7DocktpzyeQdWwT1ft3YF5t912rXwd7WWDPV5pjWi3l"))
             viewModel.insertRestaurant(Restaurant(3,getBitmap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc8rJzveezG9V3n6LJ-URWPi6znY4PIaVk2g&usqp=CAU"),
                 "La Pose",0.0f, "Amerykańska, włoska, fusion", "Mazowiecka 6/8", 24.90F, 12, 17, 2, true,
                 "Pon.-pt.:\nZupa dnia + 1 z 12 dań głównych do wyboru\nOferta specjalna: Do kawy/herbaty wybrane śniadanie za 1 zł codziennie do 13.00",
@@ -75,17 +75,16 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
                 "Zupa Minestrone z pomidorami i Grana Padano\n" +
                         "Pulpety wieprzowe z puree ziemniaczanym, glazurowaną marchewką i sosem grzybowym lub \n" +
                         "Fettuccine Putanesca\n" +
-                        "Tarta czekoladowa"))
+                        "Tarta czekoladowa", menu = "https://www.facebook.com/restauracjasidue/posts/pfbid032G2ycDkbrFHvNJkyi1squTopUWD6NudJJn9tZFbiZ6JhYTWVQv8Jq9zBK6ujaQJVl"))
             viewModel.insertRestaurant(Restaurant(5,getBitmap("https://i.postimg.cc/RFf7Q44p/290202066-5329847933741259-3044643926349662777-n.jpg"),
                 "Znajomi",0.0f, "Europejska", "Wilcza 58a", 22.0F, 12, 16, 2, true,
                 "Ogórkowa z ziemniakami i koperkiem\n" +
-                        "Tarta z ciasta francuskiego ze szpinakiem i serem lazur lub Ragout z indyka w kremowo pomdorowym sosie z ryżem",
-                menu = "https://www.facebook.com/znajomiznajomychFB/posts/pfbid0Sq1SCu8kt5Db5XMdLzTXGQtpTqCRmiFDduSsaqgoJhFegVpDYVL4JmfQBz4efwhxl"))
+                        "Tarta z ciasta francuskiego ze szpinakiem i serem lazur lub Ragout z indyka w kremowo pomdorowym sosie z ryżem"))
             viewModel.insertRestaurant(Restaurant(6,getBitmap("https://i.postimg.cc/pTGHCbC8/307892682-617981183069691-3572231132101971245-n.jpg"),
                 "Bordo Bistro",0.0f, "Europejska", "Chmielna 34", 23.0F, 12, 16, 3, true,
                 "Zupa z soczewicy\nGnocchi z pesto bazyliowym i pomidorkami lub Polędwiczki wieprzowe w sosie musztardowym z puree i surówką lub " +
                         "Pizza z szynką i pieczarkami\nMini bezy z musem owocowym",
-                menu = "https://www.facebook.com/BistroChmielna/posts/pfbid0bj2VPjtyGX3wWuYb6r15mQzFiWg4vfhrSn5P2tRmWy9qpMaArRRVeuiTAdcC8PWPl"))
+                menu = "https://www.facebook.com/BistroChmielna/posts/pfbid02MnytHvGkBqdeD98k4gxoRRrkPq6Uvv4NVN6FhjGzgADjzZRZBhSQDzwb1WUJLBRNl"))
         }
 
         viewModel.allRestaurants.observe(viewLifecycleOwner) { list ->
