@@ -11,5 +11,6 @@ import kotlinx.parcelize.Parcelize
 data class User(
     @PrimaryKey val user_id: Int,
     val username: String,
-    val profile_pic: Bitmap?
+    val profile_pic: Bitmap?,
+    val is_admin: Boolean = false
 ): Parcelable

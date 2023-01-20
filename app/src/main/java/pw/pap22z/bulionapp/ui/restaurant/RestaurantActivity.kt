@@ -2,8 +2,10 @@ package pw.pap22z.bulionapp.ui.restaurant
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
@@ -37,7 +39,12 @@ class RestaurantActivity : AppCompatActivity() {
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
             RestaurantViewModel::class.java)
 
-        restaurant = intent.getParcelableExtra("restaurant", Restaurant::class.java)!!
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            restaurant = intent.getParcelableExtra("restaurant", Restaurant::class.java)!!
+        }
+        else {
+            restaurant = intent.getParcelableExtra<Restaurant>("restaurant")!!
+        }
 
         favoritesBtn = findViewById<ImageButton>(R.id.favoritesBtn)
 
@@ -73,6 +80,7 @@ class RestaurantActivity : AppCompatActivity() {
         binding.rating.text = "%.2f".format(restaurant.rating)
         binding.price.text = "Cena za zestaw lunchowy: $price"
         binding.hours.text = "${restaurant.hour_start}.00-${restaurant.hour_end}.00"
+        binding.editInfo.text = "Edytowano: ${restaurant.edit_date}"
 
         val adapter = RestaurantReviewsAdapter(this)
 
@@ -90,8 +98,15 @@ class RestaurantActivity : AppCompatActivity() {
             intent.putExtra("restaurant", restaurant)
             this.startActivity(intent)
         }
-
         val updateLunchBtn: Button = findViewById<Button>(R.id.updateLunch)
+        val user = runBlocking { viewModel.getUser(1) }
+        val isAdmin = user.is_admin
+        if ( isAdmin ) {
+            updateLunchBtn.visibility = View.VISIBLE
+        } else {
+            updateLunchBtn.visibility = View.GONE
+        }
+
         updateLunchBtn.setOnClickListener{
             val intent = Intent(this, UpdateLunch::class.java)
             intent.putExtra("restaurant", restaurant)
@@ -132,5 +147,7 @@ class RestaurantActivity : AppCompatActivity() {
             runBlocking { thread.join() }
         }
     }
+
+
 
 }

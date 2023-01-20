@@ -2,7 +2,8 @@ package pw.pap22z.bulionapp.ui.profile
 
 import android.app.Application
 import android.graphics.Bitmap
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pw.pap22z.bulionapp.data.RestaurantDatabase
@@ -32,6 +33,12 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
 
     suspend fun getUser(userId: Int): User {
         return userDao.getUser(userId)
+    }
+
+    fun updateAdminInfo(id: Int, is_admin: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userDao.updateAdminInfo(id, is_admin)
+        }
     }
 
 }

@@ -10,12 +10,14 @@ import kotlinx.coroutines.launch
 import pw.pap22z.bulionapp.data.RestaurantDatabase
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.data.entities.Review
+import pw.pap22z.bulionapp.data.entities.User
 
 class RestaurantViewModel(application: Application): AndroidViewModel(application) {
     lateinit var reviews: LiveData<List<Review>>
 
     val reviewDao by lazy {RestaurantDatabase.getDatabase(application).reviewDao()}
     val restaurantDao by lazy {RestaurantDatabase.getDatabase(application).restaurantDao()}
+    val userDao by lazy {RestaurantDatabase.getDatabase(application).userDao()}
 
     fun getRestaurantReviews(restaurantId: Int): LiveData<List<Review>> {
         reviews = reviewDao.getReviewsWithRestaurant(restaurantId)
@@ -62,5 +64,8 @@ class RestaurantViewModel(application: Application): AndroidViewModel(applicatio
         viewModelScope.launch(Dispatchers.IO) {
             reviewDao.updateReviewProfilePic(userId, newProfilePic)
         }
+    }
+    suspend fun getUser(userId: Int) : User {
+        return userDao.getUser(userId)
     }
 }

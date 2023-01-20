@@ -1,7 +1,6 @@
 package pw.pap22z.bulionapp.data
 
 import android.graphics.Bitmap
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.*
@@ -20,7 +19,12 @@ interface UserDao {
     @Query("UPDATE user SET profile_pic = :pic WHERE user_id = :id")
     suspend fun updateProfilePic(id: Int, pic: Bitmap)
 
+    @Query("UPDATE user SET is_admin = :is_admin WHERE user_id = :id")
+    suspend fun updateAdminInfo(id: Int, is_admin: Boolean)
+
     @Insert(onConflict = REPLACE)
     suspend fun insertUser(user: User)
+
+
 
 }

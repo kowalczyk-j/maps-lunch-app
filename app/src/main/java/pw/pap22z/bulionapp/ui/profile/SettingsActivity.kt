@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -89,6 +90,17 @@ class SettingsActivity : AppCompatActivity() {
             }
             startActivityForResult(intent, 3)
         }
+
+        val adminSwitch: Switch = findViewById(R.id.adminSwitch)
+
+        lifecycleScope.launch {
+            val user = viewModel.getUser(1)
+            adminSwitch.isChecked = user.is_admin
+            adminSwitch.setOnCheckedChangeListener { _, isChecked -> viewModel.updateAdminInfo(1, isChecked) }
+        }
+
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

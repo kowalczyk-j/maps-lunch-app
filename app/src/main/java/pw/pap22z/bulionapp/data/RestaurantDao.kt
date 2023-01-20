@@ -56,6 +56,9 @@ interface RestaurantDao {
     @Query("UPDATE restaurant SET menu = :newMenu WHERE restaurant_id = :restaurantId")
     suspend fun updateMenu(restaurantId: Int, newMenu: String)
 
+    @Query("UPDATE restaurant SET edit_date = :newDate WHERE restaurant_id = :restaurantId")
+    suspend fun updateEditDate(restaurantId: Int, newDate: String)
+
     @Query("UPDATE restaurant SET favorite = 1 WHERE restaurant_id = :restaurantId")
     suspend fun addToFavorites(restaurantId: Int)
 
