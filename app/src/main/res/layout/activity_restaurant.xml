@@ -166,7 +166,18 @@
                 android:layout_marginHorizontal="20dp"
                 android:text="4.7/5"
                 app:layout_constraintBottom_toBottomOf="@+id/reviewsTitle"
-                app:layout_constraintStart_toEndOf="@+id/reviewsTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/reviewsTitle" />
+
+            <TextView
+                android:id="@+id/rating2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginEnd="8dp"
+                android:text="średnia ocena"
+                app:layout_constraintBottom_toBottomOf="@+id/reviewsTitle"
+                app:layout_constraintEnd_toStartOf="@+id/rating"
                 app:layout_constraintTop_toTopOf="@+id/reviewsTitle" />
 
             <TextView
