@@ -42,7 +42,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
         holder.binding.menu.text = allRestaurants[position].num_dishes.toString() + " dania"
         holder.binding.lunchHours.text = allRestaurants[position].hour_start.toString() + ".00-" +
                 allRestaurants[position].hour_end.toString() + ".00"
-        holder.binding.rating.text = "%.2f".format(allRestaurants[position].rating)
+        holder.binding.rating.text = if(allRestaurants[position].rating == 0f) "---" else "%.2f".format(allRestaurants[position].rating)
         holder.binding.typeCuisine.text = "Kuchnia " + allRestaurants[position].cuisine_type
         holder.binding.price.text = "%.2f".format(allRestaurants[position].price) + "zł"
         holder.binding.isVegan.visibility = if (allRestaurants[position].is_vege) View.VISIBLE else View.GONE

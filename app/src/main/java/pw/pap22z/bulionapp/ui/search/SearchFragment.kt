@@ -41,6 +41,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentSearchBinding.bind(view)
@@ -51,11 +52,12 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
                 setHasFixedSize(true)
             }
         }
+
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         ).get(SearchViewModel::class.java)
-
+        /*
         lifecycleScope.launch{
             viewModel.insertRestaurant(Restaurant(1, getBitmap("https://sztuczne-rosliny.pl/wp-content/uploads/2020/01/aioli-logo.jpg"),
                 "Aioli", 0.0f, "Włoska", "Chmielna 26", 26.90F, 12, 17, 3, true,
@@ -86,7 +88,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
                         "Pizza z szynką i pieczarkami\nMini bezy z musem owocowym",
                 menu = "https://www.facebook.com/BistroChmielna/posts/pfbid02MnytHvGkBqdeD98k4gxoRRrkPq6Uvv4NVN6FhjGzgADjzZRZBhSQDzwb1WUJLBRNl"))
         }
-
+        */
         viewModel.allRestaurants.observe(viewLifecycleOwner) { list ->
             list?.let { sAdapter.setData(it) }
         }

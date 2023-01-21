@@ -194,8 +194,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         val markers = mutableListOf<Marker>()
 
-        addMarkerToMap(map,52.237049,21.017532, "Warsaw")
-
         getLocationPermission()
         updateLocationUI()
         getDeviceLocation()
