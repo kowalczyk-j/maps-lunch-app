@@ -22,7 +22,7 @@ interface RestaurantDao {
     @Query("SELECT * FROM restaurant WHERE is_vege = 1 ORDER BY restaurant_id ASC")
     fun sortRestaurantsByVege(): LiveData<List<Restaurant>>
 
-    @Query("SELECT * FROM restaurant ORDER BY num_dishes DESC")
+    @Query("SELECT * FROM restaurant ORDER BY dishes_count DESC")
     fun sortRestaurantsByDishes(): LiveData<List<Restaurant>>
 
     @Query("SELECT * FROM restaurant ORDER BY price ASC")

@@ -23,7 +23,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -150,7 +149,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val restaurantInfo = dialogView.findViewById<TextView>(R.id.restaurant_info)
         val route = dialogView.findViewById<Button>(R.id.button_route)
         val photo =  dialogView.findViewById<ImageView>(R.id.logo)
-        photo.setImageBitmap(restaurant.titleImage)
+        photo.setImageBitmap(restaurant.image_title)
         restaurantName.text = restaurant.name
         restaurantInfo.text = restaurantNote
         infoButton?.setOnClickListener {

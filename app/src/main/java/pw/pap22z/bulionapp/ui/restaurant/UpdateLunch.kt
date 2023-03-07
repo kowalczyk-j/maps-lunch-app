@@ -46,7 +46,7 @@ class UpdateLunch : AppCompatActivity() {
                 val current = SimpleDateFormat("yyyy-MM-dd HH:mm").format(calendar.time)
                 val dayOfWeek = DateFormatSymbols(Locale("pl", "PL")).weekdays[calendar.get(Calendar.DAY_OF_WEEK)]
 
-            if (restaurant!!.num_dishes < notNullFields ) {
+            if (restaurant!!.dishes_count < notNullFields ) {
                 Toast.makeText(this, "Uzupełnij tylko odpowiednie pola!", Toast.LENGTH_SHORT).show()
             }
             else {

@@ -12,14 +12,11 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import kotlinx.coroutines.launch
 import pw.pap22z.bulionapp.R
-import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.databinding.FragmentSearchBinding
 import pw.pap22z.bulionapp.ui.restaurant.RestaurantActivity
 
@@ -93,7 +90,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
             list?.let { sAdapter.setData(it) }
         }
 
-        sAdapter.setOnItemCLickListener(object : SearchAdapter.onItemClickListener {
+        sAdapter.setOnItemCLickListener(object : SearchAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val restaurant = viewModel.allRestaurants.value?.get(position)
 //                Toast.makeText(requireContext(), "Position: $position . lunch: $lunch restaurant id: $res_id", Toast.LENGTH_SHORT).show()

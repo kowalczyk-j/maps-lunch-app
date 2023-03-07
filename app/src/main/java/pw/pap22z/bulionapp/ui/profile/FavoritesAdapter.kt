@@ -25,9 +25,9 @@ class FavoritesAdapter (private val context: Activity)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.restaurantLogo.load(favoritesList[position].titleImage)
+        holder.restaurantLogo.load(favoritesList[position].image_title)
         holder.restaurantName.text = favoritesList[position].name
-        holder.menu.text = favoritesList[position].num_dishes.toString() + " dania"
+        holder.menu.text = favoritesList[position].dishes_count.toString() + " dania"
         holder.hours.text = favoritesList[position].hour_start.toString() + ".00-" +
                 favoritesList[position].hour_end.toString() + ".00"
         holder.rating.text = "%.2f".format(favoritesList[position].rating)

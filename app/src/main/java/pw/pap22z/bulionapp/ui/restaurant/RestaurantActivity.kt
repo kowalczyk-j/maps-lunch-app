@@ -76,7 +76,7 @@ class RestaurantActivity : AppCompatActivity() {
         binding.restaurantName.text = restaurant.name
         binding.address.text = restaurant.address
         binding.dishesText.text = restaurant.lunch_info
-        binding.restaurantLogo.setImageBitmap(restaurant.titleImage)
+        binding.restaurantLogo.setImageBitmap(restaurant.image_title)
         binding.rating.text = if(restaurant.rating == 0f) "---" else "%.2f".format(restaurant.rating)
         binding.price.text = "Cena za zestaw lunchowy: $price"
         binding.hours.text = "${restaurant.hour_start}.00-${restaurant.hour_end}.00"
