@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
-        ).get(SearchViewModel::class.java)
+        )[SearchViewModel::class.java]
 
 
         // Initialize the database

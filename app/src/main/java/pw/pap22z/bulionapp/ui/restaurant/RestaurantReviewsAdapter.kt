@@ -1,4 +1,4 @@
-package pw.pap22z.bulionapp.ui.profile
+package pw.pap22z.bulionapp.ui.restaurant
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -16,7 +16,7 @@ class RestaurantReviewsAdapter (private val context: Activity)
     private val restaurantReviews = mutableListOf<Review>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var itemView: View = LayoutInflater.from(context).inflate(R.layout.restaurant_review_item, parent, false)
+        val itemView: View = LayoutInflater.from(context).inflate(R.layout.restaurant_review_item, parent, false)
         return ViewHolder(itemView)
     }
 

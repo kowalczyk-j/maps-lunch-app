@@ -3,25 +3,40 @@
     <string name="title_map">Mapa</string>
     <string name="title_search">Szukaj</string>
     <string name="title_profile">Konto</string>
+
+    <!--  String used for profile fragment  -->
     <string name="settings">Ustawienia</string>
     <string name="favorites">Ulubione</string>
     <string name="my_reviews">Moje recenzje</string>
     <string name="new_username">Nowa nazwa użytkownika…</string>
-
+    <string name="change_username">Zmień nazwę użytkownika</string>
+    <string name="cancel_username">Anuluj</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_update_lunch">UpdateLunch</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <!-- Strings used for SearchAdapter -->
+    <!-- Strings used for SearchAdapter and FavoritesAdapter -->
     <string name="dishes_count">%d dania</string>
     <string name="lunch_hours">%d.00-%d.00</string>
     <string name="no_rating">---</string>
     <string name="rating">%.2f</string>
     <string name="cuisine_type">Kuchnia %s</string>
     <string name="price">%.2f zł</string>
+    <string name="update_lunch_message">Uzupełnij tylko odpowiednie pola!</string>
+    <string name="updated_lunch_message">Pomyślnie zaktualizowano lunch</string>
+    <string name="added_review">Dodano recenzję</string>
+
+    <!-- Strings used for RestaurantActivity -->
+    <string name="descriptive_price">Cena za zestaw lunchowy: %.2f zł</string>
+    <string name="edit_info">Edytowano: %s</string>
+    <string name="no_menu_toast">Restauracja nie udostępniła menu</string>
+
+    <!-- Strings used for WriteReview -->
+    <string name="review_header">Jak oceniasz lunch w %s?</string>
 </resources>

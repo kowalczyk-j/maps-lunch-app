@@ -24,10 +24,10 @@ import pw.pap22z.bulionapp.ui.restaurant.RestaurantViewModel
 
 class SettingsActivity : AppCompatActivity() {
 
-    lateinit var profilePicture: ImageView
-    lateinit var viewModel: ProfileViewModel
-    lateinit var restaurantViewModel: RestaurantViewModel
-    lateinit var user: User
+    private lateinit var profilePicture: ImageView
+    private lateinit var viewModel: ProfileViewModel
+    private lateinit var restaurantViewModel: RestaurantViewModel
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +42,12 @@ class SettingsActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        ).get(ProfileViewModel::class.java)
+        )[ProfileViewModel::class.java]
 
         restaurantViewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        ).get(RestaurantViewModel::class.java)
+        )[RestaurantViewModel::class.java]
 
         val retrieveUser = CoroutineScope(Dispatchers.IO).launch {
             user = viewModel.getUser(1)
@@ -63,8 +63,8 @@ class SettingsActivity : AppCompatActivity() {
             val editText = dialogLayout.findViewById<EditText>(R.id.editTextUsername)
 
             with(builder) {
-                setTitle("Zmień nazwę użytkownika")
-                setPositiveButton("Ok") {dialog, which ->
+                setTitle(getString(R.string.change_username))
+                setPositiveButton("Ok") { _, _ ->
                     if (editText.text.toString() != "") {
                         lifecycleScope.launch {
                             val newUsername: String = editText.text.toString()
@@ -73,7 +73,7 @@ class SettingsActivity : AppCompatActivity() {
                         }
                     }
                 }
-                setNegativeButton("Anuluj") {dialog, which ->
+                setNegativeButton(getString(R.string.cancel_username)) { _, _ ->
                     Log.d("Settings", "Negative button clicked")
                 }
                 setView(dialogLayout)

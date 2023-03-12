@@ -28,7 +28,7 @@ class UpdateLunch : AppCompatActivity() {
         val restaurant = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("restaurant", Restaurant::class.java)
         } else {
-            intent.getParcelableExtra<Restaurant>("restaurant")
+            intent.getParcelableExtra("restaurant")
         }
         val dao by lazy { RestaurantDatabase.getDatabase(application).restaurantDao() }
 
@@ -47,7 +47,7 @@ class UpdateLunch : AppCompatActivity() {
                 val dayOfWeek = DateFormatSymbols(Locale("pl", "PL")).weekdays[calendar.get(Calendar.DAY_OF_WEEK)]
 
             if (restaurant!!.dishes_count < notNullFields ) {
-                Toast.makeText(this, "Uzupełnij tylko odpowiednie pola!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.update_lunch_message), Toast.LENGTH_SHORT).show()
             }
             else {
                 var newLunch = ""
@@ -58,9 +58,9 @@ class UpdateLunch : AppCompatActivity() {
                 if (menu.text.toString().isNotEmpty()) {
                     lifecycleScope.launch { dao.updateMenu(restaurant.restaurant_id, menu.text.toString()) }
                 }
-                lifecycleScope.launch { dao.updateLunch(restaurant!!.restaurant_id, newLunch)
+                lifecycleScope.launch { dao.updateLunch(restaurant.restaurant_id, newLunch)
                     dao.updateEditDate(restaurant.restaurant_id, "$dayOfWeek, $current") }
-                Toast.makeText(this, "Pomyślnie zaktualizowano lunch", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.updated_lunch_message), Toast.LENGTH_SHORT).show()
                 finish()
             }
 

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +16,6 @@ import pw.pap22z.bulionapp.data.entities.Review
 import pw.pap22z.bulionapp.data.entities.User
 import pw.pap22z.bulionapp.databinding.ActivityWriteReviewBinding
 import pw.pap22z.bulionapp.ui.profile.ProfileViewModel
-import pw.pap22z.bulionapp.ui.profile.RestaurantReviewsAdapter
 
 class WriteReview : AppCompatActivity() {
 
@@ -34,24 +32,23 @@ class WriteReview : AppCompatActivity() {
 
         val restaurant = intent.getParcelableExtra("restaurant", Restaurant::class.java)
 
-        findViewById<TextView>(R.id.reviewHeader).text = "Jak oceniasz lunch w ${restaurant?.name}?"
+        findViewById<TextView>(R.id.reviewHeader).text = getString(R.string.review_header, restaurant!!.name)
 
         val reviewsAdapter = RestaurantReviewsAdapter(this)
 
         viewModel = ViewModelProvider(this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
-            RestaurantViewModel::class.java)
-        viewModel.getRestaurantReviews(restaurant!!.restaurant_id)
-        viewModel.reviews.observe(this, Observer {list -> list?.let {reviewsAdapter.setData(it)}})
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application))[RestaurantViewModel::class.java]
+        viewModel.getRestaurantReviews(restaurant.restaurant_id)
+        viewModel.reviews.observe(this) { list -> list?.let { reviewsAdapter.setData(it) } }
 
         profileViewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        ).get(ProfileViewModel::class.java)
+        )[ProfileViewModel::class.java]
 
         val ratingBar = findViewById<RatingBar>(R.id.ratingBar)
         val reviewBody = findViewById<EditText>(R.id.review_body).text
-        val addBtn: Button = findViewById<Button>(R.id.add)
+        val addBtn: Button = findViewById(R.id.add)
 
         val retrieveUser = CoroutineScope(Dispatchers.IO).launch {
             user = profileViewModel.getUser(1)
@@ -64,7 +61,7 @@ class WriteReview : AppCompatActivity() {
         addBtn.setOnClickListener{
             if (ratingBar != null) {
                 val rating: Float = ratingBar.rating
-                Toast.makeText(this, "Dodano recenzję", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.added_review), Toast.LENGTH_SHORT).show()
                 val addReviewThread = CoroutineScope(Dispatchers.IO).launch {
                     viewModel.insertReview(Review(
                         review_rating=rating,

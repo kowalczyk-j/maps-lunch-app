@@ -3,7 +3,6 @@ package pw.pap22z.bulionapp.ui.profile
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,18 +18,18 @@ class MyFavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMyFavoritesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val adapter: FavoritesAdapter = FavoritesAdapter(this)
+        val adapter = FavoritesAdapter(this)
 
         viewModel = ViewModelProvider(this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(FavoritesViewModel::class.java)
-        viewModel.favoriteRestaurants.observe(this, Observer {list -> list?.let {adapter.setData(it)}})
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application))[FavoritesViewModel::class.java]
+        viewModel.favoriteRestaurants.observe(this) { list -> list?.let { adapter.setData(it) } }
 
         val recyclerViewFavorites: RecyclerView = findViewById(R.id.favorites_list)
 
         val context = this
         recyclerViewFavorites.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerViewFavorites.adapter = adapter
-        adapter.setOnItemClickListener(object: FavoritesAdapter.onItemClickListener {
+        adapter.setOnItemClickListener(object: FavoritesAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val intent = Intent(context, RestaurantActivity::class.java)
                 val restaurant = viewModel.favoriteRestaurants.value?.get(position)

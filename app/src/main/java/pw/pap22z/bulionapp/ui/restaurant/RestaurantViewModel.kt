@@ -15,9 +15,9 @@ import pw.pap22z.bulionapp.data.entities.User
 class RestaurantViewModel(application: Application): AndroidViewModel(application) {
     lateinit var reviews: LiveData<List<Review>>
 
-    val reviewDao by lazy {RestaurantDatabase.getDatabase(application).reviewDao()}
-    val restaurantDao by lazy {RestaurantDatabase.getDatabase(application).restaurantDao()}
-    val userDao by lazy {RestaurantDatabase.getDatabase(application).userDao()}
+    private val reviewDao by lazy {RestaurantDatabase.getDatabase(application).reviewDao()}
+    private val restaurantDao by lazy {RestaurantDatabase.getDatabase(application).restaurantDao()}
+    private val userDao by lazy {RestaurantDatabase.getDatabase(application).userDao()}
 
     fun getRestaurantReviews(restaurantId: Int): LiveData<List<Review>> {
         reviews = reviewDao.getReviewsWithRestaurant(restaurantId)

@@ -15,24 +15,39 @@ import pw.pap22z.bulionapp.data.entities.Restaurant
 class FavoritesAdapter (private val context: Activity)
     : RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
-    private lateinit var listener: onItemClickListener
+    private lateinit var listener: OnItemClickListener
     private var favoritesList = mutableListOf<Restaurant>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var itemView: View? = null
-        itemView = LayoutInflater.from(context).inflate(R.layout.favorite_list_item, parent, false)
+        val itemView: View = LayoutInflater.from(context).inflate(R.layout.favorite_list_item, parent, false)
         return ViewHolder(itemView, this.listener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.restaurantLogo.load(favoritesList[position].image_title)
         holder.restaurantName.text = favoritesList[position].name
-        holder.menu.text = favoritesList[position].dishes_count.toString() + " dania"
-        holder.hours.text = favoritesList[position].hour_start.toString() + ".00-" +
-                favoritesList[position].hour_end.toString() + ".00"
-        holder.rating.text = "%.2f".format(favoritesList[position].rating)
-        holder.typeCuisine.text = "Kuchnia " + favoritesList[position].cuisine_type
-        holder.price.text = "%.2f".format(favoritesList[position].price) + "zł"
+        holder.menu.text = holder.itemView.resources.getString(
+            R.string.dishes_count,
+            favoritesList[position].dishes_count
+        )
+        holder.hours.text = holder.itemView.resources.getString(
+            R.string.lunch_hours,
+            favoritesList[position].hour_start,
+            favoritesList[position].hour_end
+        )
+        holder.rating.text = if(favoritesList[position].rating == 0f) {
+            holder.itemView.resources.getString(R.string.no_rating)
+        } else {
+            holder.itemView.resources.getString(R.string.rating, favoritesList[position].rating)
+        }
+        holder.typeCuisine.text = holder.itemView.resources.getString(
+            R.string.cuisine_type,
+            favoritesList[position].cuisine_type
+        )
+        holder.price.text = holder.itemView.resources.getString(
+            R.string.price,
+            favoritesList[position].price
+        )
         holder.isVegan.visibility = if (favoritesList[position].is_vege) View.VISIBLE else View.GONE
         holder.favorite.visibility = if (favoritesList[position].favorite) View.VISIBLE else View.GONE
     }
@@ -47,7 +62,7 @@ class FavoritesAdapter (private val context: Activity)
         notifyDataSetChanged()
     }
 
-    class ViewHolder(view: View, listener: onItemClickListener) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, listener: OnItemClickListener) : RecyclerView.ViewHolder(view) {
 
         val restaurantName: TextView = view.findViewById(R.id.restaurantName)
         val restaurantLogo: ImageView = view.findViewById(R.id.restaurantLogo)
@@ -69,13 +84,13 @@ class FavoritesAdapter (private val context: Activity)
 
     }
 
-    interface onItemClickListener {
+    interface OnItemClickListener {
 
         fun onItemClick(position: Int)
 
     }
 
-    fun setOnItemClickListener(listener: onItemClickListener){
+    fun setOnItemClickListener(listener: OnItemClickListener){
 
         this.listener = listener
 
