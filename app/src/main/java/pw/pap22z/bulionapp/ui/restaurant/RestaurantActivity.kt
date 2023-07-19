@@ -121,18 +121,18 @@ class RestaurantActivity : AppCompatActivity() {
         }
 
 //        FAVORITES
-        if (restaurant.favorite) { favoritesBtn.setImageResource(R.drawable.favorite) }
-        else { favoritesBtn.setImageResource(R.drawable.not_favorite) }
+        if (restaurant.favorite) { favoritesBtn.setImageResource(R.drawable.btn_favorite) }
+        else { favoritesBtn.setImageResource(R.drawable.btn_not_favorite) }
 
         favoritesBtn.setOnClickListener {
             if (restaurant.favorite) {
                 val thread = CoroutineScope(Dispatchers.IO).launch { viewModel.removeFromFavorites(restaurant.restaurant_id) }
                 runBlocking { thread.join() }
-                favoritesBtn.setImageResource(R.drawable.not_favorite)
+                favoritesBtn.setImageResource(R.drawable.btn_not_favorite)
             } else {
                 val thread = CoroutineScope(Dispatchers.IO).launch { viewModel.addToFavorites(restaurant.restaurant_id) }
                 runBlocking { thread.join() }
-                favoritesBtn.setImageResource(R.drawable.favorite)
+                favoritesBtn.setImageResource(R.drawable.btn_favorite)
             }
             val thread = CoroutineScope(Dispatchers.IO).launch { restaurant = viewModel.getRestaurantById(restaurant.restaurant_id) }
             runBlocking { thread.join() }

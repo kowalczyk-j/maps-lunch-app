@@ -19,7 +19,7 @@ class FavoritesAdapter (private val context: Activity)
     private var favoritesList = mutableListOf<Restaurant>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView: View = LayoutInflater.from(context).inflate(R.layout.favorite_list_item, parent, false)
+        val itemView: View = LayoutInflater.from(context).inflate(R.layout.item_restaurant, parent, false)
         return ViewHolder(itemView, this.listener)
     }
 

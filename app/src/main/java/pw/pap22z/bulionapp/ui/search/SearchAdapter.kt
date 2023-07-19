@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.Restaurant
-import pw.pap22z.bulionapp.databinding.FavoriteListItemBinding
+import pw.pap22z.bulionapp.databinding.ItemRestaurantBinding
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
 
@@ -18,7 +18,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
         fun onItemClick(position: Int)
     }
 
-    class MyViewHolder(val binding: FavoriteListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(val binding: ItemRestaurantBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(listener: OnItemClickListener, position: Int) {
             itemView.setOnClickListener {
                 listener.onItemClick(position)
@@ -35,7 +35,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
-            FavoriteListItemBinding.inflate(
+            ItemRestaurantBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

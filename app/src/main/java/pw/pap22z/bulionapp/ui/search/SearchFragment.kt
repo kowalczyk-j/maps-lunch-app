@@ -105,7 +105,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.search_menu_item, menu)
+        menuInflater.inflate(R.menu.search_sort_menu, menu)
         val itemView = menu.findItem(R.id.search_action)
         val searchView = itemView.actionView as SearchView
         searchView.queryHint = "Znajdź swój ulubiony bulion..."

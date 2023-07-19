@@ -106,10 +106,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         map?.clear()
         for (restaurant in restaurants) {
-            val markerView = layoutInflater.inflate(R.layout.marker_layout, null)
+            val markerView = layoutInflater.inflate(R.layout.item_map_marker, null)
             val markerImageView = markerView.findViewById<ImageView>(R.id.marker_image_view)
             val markerTextView = markerView.findViewById<TextView>(R.id.marker_text_view)
-            markerImageView.setImageResource(R.drawable.marker)
+            markerImageView.setImageResource(R.drawable.marker_map_restaurant)
             markerTextView.text = restaurant.name
 
             val marker = map?.addMarker(MarkerOptions()
@@ -140,7 +140,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
 
         val builder = AlertDialog.Builder(requireContext())
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_info_window, null)
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_restaurant_map, null)
 
         val restaurantNote = "${"%.2f".format(restaurant.price)} zł\t | \tOcena: ${"%.2f".format(restaurant.rating)}  \n Dostępne w godz. ${restaurant.hour_start} - ${restaurant.hour_end}"
 

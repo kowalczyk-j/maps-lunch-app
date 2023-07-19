@@ -59,7 +59,7 @@ class SettingsActivity : AppCompatActivity() {
 
         setUsernameBtn.setOnClickListener{
             val builder = AlertDialog.Builder(this)
-            val dialogLayout = layoutInflater.inflate(R.layout.edit_username, null)
+            val dialogLayout = layoutInflater.inflate(R.layout.dialog_edit_username, null)
             val editText = dialogLayout.findViewById<EditText>(R.id.editTextUsername)
 
             with(builder) {

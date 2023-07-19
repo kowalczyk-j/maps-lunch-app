@@ -9,9 +9,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/bulion"
+        android:icon="@drawable/ic_bulion_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/bulion"
+        android:roundIcon="@drawable/ic_bulion_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.BulionApp"
         tools:targetApi="31">

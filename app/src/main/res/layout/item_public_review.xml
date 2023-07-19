@@ -24,7 +24,7 @@
                     android:id="@+id/profilePicture"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/profile1"
+                    android:src="@drawable/default_profile_image"
                     android:layout_marginHorizontal="@dimen/cast_libraries_material_featurehighlight_center_horizontal_offset"/>
 
                 <TextView

@@ -5,32 +5,26 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import pw.pap22z.bulionapp.data.entities.Lunch
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.data.entities.Review
 import pw.pap22z.bulionapp.data.entities.User
 
-//tutaj jest definiowana baza danych z encjami
 @Database(
-    entities = [Restaurant::class, Lunch::class, Review::class, User::class], //lista encji
-    version = 1,    //nieistotne
+    entities = [Restaurant::class, Review::class, User::class],
+    version = 1,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class RestaurantDatabase: RoomDatabase() {
     abstract fun restaurantDao(): RestaurantDao
-    abstract fun lunchDao(): LunchDao
     abstract fun reviewDao(): ReviewDao
     abstract fun userDao(): UserDao
 
     companion object {
-        // Singleton gwarantuje jedną instację bazy w czasie uzytkowania
         @Volatile
         private var INSTANCE: RestaurantDatabase? = null
 
         fun getDatabase(context: Context): RestaurantDatabase {
-            // Jeśli INSTANCE nie jest nullem, zwróc bazę
-            // w przeciwnym razie utwórz ją
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
@@ -38,7 +32,6 @@ abstract class RestaurantDatabase: RoomDatabase() {
                     "restaurant_database"
                 ).build()
                 INSTANCE = instance
-                // return instance
                 instance
             }
         }

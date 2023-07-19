@@ -16,7 +16,7 @@ class RestaurantReviewsAdapter (private val context: Activity)
     private val restaurantReviews = mutableListOf<Review>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView: View = LayoutInflater.from(context).inflate(R.layout.restaurant_review_item, parent, false)
+        val itemView: View = LayoutInflater.from(context).inflate(R.layout.item_public_review, parent, false)
         return ViewHolder(itemView)
     }
 
