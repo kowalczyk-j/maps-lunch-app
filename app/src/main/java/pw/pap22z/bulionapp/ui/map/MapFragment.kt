@@ -142,7 +142,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val builder = AlertDialog.Builder(requireContext())
         val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_info_window, null)
 
-        val restaurantNote = "ocena: ${"%.2f".format(restaurant.rating)}; cena: ${"%.2f".format(restaurant.price)} \n dostępność: ${restaurant.hour_start} - ${restaurant.hour_end}"
+        val restaurantNote = "${"%.2f".format(restaurant.price)} zł\t | \tOcena: ${"%.2f".format(restaurant.rating)}  \n Dostępne w godz. ${restaurant.hour_start} - ${restaurant.hour_end}"
 
         val infoButton = dialogView.findViewById<Button>(R.id.button_more)
         val restaurantName = dialogView.findViewById<TextView>(R.id.name)

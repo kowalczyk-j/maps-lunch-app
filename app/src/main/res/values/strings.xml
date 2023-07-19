@@ -4,7 +4,7 @@
     <string name="title_search">Szukaj</string>
     <string name="title_profile">Konto</string>
 
-    <!--  String used for profile fragment  -->
+    <!--  Strings used for profile fragment  -->
     <string name="settings">Ustawienia</string>
     <string name="favorites">Ulubione</string>
     <string name="my_reviews">Moje recenzje</string>

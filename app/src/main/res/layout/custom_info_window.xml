@@ -31,7 +31,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Aioli"
-                android:textColor="#000"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 android:textStyle="bold|italic" />
 
             <TextView
@@ -39,8 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="ocena: 2.4; oferta lunchowa: cena:"
-                android:textColor="#000"
+                android:text="Ocena: 2.4; oferta lunchowa: cena:"
+                android:textColor="@color/black"
                 android:textStyle="bold|italic" />
 
             <Button

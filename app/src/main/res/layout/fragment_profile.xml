@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.profile.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,11 +56,12 @@
                         android:id="@+id/text_welcome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Defective Pikachu"
+                        android:text="Nazwa użytkownika"
                         android:layout_marginTop="80dp"
                         android:textAlignment="center"
                         android:textSize="24sp"
                         android:textStyle="bold"
+                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
