@@ -11,4 +11,6 @@
     <color name="dark_gray">#FF717171</color>
     <color name="navbar_gray">#FFB1BCBE</color>
     <color name="colorAccent">#FF6200EE</color>
+    <color name="green">#00A266</color>
+    <color name="red">#CC0000</color>
 </resources>

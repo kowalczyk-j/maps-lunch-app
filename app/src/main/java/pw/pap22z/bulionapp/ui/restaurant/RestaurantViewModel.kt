@@ -30,6 +30,12 @@ class RestaurantViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
 
+    fun deleteReview(review: Review) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reviewDao.deleteReview(review)
+        }
+    }
+
     fun addToFavorites(restaurantId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             restaurantDao.addToFavorites(restaurantId)
@@ -67,5 +73,8 @@ class RestaurantViewModel(application: Application): AndroidViewModel(applicatio
     }
     suspend fun getUser(userId: Int) : User {
         return userDao.getUser(userId)
+    }
+    suspend fun getReviewByUserAndRestaurant(userId: Int, restaurantId: Int): Review? {
+        return reviewDao.getReviewByUserAndRestaurant(userId, restaurantId)
     }
 }

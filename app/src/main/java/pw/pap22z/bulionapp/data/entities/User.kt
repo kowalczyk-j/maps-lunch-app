@@ -12,5 +12,5 @@ data class User(
     @PrimaryKey val user_id: Int,
     val username: String,
     val profile_pic: Bitmap?,
-    val is_admin: Boolean = false
+    val is_admin: Boolean = true
 ): Parcelable

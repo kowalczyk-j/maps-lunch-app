@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Switch
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -107,11 +108,19 @@ class SettingsActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && data != null) {
             contentResolver.takePersistableUriPermission(data.data!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            val fileDescriptor = contentResolver.openFileDescriptor(data.data!!, "r")
+            val fileSizeInBytes = fileDescriptor?.statSize ?: 0
+            val fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0)
+
+            if (fileSizeInMB > 0.2) {
+                Toast.makeText(this, R.string.error_photo_size, Toast.LENGTH_SHORT).show()
+                return
+            }
             lifecycleScope.launch {
                 val newProfilePic: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, data.data)
                 viewModel.updateProfilePic(user.user_id, newProfilePic)
                 restaurantViewModel.updateReviewProfilePic(user.user_id, newProfilePic)
-        }
+            }
         }
     }
 

@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dodaj"
-        android:layout_marginTop="@dimen/cast_libraries_material_featurehighlight_center_threshold"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/review_body" />
@@ -69,6 +69,8 @@
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="1"
         android:progressBackgroundTint="@color/light_gray"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"

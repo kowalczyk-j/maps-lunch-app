@@ -1,6 +1,5 @@
 package pw.pap22z.bulionapp
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +9,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +17,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pw.pap22z.bulionapp.data.RestaurantDatabase
 import pw.pap22z.bulionapp.data.entities.Restaurant
+import pw.pap22z.bulionapp.data.entities.User
 import pw.pap22z.bulionapp.databinding.ActivityMainBinding
+import pw.pap22z.bulionapp.ui.profile.ProfileViewModel
 import pw.pap22z.bulionapp.ui.search.SearchViewModel
 
 //@AndroidEntryPoint
@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: SearchViewModel
+    private lateinit var profileViewModel: ProfileViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,8 +36,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navView: BottomNavigationView = binding.navView
-
-
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -53,15 +52,22 @@ class MainActivity : AppCompatActivity() {
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
         )[SearchViewModel::class.java]
 
+        profileViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
+        )[ProfileViewModel::class.java]
 
-        // Initialize the database
-        DatabaseSingleton.getInstance().initDatabase(this)
 
+        RestaurantDatabase.getDatabase(this)
+
+        initUser()
+        initData()
+    }
+
+    private fun initData() {
         lifecycleScope.launch(Dispatchers.IO) {
             val bitmap_aioli =
                 async { getBitmap("https://sztuczne-rosliny.pl/wp-content/uploads/2020/01/aioli-logo.jpg") }.await()
-
-
             val bitmap_siristorante =
                 async { getBitmap("https://i.postimg.cc/c1fxvrvS/274794981-3190194264597526-5426536868885463001-n.jpg") }.await()
             val bitmap_lapose =
@@ -73,9 +79,6 @@ class MainActivity : AppCompatActivity() {
             val bitmap_bistro =
                 async { getBitmap("https://i.postimg.cc/pTGHCbC8/307892682-617981183069691-3572231132101971245-n.jpg") }.await()
 
-
-
-
             withContext(Dispatchers.Main) {
                 viewModel.insertRestaurant(
                     Restaurant(
@@ -84,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                         "Aioli",
                         0.0f,
                         "Włoska",
-                        "Chmielna 26",
+                        "Chmielna 26, Warszawa",
                         26.90F,
                         12,
                         17,
@@ -158,7 +161,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel.insertRestaurant(
                     Restaurant(
                         6, bitmap_bistro,
-                        "Bordo Bistro", 0.0f, "Europejska", "Chmielna 34", 23.0F, 12, 16, 3, true,
+                        "Bordo Bistro", 0.0f, "Europejska", "Chmielna 34, Warszawa", 23.0F, 12, 16, 3, true,
                         "Zupa z soczewicy\nGnocchi z pesto bazyliowym i pomidorkami lub Polędwiczki wieprzowe w sosie musztardowym z puree i surówką lub " +
                                 "Pizza z szynką i pieczarkami\nMini bezy z musem owocowym",
                         menu = "https://www.facebook.com/BistroChmielna/posts/pfbid0bj2VPjtyGX3wWuYb6r15mQzFiWg4vfhrSn5P2tRmWy9qpMaArRRVeuiTAdcC8PWPl"
@@ -169,6 +172,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initUser() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val user = profileViewModel.getUser(1)
+            if (user == null) {
+                val newUser = User(1, "Kinga", null)
+                profileViewModel.insertUser(newUser)
+            }
+        }
+    }
     private fun getBitmap(url: String): Bitmap {
         val bitmap = Glide.with(this)
             .asBitmap()
@@ -176,31 +188,6 @@ class MainActivity : AppCompatActivity() {
             .submit()
             .get()
         return bitmap
-    }
-
-    class DatabaseSingleton private constructor() {
-        private var isInitialized = false
-        private lateinit var database: RestaurantDatabase
-        private lateinit var context: Context
-
-        companion object {
-            private var instance: DatabaseSingleton? = null
-            fun getInstance(): DatabaseSingleton {
-                if (instance == null) {
-                    instance = DatabaseSingleton()
-                }
-                return instance!!
-            }
-        }
-
-        fun initDatabase(context: Context) {
-            this.context = context
-            if (!isInitialized) {
-                database =
-                    Room.databaseBuilder(context, RestaurantDatabase::class.java, "my_db").build()
-                isInitialized = true
-            }
-        }
     }
 }
 

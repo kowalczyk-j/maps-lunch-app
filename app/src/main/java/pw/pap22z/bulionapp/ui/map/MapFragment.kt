@@ -123,9 +123,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         map?.setOnMarkerClickListener { marker ->
             val restaurant = marker.tag as Restaurant
+            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 15f))
             showRestaurantDialog(restaurant)
             true
-
         }
 
 
@@ -141,8 +141,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         val builder = AlertDialog.Builder(requireContext())
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_restaurant_map, null)
-
-        val restaurantNote = "${"%.2f".format(restaurant.price)} zł\t | \tOcena: ${"%.2f".format(restaurant.rating)}  \n Dostępne w godz. ${restaurant.hour_start} - ${restaurant.hour_end}"
+        val rating = if(restaurant.rating == 0f) "---" else "%.2f".format(restaurant.rating)
+        val restaurantNote = "${"%.2f".format(restaurant.price)} zł\t | \tOcena: $rating  \n Dostępne w godz. ${restaurant.hour_start} - ${restaurant.hour_end}"
 
         val infoButton = dialogView.findViewById<Button>(R.id.button_more)
         val restaurantName = dialogView.findViewById<TextView>(R.id.name)
@@ -185,17 +185,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         this.map = map
 
-
-        mapViewModel.allRestaurants.observe(viewLifecycleOwner) {
-            restaurants = it
-            updateMap()
-        }
-
         val markers = mutableListOf<Marker>()
 
         getLocationPermission()
         updateLocationUI()
         getDeviceLocation()
+
+        mapViewModel.allRestaurants.observe(viewLifecycleOwner) {
+            restaurants = it
+            updateMap()
+        }
 
     }
 

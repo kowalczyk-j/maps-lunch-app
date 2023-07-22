@@ -11,6 +11,7 @@
     <string name="new_username">Nowa nazwa użytkownika…</string>
     <string name="change_username">Zmień nazwę użytkownika</string>
     <string name="cancel_username">Anuluj</string>
+    <string name="error_photo_size">"Zdjęcie nie może przekraczać 0,2 MB"</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_update_lunch">UpdateLunch</string>
@@ -30,7 +31,6 @@
     <string name="price">%.2f zł</string>
     <string name="update_lunch_message">Uzupełnij tylko odpowiednie pola!</string>
     <string name="updated_lunch_message">Pomyślnie zaktualizowano lunch</string>
-    <string name="added_review">Dodano recenzję</string>
 
     <!-- Strings used for RestaurantActivity -->
     <string name="descriptive_price">Cena za zestaw lunchowy: %.2f zł</string>
@@ -39,4 +39,10 @@
 
     <!-- Strings used for WriteReview -->
     <string name="review_header">Jak oceniasz lunch w %s?</string>
+    <string name="added_review">Dodano recenzję. Średnia ocena zaktualizuje się po ponownym odwiedzeniu profiliu restauracji.</string>
+    <string name="error_scale">Oceń restaurację w skali od 1 do 5 gwiazdek</string>
+    <string name="error_empty_review">Treść recenzji nie może być pusta</string>
+    <string name="error_max_characters">Przekroczono maksymalną liczbę znaków (1000)</string>
+    <string name="error_max_lines">Przekroczono maksymalną liczbę linii (25)</string>
+    <string name="error_review_exists">Dodałeś już recenzję do tego lokalu!</string>
 </resources>

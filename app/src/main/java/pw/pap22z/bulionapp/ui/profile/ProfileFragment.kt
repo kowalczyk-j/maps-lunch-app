@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBindings
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.CoroutineScope
@@ -24,7 +23,7 @@ import pw.pap22z.bulionapp.databinding.FragmentProfileBinding
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
-    var user: User? = null
+    private lateinit var user: User
     private lateinit var profileViewModel: ProfileViewModel
 
     // This property is only valid between onCreateView and
@@ -53,12 +52,6 @@ class ProfileFragment : Fragment() {
             retrieveUser.join() // wait until child coroutine completes
         }
 
-        if(user == null) {
-            user = User(1, "Kinga", null)
-            lifecycleScope.launch {
-                profileViewModel.insertUser(user!!)
-            }
-        }
 
         val welcomeMsg: TextView = binding.textWelcome
         welcomeMsg.text = user!!.username

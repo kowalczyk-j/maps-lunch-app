@@ -4,14 +4,17 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.Review
 
-class RestaurantReviewsAdapter (private val context: Activity)
-    : RecyclerView.Adapter<RestaurantReviewsAdapter.ViewHolder>() {
+class RestaurantReviewsAdapter(
+    private val context: Activity,
+    private val onDeleteClickListener: OnDeleteClickListener
+) : RecyclerView.Adapter<RestaurantReviewsAdapter.ViewHolder>() {
 
     private val restaurantReviews = mutableListOf<Review>()
 
@@ -27,6 +30,9 @@ class RestaurantReviewsAdapter (private val context: Activity)
         holder.username.text = restaurantReviews[position].user.username
         holder.rating.text = restaurantReviews[position].review_rating.toString()
         holder.reviewBody.text = restaurantReviews[position].review_body
+        holder.deleteIcon.setOnClickListener {
+            onDeleteClickListener.onDeleteClick(restaurantReviews[position]) // Wywołanie onDeleteClick z interfejsu
+        }
     }
 
     override fun getItemCount(): Int {
@@ -45,6 +51,11 @@ class RestaurantReviewsAdapter (private val context: Activity)
         val username: TextView = view.findViewById(R.id.username)
         val rating: TextView = view.findViewById(R.id.rating)
         val reviewBody: TextView = view.findViewById(R.id.reviewBody)
+        val deleteIcon: Button = view.findViewById(R.id.deleteIcon)
 
+    }
+
+    interface OnDeleteClickListener {
+        fun onDeleteClick(review: Review)
     }
 }

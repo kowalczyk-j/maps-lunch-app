@@ -1,5 +1,7 @@
 package pw.pap22z.bulionapp.ui.restaurant
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -19,9 +21,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.Restaurant
+import pw.pap22z.bulionapp.data.entities.Review
 import pw.pap22z.bulionapp.databinding.ActivityRestaurantBinding
 
-class RestaurantActivity : AppCompatActivity() {
+class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDeleteClickListener {
 
     private lateinit var binding: ActivityRestaurantBinding
     private lateinit var viewModel: RestaurantViewModel
@@ -76,7 +79,7 @@ class RestaurantActivity : AppCompatActivity() {
         binding.hours.text = getString(R.string.lunch_hours, restaurant.hour_start, restaurant.hour_end)
         binding.editInfo.text = getString(R.string.edit_info, restaurant.edit_date)
 
-        val adapter = RestaurantReviewsAdapter(this)
+        val adapter = RestaurantReviewsAdapter(this, this)
 
         viewModel.getRestaurantReviews(restaurant.restaurant_id)
         viewModel.reviews.observe(this) { list -> list?.let { adapter.setData(it) } }
@@ -120,6 +123,7 @@ class RestaurantActivity : AppCompatActivity() {
 
         }
 
+
 //        FAVORITES
         if (restaurant.favorite) { favoritesBtn.setImageResource(R.drawable.btn_favorite) }
         else { favoritesBtn.setImageResource(R.drawable.btn_not_favorite) }
@@ -139,6 +143,37 @@ class RestaurantActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDeleteClick(review: Review) {
+        showDeleteReviewConfirmation(review)
+    }
 
+    private fun showDeleteReviewConfirmation(review: Review) {
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("Usuwanie recenzji")
+            .setMessage("Czy na pewno chcesz usunąć recenzję?")
+            .setPositiveButton("Tak") { dialog: DialogInterface, _: Int ->
+                deleteReview(review)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Nie") { dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+            }
+            .create()
 
+        alertDialog.show()
+
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(resources.getColor(R.color.green))
+        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(resources.getColor(R.color.red))
+    }
+
+    private fun deleteReview(review: Review) {
+        val deleteReviewThread = CoroutineScope(Dispatchers.IO).launch {
+            viewModel.deleteReview(review)
+        }
+        deleteReviewThread.invokeOnCompletion {
+            runOnUiThread {
+                Toast.makeText(this@RestaurantActivity, "Pomyślnie usunięto recenzję", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }

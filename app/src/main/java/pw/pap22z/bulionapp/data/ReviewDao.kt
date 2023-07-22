@@ -3,6 +3,7 @@ package pw.pap22z.bulionapp.data
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -13,6 +14,9 @@ interface ReviewDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertReview(review: Review)
+
+    @Delete
+    suspend fun deleteReview(review: Review)
 
 //    @Query("SELECT * FROM review ORDER BY review_id ASC")
 //    fun getReviews(): LiveData<ArrayList<Review>>
@@ -32,6 +36,8 @@ interface ReviewDao {
     @Query("UPDATE review SET profile_pic = :newProfilePic WHERE user_id = :userId")
     suspend fun updateReviewProfilePic(userId: Int, newProfilePic: Bitmap)
 
+    @Query("SELECT * FROM review WHERE user_id = :userId AND restaurant_id = :restaurantId")
+    suspend fun getReviewByUserAndRestaurant(userId: Int, restaurantId: Int): Review?
 
 
 }
