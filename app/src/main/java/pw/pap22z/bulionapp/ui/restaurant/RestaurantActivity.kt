@@ -8,8 +8,10 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -36,8 +38,9 @@ class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDelet
         binding = ActivityRestaurantBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application))[RestaurantViewModel::class.java]
+        viewModel = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        )[RestaurantViewModel::class.java]
 
         restaurant = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("restaurant", Restaurant::class.java)!!
@@ -52,7 +55,7 @@ class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDelet
 
         val retrieveNewRating = CoroutineScope(Dispatchers.IO).launch {
             newRating = viewModel.getRestaurantRating(restaurant.restaurant_id)
-            Log.d("log", "new rating: $newRating" )
+            Log.d("log", "new rating: $newRating")
         }
 
         runBlocking {
@@ -62,8 +65,9 @@ class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDelet
         val updateRatingThread = CoroutineScope(Dispatchers.IO).launch {
             if (newRating != null) {
                 viewModel.updateRating(restaurant.restaurant_id, newRating!!)
+            } else {
+                viewModel.updateRating(restaurant.restaurant_id, 0.0f)
             }
-            else { viewModel.updateRating(restaurant.restaurant_id, 0.0f) }
         }
 
         runBlocking {
@@ -74,9 +78,11 @@ class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDelet
         binding.address.text = restaurant.address
         binding.dishesText.text = restaurant.lunch_info
         binding.restaurantLogo.setImageBitmap(restaurant.image_title)
-        binding.rating.text = if(restaurant.rating == 0f) "---" else "%.2f".format(restaurant.rating)
+        binding.rating.text =
+            if (restaurant.rating == 0f) "---" else "%.2f".format(restaurant.rating)
         binding.price.text = getString(R.string.descriptive_price, restaurant.price)
-        binding.hours.text = getString(R.string.lunch_hours, restaurant.hour_start, restaurant.hour_end)
+        binding.hours.text =
+            getString(R.string.lunch_hours, restaurant.hour_start, restaurant.hour_end)
         binding.editInfo.text = getString(R.string.edit_info, restaurant.edit_date)
 
         val adapter = RestaurantReviewsAdapter(this, this)
@@ -85,11 +91,12 @@ class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDelet
         viewModel.reviews.observe(this) { list -> list?.let { adapter.setData(it) } }
 
         val recyclerViewReviews: RecyclerView = findViewById(R.id.reviews)
-        recyclerViewReviews.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerViewReviews.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerViewReviews.adapter = adapter
 
         val addReviewBtn: Button = findViewById(R.id.addReview)
-        addReviewBtn.setOnClickListener{
+        addReviewBtn.setOnClickListener {
             val intent = Intent(this, WriteReview::class.java)
             intent.putExtra("restaurant", restaurant)
             this.startActivity(intent)
@@ -97,13 +104,13 @@ class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDelet
         val updateLunchBtn: Button = findViewById(R.id.updateLunch)
         val user = runBlocking { viewModel.getUser(1) }
         val isAdmin = user.is_admin
-        if ( isAdmin ) {
+        if (isAdmin) {
             updateLunchBtn.visibility = View.VISIBLE
         } else {
             updateLunchBtn.visibility = View.GONE
         }
 
-        updateLunchBtn.setOnClickListener{
+        updateLunchBtn.setOnClickListener {
             val intent = Intent(this, UpdateLunch::class.java)
             intent.putExtra("restaurant", restaurant)
             this.startActivity(intent)
@@ -112,10 +119,9 @@ class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDelet
         val openLinkButton: ImageButton = findViewById(R.id.button_open_link)
         openLinkButton.setOnClickListener {
             val url = restaurant.menu
-            if (url == ""){
+            if (url == "") {
                 Toast.makeText(this, getString(R.string.no_menu_toast), Toast.LENGTH_SHORT).show()
-            }
-            else {
+            } else {
                 val i = Intent(Intent.ACTION_VIEW)
                 i.data = Uri.parse(url)
                 startActivity(i)
@@ -125,22 +131,36 @@ class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDelet
 
 
 //        FAVORITES
-        if (restaurant.favorite) { favoritesBtn.setImageResource(R.drawable.btn_favorite) }
-        else { favoritesBtn.setImageResource(R.drawable.btn_not_favorite) }
+        if (restaurant.favorite) {
+            favoritesBtn.setImageResource(R.drawable.btn_favorite)
+        } else {
+            favoritesBtn.setImageResource(R.drawable.btn_not_favorite)
+        }
 
         favoritesBtn.setOnClickListener {
             if (restaurant.favorite) {
-                val thread = CoroutineScope(Dispatchers.IO).launch { viewModel.removeFromFavorites(restaurant.restaurant_id) }
+                toggleFavoriteAnimation(favoritesBtn)
+                val thread =
+                    CoroutineScope(Dispatchers.IO).launch { viewModel.removeFromFavorites(restaurant.restaurant_id) }
                 runBlocking { thread.join() }
                 favoritesBtn.setImageResource(R.drawable.btn_not_favorite)
             } else {
-                val thread = CoroutineScope(Dispatchers.IO).launch { viewModel.addToFavorites(restaurant.restaurant_id) }
+                toggleFavoriteAnimation(favoritesBtn)
+                val thread =
+                    CoroutineScope(Dispatchers.IO).launch { viewModel.addToFavorites(restaurant.restaurant_id) }
                 runBlocking { thread.join() }
                 favoritesBtn.setImageResource(R.drawable.btn_favorite)
             }
-            val thread = CoroutineScope(Dispatchers.IO).launch { restaurant = viewModel.getRestaurantById(restaurant.restaurant_id) }
+            val thread = CoroutineScope(Dispatchers.IO).launch {
+                restaurant = viewModel.getRestaurantById(restaurant.restaurant_id)
+            }
             runBlocking { thread.join() }
         }
+    }
+
+    private fun toggleFavoriteAnimation(favoriteHeart: ImageView) {
+        val bounceAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce)
+        favoriteHeart.startAnimation(bounceAnimation)
     }
 
     override fun onDeleteClick(review: Review) {
@@ -148,22 +168,21 @@ class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDelet
     }
 
     private fun showDeleteReviewConfirmation(review: Review) {
-        val alertDialog = AlertDialog.Builder(this)
-            .setTitle("Usuwanie recenzji")
+        val alertDialog = AlertDialog.Builder(this).setTitle("Usuwanie recenzji")
             .setMessage("Czy na pewno chcesz usunąć recenzję?")
             .setPositiveButton("Tak") { dialog: DialogInterface, _: Int ->
                 deleteReview(review)
                 dialog.dismiss()
-            }
-            .setNegativeButton("Nie") { dialog: DialogInterface, _: Int ->
+            }.setNegativeButton("Nie") { dialog: DialogInterface, _: Int ->
                 dialog.dismiss()
-            }
-            .create()
+            }.create()
 
         alertDialog.show()
 
-        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(resources.getColor(R.color.green))
-        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(resources.getColor(R.color.red))
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+            .setTextColor(resources.getColor(R.color.green))
+        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+            .setTextColor(resources.getColor(R.color.red))
     }
 
     private fun deleteReview(review: Review) {
@@ -172,7 +191,9 @@ class RestaurantActivity : AppCompatActivity(), RestaurantReviewsAdapter.OnDelet
         }
         deleteReviewThread.invokeOnCompletion {
             runOnUiThread {
-                Toast.makeText(this@RestaurantActivity, "Pomyślnie usunięto recenzję", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@RestaurantActivity, "Pomyślnie usunięto recenzję", Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

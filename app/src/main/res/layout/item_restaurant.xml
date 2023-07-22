@@ -27,14 +27,24 @@
 
         <TextView
             android:id="@+id/rating"
-            android:layout_width="80dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:text="4.9"
-            android:textColor="@color/dark_gray"
+            android:text="4.95"
             android:textAlignment="center"
+            android:textColor="@color/dark_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/restaurantLogo"
             app:layout_constraintStart_toStartOf="@+id/restaurantLogo" />
+
+        <TextView
+            android:id="@+id/ratingStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⭐"
+            android:textColor="@color/dark_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/rating"
+            app:layout_constraintStart_toEndOf="@+id/rating" />
+
 
         <TextView
             android:id="@+id/restaurantName"

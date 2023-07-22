@@ -48,13 +48,11 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         viewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
         )[SearchViewModel::class.java]
 
         profileViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
         )[ProfileViewModel::class.java]
 
 
@@ -66,24 +64,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun initData() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val bitmap_aioli =
-                async { getBitmap("https://sztuczne-rosliny.pl/wp-content/uploads/2020/01/aioli-logo.jpg") }.await()
-            val bitmap_siristorante =
-                async { getBitmap("https://i.postimg.cc/c1fxvrvS/274794981-3190194264597526-5426536868885463001-n.jpg") }.await()
-            val bitmap_lapose =
-                async { getBitmap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc8rJzveezG9V3n6LJ-URWPi6znY4PIaVk2g&usqp=CAU") }.await()
-            val bitmapsidue =
+            val bitmapAioli =
+                async { getBitmap("https://i.postimg.cc/NMycjLZC/aioli-logo.jpg") }.await()
+            val bitmapSiRistorante =
+                async { getBitmap("https://i.postimg.cc/Y9007rpb/si-ristorante.jpg") }.await()
+            val bitmapLapose =
+                async { getBitmap("https://i.postimg.cc/JnF26q6P/lapose-logo.jpg") }.await()
+            val bitmapSiDue =
                 async { getBitmap("https://i.postimg.cc/RVw7nMXW/318562116-122736723984972-1435831359345702240-n.jpg") }.await()
-            val bitmap_znajomi =
+            val bitmapZnajomi =
                 async { getBitmap("https://i.postimg.cc/RFf7Q44p/290202066-5329847933741259-3044643926349662777-n.jpg") }.await()
-            val bitmap_bistro =
+            val bitmapBordoBistro =
                 async { getBitmap("https://i.postimg.cc/pTGHCbC8/307892682-617981183069691-3572231132101971245-n.jpg") }.await()
 
             withContext(Dispatchers.Main) {
                 viewModel.insertRestaurant(
                     Restaurant(
                         1,
-                        bitmap_aioli,
+                        bitmapAioli,
                         "Aioli",
                         0.0f,
                         "Włoska",
@@ -101,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel.insertRestaurant(
                     Restaurant(
                         2,
-                        bitmap_siristorante,
+                        bitmapSiRistorante,
                         "Si Ristorante",
                         0.0f,
                         "Włoska",
@@ -111,17 +109,15 @@ class MainActivity : AppCompatActivity() {
                         16,
                         3,
                         false,
-                        "Zupa: Zupa soczewicowa z pomidorami i suszoną miętą\n 1 z 2 dań głównych do wyboru: 1. Pierś indyka z krokietem z dynią, duszonymi pieczarkami i sosem ziołowym" +
-                                " 2. Calzone ze szpinakiem i camembertem\n Deser: Brownie czekoladowe ",
+                        "Zupa: Zupa soczewicowa z pomidorami i suszoną miętą\n 1 z 2 dań głównych do wyboru: 1. Pierś indyka z krokietem z dynią, duszonymi pieczarkami i sosem ziołowym" + " 2. Calzone ze szpinakiem i camembertem\n Deser: Brownie czekoladowe ",
                         menu = "https://www.facebook.com/RestauracjaSi/posts/pfbid02NXgRnzB7yruRAYDkSbePgTreu76z1EjXNJkR83Vo2Qh6HE3ifcgUHaDUL82CPGNZl"
                     )
                 )
 
-
                 viewModel.insertRestaurant(
                     Restaurant(
                         3,
-                        bitmap_lapose,
+                        bitmapLapose,
                         "La Pose",
                         0.0f,
                         "Amerykańska, włoska, fusion",
@@ -138,32 +134,53 @@ class MainActivity : AppCompatActivity() {
 
                 viewModel.insertRestaurant(
                     Restaurant(
-                        4, bitmapsidue,
-                        "Si Due", 0.0f, "Włoska", "Marszałkowska 62", 27.90F, 12, 16, 3, true,
-                        "Zupa Minestrone z pomidorami i Grana Padano\n" +
-                                "Pulpety wieprzowe z puree ziemniaczanym, glazurowaną marchewką i sosem grzybowym lub \n" +
-                                "Fettuccine Putanesca\n" +
-                                "Tarta czekoladowa"
+                        4,
+                        bitmapSiDue,
+                        "Si Due",
+                        0.0f,
+                        "Włoska",
+                        "Marszałkowska 62",
+                        27.90F,
+                        12,
+                        16,
+                        3,
+                        true,
+                        "Zupa Minestrone z pomidorami i Grana Padano\n" + "Pulpety wieprzowe z puree ziemniaczanym, glazurowaną marchewką i sosem grzybowym lub \n" + "Fettuccine Putanesca\n" + "Tarta czekoladowa"
                     )
                 )
 
                 viewModel.insertRestaurant(
                     Restaurant(
-                        5, bitmap_znajomi,
-                        "Znajomi", 0.0f, "Europejska", "Wilcza 58a", 22.0F, 12, 16, 2, true,
-                        "Ogórkowa z ziemniakami i koperkiem\n" +
-                                "Tarta z ciasta francuskiego ze szpinakiem i serem lazur lub Ragout z indyka w kremowo pomdorowym sosie z ryżem",
+                        5,
+                        bitmapZnajomi,
+                        "Znajomi",
+                        0.0f,
+                        "Europejska",
+                        "Wilcza 58a",
+                        22.0F,
+                        12,
+                        16,
+                        2,
+                        true,
+                        "Ogórkowa z ziemniakami i koperkiem\n" + "Tarta z ciasta francuskiego ze szpinakiem i serem lazur lub Ragout z indyka w kremowo pomdorowym sosie z ryżem",
                         menu = "https://www.facebook.com/znajomiznajomychFB/posts/pfbid0Sq1SCu8kt5Db5XMdLzTXGQtpTqCRmiFDduSsaqgoJhFegVpDYVL4JmfQBz4efwhxl"
                     )
                 )
 
-
                 viewModel.insertRestaurant(
                     Restaurant(
-                        6, bitmap_bistro,
-                        "Bordo Bistro", 0.0f, "Europejska", "Chmielna 34, Warszawa", 23.0F, 12, 16, 3, true,
-                        "Zupa z soczewicy\nGnocchi z pesto bazyliowym i pomidorkami lub Polędwiczki wieprzowe w sosie musztardowym z puree i surówką lub " +
-                                "Pizza z szynką i pieczarkami\nMini bezy z musem owocowym",
+                        6,
+                        bitmapBordoBistro,
+                        "Bordo Bistro",
+                        0.0f,
+                        "Europejska",
+                        "Chmielna 34, Warszawa",
+                        23.0F,
+                        12,
+                        16,
+                        3,
+                        true,
+                        "Zupa z soczewicy\nGnocchi z pesto bazyliowym i pomidorkami lub Polędwiczki wieprzowe w sosie musztardowym z puree i surówką lub " + "Pizza z szynką i pieczarkami\nMini bezy z musem owocowym",
                         menu = "https://www.facebook.com/BistroChmielna/posts/pfbid0bj2VPjtyGX3wWuYb6r15mQzFiWg4vfhrSn5P2tRmWy9qpMaArRRVeuiTAdcC8PWPl"
                     )
                 )
@@ -174,20 +191,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initUser() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val user = profileViewModel.getUser(1)
-            if (user == null) {
-                val newUser = User(1, "Kinga", null)
-                profileViewModel.insertUser(newUser)
-            }
+            val defaultUser = User(1, "Kinga", null)
+            profileViewModel.insertUser(defaultUser)
         }
     }
+
     private fun getBitmap(url: String): Bitmap {
-        val bitmap = Glide.with(this)
-            .asBitmap()
-            .load(url)
-            .submit()
-            .get()
-        return bitmap
+        return Glide.with(this).asBitmap().load(url).submit().get()
     }
 }
 

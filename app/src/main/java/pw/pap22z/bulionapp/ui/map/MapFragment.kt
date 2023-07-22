@@ -45,14 +45,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var lastKnownLocation: Location? = null
     private var _binding: FragmentMapBinding? = null
     private lateinit var mapViewModel: MapViewModel
+
     //private var currentMapType = GoogleMap.MAP_TYPE_NORMAL
     private val binding get() = _binding!!
     private var restaurants: List<Restaurant> = emptyList()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
 
@@ -91,7 +90,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun createDrawableFromView(context: Context, view: View): Bitmap {
         val displayMetrics = DisplayMetrics()
         (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
-        view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        view.layoutParams =
+            ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
         view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
         view.buildDrawingCache()
@@ -102,6 +102,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         return bitmap
     }
+
     private fun updateMap() {
 
         map?.clear()
@@ -112,10 +113,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             markerImageView.setImageResource(R.drawable.marker_map_restaurant)
             markerTextView.text = restaurant.name
 
-            val marker = map?.addMarker(MarkerOptions()
-                .position(LatLng(restaurant.latitude, restaurant.longitude))
-                .title(restaurant.name)
-                .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(requireActivity(), markerView))))
+            val marker = map?.addMarker(
+                MarkerOptions().position(LatLng(restaurant.latitude, restaurant.longitude)).title(restaurant.name)
+                    .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(requireActivity(), markerView)))
+            )
             marker?.tag = restaurant
         }
 
@@ -137,18 +138,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun showRestaurantDialog(restaurant: Restaurant) {
 
 
-
-
         val builder = AlertDialog.Builder(requireContext())
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_restaurant_map, null)
-        val rating = if(restaurant.rating == 0f) "---" else "%.2f".format(restaurant.rating)
-        val restaurantNote = "${"%.2f".format(restaurant.price)} zł\t | \tOcena: $rating  \n Dostępne w godz. ${restaurant.hour_start} - ${restaurant.hour_end}"
+        val rating = if (restaurant.rating == 0f) "---" else "%.2f".format(restaurant.rating)
+        val restaurantNote =
+            "${"%.2f".format(restaurant.price)} zł\t | \tOcena: $rating  \n Dostępne w godz. ${restaurant.hour_start} - ${restaurant.hour_end}"
 
         val infoButton = dialogView.findViewById<Button>(R.id.button_more)
         val restaurantName = dialogView.findViewById<TextView>(R.id.name)
         val restaurantInfo = dialogView.findViewById<TextView>(R.id.restaurant_info)
         val route = dialogView.findViewById<Button>(R.id.button_route)
-        val photo =  dialogView.findViewById<ImageView>(R.id.logo)
+        val photo = dialogView.findViewById<ImageView>(R.id.logo)
         photo.setImageBitmap(restaurant.image_title)
         restaurantName.text = restaurant.name
         restaurantInfo.text = restaurantNote
@@ -207,15 +207,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         // Set the map's camera position to the current location of the device.
                         lastKnownLocation = task.result
                         if (lastKnownLocation != null) {
-                            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                LatLng(lastKnownLocation!!.latitude,
-                                    lastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
+                            map?.moveCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    LatLng(
+                                        lastKnownLocation!!.latitude, lastKnownLocation!!.longitude
+                                    ), DEFAULT_ZOOM.toFloat()
+                                )
+                            )
                         }
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.")
                         Log.e(TAG, "Exception: %s", task.exception)
-                        map?.moveCamera(CameraUpdateFactory
-                            .newLatLngZoom(defaultLocation, DEFAULT_ZOOM.toFloat()))
+                        map?.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(defaultLocation, DEFAULT_ZOOM.toFloat())
+                        )
                         map?.uiSettings?.isMyLocationButtonEnabled = false
                     }
                 }
@@ -224,34 +229,39 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             Log.e("Exception: %s", e.message, e)
         }
     }
+
     private fun getLocationPermission() {
         val nowThis = requireActivity()
-        if (ContextCompat.checkSelfPermission(nowThis.applicationContext,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                nowThis.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             locationPermissionGranted = true
         } else {
-            ActivityCompat.requestPermissions(nowThis, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            ActivityCompat.requestPermissions(
+                nowThis, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+            )
         }
     }
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
+    ) {
         locationPermissionGranted = false
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
 
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.isNotEmpty() &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     locationPermissionGranted = true
                 }
             }
+
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
         updateLocationUI()
     }
+
     @SuppressLint("MissingPermission")
     private fun updateLocationUI() {
         if (map == null) {
