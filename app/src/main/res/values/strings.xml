@@ -1,14 +1,17 @@
 <resources>
+    <!-- App Navigation Titles and simple Buttons -->
     <string name="app_name">BulionApp</string>
     <string name="title_map">Mapa</string>
     <string name="title_search">Szukaj</string>
     <string name="title_profile">Konto</string>
+    <string name="button_yes">Tak</string>
+    <string name="button_no">Nie</string>
 
-    <!-- Strings used for Map fragment -->
+    <!-- Strings used for MapFragment -->
     <string name="restaurant_price_rating">%.2f zł | Ocena: %s ⭐</string>
     <string name="restaurant_availability">Dostępne w godz. %d - %d</string>
 
-    <!--  Strings used for Profile fragment  -->
+    <!--  Strings used for ProfileFragment  -->
     <string name="settings">Ustawienia</string>
     <string name="favorites">Ulubione</string>
     <string name="my_reviews">Moje recenzje</string>
@@ -25,20 +28,36 @@
     <string name="rating">%.2f</string>
     <string name="cuisine_type">Kuchnia %s</string>
     <string name="price">%.2f zł</string>
-    <string name="update_lunch_message">Uzupełnij tylko odpowiednie pola!</string>
-    <string name="updated_lunch_message">Pomyślnie zaktualizowano lunch</string>
+
+    <!-- Strings used for Searching and Sorting (SearchFragment) -->
+    <string name="search_hint">Znajdź swój ulubiony bulion...</string>
+    <string name="sorted_alphabetically">Posortowano alfabetycznie</string>
+    <string name="show_vege_options">Pokazano tylko restauracje z opcjami vege</string>
+    <string name="sorted_by_dishes">Posortowano od największej liczby dań</string>
+    <string name="sorted_by_price">Posortowano od najtańszych</string>
+    <string name="sorted_by_price_reverse">Posortowano od najdroższych</string>
+    <string name="sorted_by_rating">Posortowano od najlepiej ocenianych</string>
+    <string name="sorted_by_hours">Posortowano od najdłużej dostępnych</string>
 
     <!-- Strings used for RestaurantActivity -->
     <string name="descriptive_price">Cena za zestaw lunchowy: %.2f zł</string>
     <string name="edit_info">Edytowano: %s</string>
     <string name="no_menu_toast">Restauracja nie udostępniła menu</string>
 
+    <!-- Strings used for UpdateLunch -->
+    <string name="update_lunch_message">Uzupełnij tylko odpowiednie pola!</string>
+    <string name="updated_lunch_message">Pomyślnie zaktualizowano lunch. Zmiany będą widoczne wkrótce.</string>
+
     <!-- Strings used for WriteReview -->
     <string name="review_header">Jak oceniasz lunch w %s?</string>
-    <string name="added_review">Dodano recenzję. Średnia ocena zaktualizuje się po ponownym odwiedzeniu profiliu restauracji.</string>
+    <string name="added_review">Dodano recenzję. Średnia ocena zaktualizuje się wkrótce.</string>
     <string name="error_scale">Oceń restaurację w skali od 1 do 5 gwiazdek</string>
     <string name="error_empty_review">Treść recenzji nie może być pusta</string>
     <string name="error_max_characters">Przekroczono maksymalną liczbę znaków (1000)</string>
     <string name="error_max_lines">Przekroczono maksymalną liczbę linii (25)</string>
     <string name="error_review_exists">Dodałeś już recenzję do tego lokalu!</string>
+    <string name="delete_review_title">Usuwanie recenzji</string>
+    <string name="delete_review_message">Czy na pewno chcesz usunąć recenzję?</string>
+    <string name="delete_review_success">Pomyślnie usunięto recenzję</string>
+
 </resources>

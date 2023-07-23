@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity() {
                 async { getBitmap("https://i.postimg.cc/RVw7nMXW/318562116-122736723984972-1435831359345702240-n.jpg") }.await()
             val bitmapZnajomi =
                 async { getBitmap("https://i.postimg.cc/RFf7Q44p/290202066-5329847933741259-3044643926349662777-n.jpg") }.await()
-            val bitmapBordoBistro =
-                async { getBitmap("https://i.postimg.cc/pTGHCbC8/307892682-617981183069691-3572231132101971245-n.jpg") }.await()
+            val bitmapSloik =
+                async { getBitmap("https://i.postimg.cc/vTQzXJv5/sloik-logo.jpg") }.await()
 
             withContext(Dispatchers.Main) {
                 restaurantViewModel.insertRestaurant(
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                         "Aioli",
                         0.0f,
                         "Włoska",
-                        "Chmielna 26, Warszawa",
+                        "Chmielna 26",
                         26.90F,
                         12,
                         17,
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                         "Znajomi",
                         0.0f,
                         "Europejska",
-                        "Wilcza 58a",
+                        "Wilcza 58",
                         22.0F,
                         12,
                         16,
@@ -161,18 +161,18 @@ class MainActivity : AppCompatActivity() {
                 restaurantViewModel.insertRestaurant(
                     Restaurant(
                         6,
-                        bitmapBordoBistro,
-                        "Bordo Bistro",
+                        bitmapSloik,
+                        "Słoik",
                         0.0f,
                         "Europejska",
-                        "Chmielna 34, Warszawa",
-                        23.0F,
+                        "Złota 11",
+                        29.9F,
                         12,
                         16,
                         3,
                         true,
                         "Zupa z soczewicy\nGnocchi z pesto bazyliowym i pomidorkami lub Polędwiczki wieprzowe w sosie musztardowym z puree i surówką lub " + "Pizza z szynką i pieczarkami\nMini bezy z musem owocowym",
-                        menu = "https://www.facebook.com/BistroChmielna/posts/pfbid0bj2VPjtyGX3wWuYb6r15mQzFiWg4vfhrSn5P2tRmWy9qpMaArRRVeuiTAdcC8PWPl"
+                        menu = "https://www.facebook.com/restauracja.sloik/posts/pfbid027h6xzaoX7Vdns4ph35XsDp5ZeRdJCdtn1HmsFFTuuxmvKU6SHk5rnX2qAXDeRtPal"
                     )
                 )
 
@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initUser() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val defaultUser = User(1, "Kinga", null)
+            val defaultUser = User(1, "Kuba", null)
             restaurantViewModel.insertUser(defaultUser)
         }
     }

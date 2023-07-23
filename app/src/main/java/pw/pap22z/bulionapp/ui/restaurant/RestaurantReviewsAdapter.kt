@@ -31,7 +31,7 @@ class RestaurantReviewsAdapter(
         holder.rating.text = restaurantReviews[position].review_rating.toString()
         holder.reviewBody.text = restaurantReviews[position].review_body
         holder.deleteIcon.setOnClickListener {
-            onDeleteClickListener.onDeleteClick(restaurantReviews[position]) // Wywołanie onDeleteClick z interfejsu
+            onDeleteClickListener.onDeleteClick(restaurantReviews[position])
         }
     }
 
