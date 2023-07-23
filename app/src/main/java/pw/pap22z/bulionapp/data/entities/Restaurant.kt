@@ -20,7 +20,7 @@ data class Restaurant(
     val hour_start: Int,
     val hour_end: Int,
     val dishes_count: Int,
-    val is_vege: Boolean,
+    val is_vegan: Boolean,
     val lunch_info: String,
     var latitude: Double = 0.0,
     var longitude: Double = 0.0,

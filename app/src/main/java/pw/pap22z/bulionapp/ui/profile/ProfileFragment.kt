@@ -26,8 +26,6 @@ class ProfileFragment : Fragment() {
     private lateinit var user: User
     private lateinit var profileViewModel: ProfileViewModel
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -54,7 +52,7 @@ class ProfileFragment : Fragment() {
 
 
         val welcomeMsg: TextView = binding.textWelcome
-        welcomeMsg.text = user!!.username
+        welcomeMsg.text = user.username
 
         /* REVIEWS BUTTON */
         ViewBindings.findChildViewById<Button>(root, R.id.reviewsBtn)?.setOnClickListener {
@@ -71,7 +69,6 @@ class ProfileFragment : Fragment() {
         /* SETTINGS BUTTON */
         ViewBindings.findChildViewById<Button>(root, R.id.settingsBtn)?.setOnClickListener {
             val intent = Intent(activity, SettingsActivity::class.java)
-//            intent.putExtra("user", user)
             activity?.startActivity(intent)
         }
 
@@ -90,11 +87,11 @@ class ProfileFragment : Fragment() {
         }
 
         val welcomeMsg: TextView = binding.textWelcome
-        welcomeMsg.text = user!!.username
+        welcomeMsg.text = user.username
 
         val profilePicture: CircleImageView = binding.avatar
-        if (user?.profile_pic != null) {
-            profilePicture.setImageBitmap(user?.profile_pic)
+        if (user.profile_pic != null) {
+            profilePicture.setImageBitmap(user.profile_pic)
         }
     }
 

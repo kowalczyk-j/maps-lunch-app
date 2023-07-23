@@ -47,7 +47,7 @@ class FavoritesAdapter(private val context: Activity) : RecyclerView.Adapter<Fav
             R.string.price,
             favoritesList[position].price
         )
-        holder.isVegan.visibility = if (favoritesList[position].is_vege) View.VISIBLE else View.GONE
+        holder.isVegan.visibility = if (favoritesList[position].is_vegan) View.VISIBLE else View.GONE
         holder.favorite.visibility = if (favoritesList[position].favorite) View.VISIBLE else View.GONE
     }
 
@@ -74,24 +74,18 @@ class FavoritesAdapter(private val context: Activity) : RecyclerView.Adapter<Fav
         val favorite: ImageButton = view.findViewById(R.id.isFavorite)
 
         init {
-
             view.setOnClickListener {
                 listener.onItemClick(absoluteAdapterPosition)
             }
-
         }
 
     }
 
     interface OnItemClickListener {
-
         fun onItemClick(position: Int)
-
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
-
         this.listener = listener
-
     }
 }

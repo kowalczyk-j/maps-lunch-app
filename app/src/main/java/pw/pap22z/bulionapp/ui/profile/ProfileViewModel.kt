@@ -11,7 +11,7 @@ import pw.pap22z.bulionapp.data.entities.User
 
 class ProfileViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val userDao by lazy {RestaurantDatabase.getDatabase(application).userDao()}
+    private val userDao by lazy { RestaurantDatabase.getDatabase(application).userDao() }
 
     fun updateUsername(userId: Int, newUsername: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -22,12 +22,6 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
     fun updateProfilePic(userId: Int, newPic: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
             userDao.updateProfilePic(userId, newPic)
-        }
-    }
-
-    fun insertUser(user: User) {
-        viewModelScope.launch(Dispatchers.IO) {
-            userDao.insertUser(user)
         }
     }
 

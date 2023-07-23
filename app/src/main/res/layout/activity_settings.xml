@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,24 +8,41 @@
     android:background="@color/white"
     tools:context=".ui.profile.SettingsActivity">
 
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ustawienia profilu"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/setUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/light_gray"
         android:text="Zmień nazwę użytkownika"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="15dp"
         android:textAlignment="textStart"
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminSwitch" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsTitle" />
 
     <Button
         android:id="@+id/setAvatar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Zmień zdjęcie profilowe"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="15dp"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:backgroundTint="@color/light_gray"
@@ -33,17 +51,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setUsername" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/adminSwitch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:layout_marginVertical="15dp"
         android:minHeight="48dp"
-        android:text="Admin"
+        android:text="Tryb właściciela restauracji"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/setAvatar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

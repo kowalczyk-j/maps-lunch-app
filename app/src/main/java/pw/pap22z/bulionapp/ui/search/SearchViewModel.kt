@@ -31,7 +31,7 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
     }
 
     fun sortRestaurantsByVegan(): LiveData<List<Restaurant>> {
-        allRestaurants = restaurantDao.sortRestaurantsByVege()
+        allRestaurants = restaurantDao.sortRestaurantsByVegan()
         return allRestaurants
     }
 

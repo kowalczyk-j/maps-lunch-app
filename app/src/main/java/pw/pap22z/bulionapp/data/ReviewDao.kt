@@ -18,9 +18,6 @@ interface ReviewDao {
     @Delete
     suspend fun deleteReview(review: Review)
 
-//    @Query("SELECT * FROM review ORDER BY review_id ASC")
-//    fun getReviews(): LiveData<ArrayList<Review>>
-
     @Query("SELECT * FROM review WHERE restaurant_id = :restaurantId")
     fun getReviewsWithRestaurant(restaurantId: Int): LiveData<List<Review>>
 

@@ -69,7 +69,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
             R.string.price,
             allRestaurants[position].price
         )
-        holder.binding.isVegan.visibility = if (allRestaurants[position].is_vege) View.VISIBLE else View.GONE
+        holder.binding.isVegan.visibility = if (allRestaurants[position].is_vegan) View.VISIBLE else View.GONE
         holder.binding.isFavorite.visibility = if (allRestaurants[position].favorite) View.VISIBLE else View.GONE
     }
 
