@@ -41,11 +41,13 @@
                     android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Username"
+                    android:text="WWWWWWWWWWWWWWW"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:maxLength="14"
+                    android:minLines="2"/>
 
                 <TextView
                     android:id="@+id/rating"

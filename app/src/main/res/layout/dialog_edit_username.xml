@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:textColor="@color/black"
+        android:maxLength="14"
         android:hint="@string/new_username" />
 
 </LinearLayout>

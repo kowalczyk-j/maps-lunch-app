@@ -16,7 +16,7 @@
     <string name="favorites">Ulubione</string>
     <string name="my_reviews">Moje recenzje</string>
     <string name="new_username">Nowa nazwa użytkownika…</string>
-    <string name="empty_username">Nazwa użytkownika nie może być pusta</string>
+    <string name="empty_username">Nazwa użytkownika musi zawierać od 1 do 14 znaków</string>
     <string name="change_username">Zmień nazwę użytkownika</string>
     <string name="cancel_username">Anuluj</string>
     <string name="error_photo_size">"Zdjęcie nie może przekraczać 0,2 MB"</string>

@@ -65,9 +65,9 @@ class SettingsActivity : AppCompatActivity() {
             with(builder) {
                 setTitle(getString(R.string.change_username))
                 setPositiveButton("Ok") { _, _ ->
-                    if (editText.text.toString() != "") {
+                    val newUsername: String = editText.text.toString()
+                    if (newUsername.isNotEmpty() && newUsername.length <= 14) {
                         lifecycleScope.launch {
-                            val newUsername: String = editText.text.toString()
                             profileViewModel.updateUsername(user.user_id, newUsername)
                             restaurantViewModel.updateReviewUsername(user.user_id, newUsername)
                         }
