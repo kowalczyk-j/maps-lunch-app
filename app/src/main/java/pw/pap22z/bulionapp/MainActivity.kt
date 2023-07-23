@@ -19,16 +19,13 @@ import pw.pap22z.bulionapp.data.RestaurantDatabase
 import pw.pap22z.bulionapp.data.entities.Restaurant
 import pw.pap22z.bulionapp.data.entities.User
 import pw.pap22z.bulionapp.databinding.ActivityMainBinding
-import pw.pap22z.bulionapp.ui.profile.ProfileViewModel
-import pw.pap22z.bulionapp.ui.search.SearchViewModel
+import pw.pap22z.bulionapp.ui.restaurant.RestaurantViewModel
 
-//@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: SearchViewModel
-    private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var restaurantViewModel: RestaurantViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,8 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        // Passing each menu ID as a set of Ids because each menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_map, R.id.navigation_search, R.id.navigation_profile
@@ -47,14 +43,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        viewModel = ViewModelProvider(
+        restaurantViewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
-        )[SearchViewModel::class.java]
-
-        profileViewModel = ViewModelProvider(
-            this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
-        )[ProfileViewModel::class.java]
-
+        )[RestaurantViewModel::class.java]
 
         RestaurantDatabase.getDatabase(this)
 
@@ -78,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 async { getBitmap("https://i.postimg.cc/pTGHCbC8/307892682-617981183069691-3572231132101971245-n.jpg") }.await()
 
             withContext(Dispatchers.Main) {
-                viewModel.insertRestaurant(
+                restaurantViewModel.insertRestaurant(
                     Restaurant(
                         1,
                         bitmapAioli,
@@ -96,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                viewModel.insertRestaurant(
+                restaurantViewModel.insertRestaurant(
                     Restaurant(
                         2,
                         bitmapSiRistorante,
@@ -114,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                viewModel.insertRestaurant(
+                restaurantViewModel.insertRestaurant(
                     Restaurant(
                         3,
                         bitmapLapose,
@@ -132,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                viewModel.insertRestaurant(
+                restaurantViewModel.insertRestaurant(
                     Restaurant(
                         4,
                         bitmapSiDue,
@@ -149,7 +140,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                viewModel.insertRestaurant(
+                restaurantViewModel.insertRestaurant(
                     Restaurant(
                         5,
                         bitmapZnajomi,
@@ -167,7 +158,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
-                viewModel.insertRestaurant(
+                restaurantViewModel.insertRestaurant(
                     Restaurant(
                         6,
                         bitmapBordoBistro,
@@ -192,7 +183,7 @@ class MainActivity : AppCompatActivity() {
     private fun initUser() {
         lifecycleScope.launch(Dispatchers.IO) {
             val defaultUser = User(1, "Kinga", null)
-            profileViewModel.insertUser(defaultUser)
+            restaurantViewModel.insertUser(defaultUser)
         }
     }
 

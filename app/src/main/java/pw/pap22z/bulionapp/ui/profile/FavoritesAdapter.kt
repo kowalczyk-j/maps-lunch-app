@@ -12,8 +12,7 @@ import coil.load
 import pw.pap22z.bulionapp.R
 import pw.pap22z.bulionapp.data.entities.Restaurant
 
-class FavoritesAdapter (private val context: Activity)
-    : RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
+class FavoritesAdapter(private val context: Activity) : RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
     private lateinit var listener: OnItemClickListener
     private var favoritesList = mutableListOf<Restaurant>()
@@ -35,7 +34,7 @@ class FavoritesAdapter (private val context: Activity)
             favoritesList[position].hour_start,
             favoritesList[position].hour_end
         )
-        holder.rating.text = if(favoritesList[position].rating == 0f) {
+        holder.rating.text = if (favoritesList[position].rating == 0f) {
             holder.itemView.resources.getString(R.string.no_rating)
         } else {
             holder.itemView.resources.getString(R.string.rating, favoritesList[position].rating)
@@ -90,7 +89,7 @@ class FavoritesAdapter (private val context: Activity)
 
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener){
+    fun setOnItemClickListener(listener: OnItemClickListener) {
 
         this.listener = listener
 

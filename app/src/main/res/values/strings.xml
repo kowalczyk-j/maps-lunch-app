@@ -4,11 +4,11 @@
     <string name="title_search">Szukaj</string>
     <string name="title_profile">Konto</string>
 
-    <!-- Strings used for map fragment -->
+    <!-- Strings used for Map fragment -->
     <string name="restaurant_price_rating">%.2f zł | Ocena: %s ⭐</string>
     <string name="restaurant_availability">Dostępne w godz. %d - %d</string>
 
-    <!--  Strings used for profile fragment  -->
+    <!--  Strings used for Profile fragment  -->
     <string name="settings">Ustawienia</string>
     <string name="favorites">Ulubione</string>
     <string name="my_reviews">Moje recenzje</string>
@@ -16,15 +16,6 @@
     <string name="change_username">Zmień nazwę użytkownika</string>
     <string name="cancel_username">Anuluj</string>
     <string name="error_photo_size">"Zdjęcie nie może przekraczać 0,2 MB"</string>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_update_lunch">UpdateLunch</string>
-
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <!-- Strings used for SearchAdapter and FavoritesAdapter -->
     <string name="dishes_count">%d dania</string>

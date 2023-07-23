@@ -4,7 +4,12 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
@@ -134,7 +139,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
                 true
             }
             R.id.action_sort_by_vegan -> {
-                viewModel.sortRestaurantsByVege().observe(viewLifecycleOwner) { list ->
+                viewModel.sortRestaurantsByVegan().observe(viewLifecycleOwner) { list ->
                     list.let { sAdapter.setData(it) }
                 }
                 Toast.makeText(requireContext(), "Pokazano tylko restauracje z opcjami vege", Toast.LENGTH_SHORT).show()
