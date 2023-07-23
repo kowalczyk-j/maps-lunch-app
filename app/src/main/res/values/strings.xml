@@ -4,6 +4,10 @@
     <string name="title_search">Szukaj</string>
     <string name="title_profile">Konto</string>
 
+    <!-- Strings used for map fragment -->
+    <string name="restaurant_price_rating">%.2f zł | Ocena: %s ⭐</string>
+    <string name="restaurant_availability">Dostępne w godz. %d - %d</string>
+
     <!--  Strings used for profile fragment  -->
     <string name="settings">Ustawienia</string>
     <string name="favorites">Ulubione</string>

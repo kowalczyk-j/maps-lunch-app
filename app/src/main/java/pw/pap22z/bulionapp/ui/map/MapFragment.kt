@@ -46,15 +46,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var _binding: FragmentMapBinding? = null
     private lateinit var mapViewModel: MapViewModel
 
-    //private var currentMapType = GoogleMap.MAP_TYPE_NORMAL
     private val binding get() = _binding!!
     private var restaurants: List<Restaurant> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         if (savedInstanceState != null) {
@@ -63,19 +60,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         }
 
-        Log.d("MyTag", "zaczynam")
-
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
 
-        mapViewModel = ViewModelProvider(this).get(MapViewModel::class.java)
-
-
-
+        mapViewModel = ViewModelProvider(this)[MapViewModel::class.java]
         mapFragment.getMapAsync(this)
-
         return root
     }
 
@@ -91,20 +82,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val displayMetrics = DisplayMetrics()
         (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
         view.layoutParams =
-            ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
         view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
-        view.buildDrawingCache()
         val bitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
-
         val canvas = Canvas(bitmap)
         view.draw(canvas)
-
         return bitmap
     }
 
     private fun updateMap() {
-
         map?.clear()
         for (restaurant in restaurants) {
             val markerView = layoutInflater.inflate(R.layout.item_map_marker, null)
@@ -120,47 +107,32 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             marker?.tag = restaurant
         }
 
-
-
         map?.setOnMarkerClickListener { marker ->
             val restaurant = marker.tag as Restaurant
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 15f))
+            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, DEFAULT_ZOOM.toFloat()))
             showRestaurantDialog(restaurant)
             true
         }
-
-
     }
 
 
-    private val markers = mutableListOf<Marker>()
-
     private fun showRestaurantDialog(restaurant: Restaurant) {
-
-
         val builder = AlertDialog.Builder(requireContext())
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_restaurant_map, null)
-        val rating = if (restaurant.rating == 0f) "---" else "%.2f".format(restaurant.rating)
-        val restaurantNote =
-            "${"%.2f".format(restaurant.price)} zł\t | \tOcena: $rating  \n Dostępne w godz. ${restaurant.hour_start} - ${restaurant.hour_end}"
 
-        val infoButton = dialogView.findViewById<Button>(R.id.button_more)
         val restaurantName = dialogView.findViewById<TextView>(R.id.name)
-        val restaurantInfo = dialogView.findViewById<TextView>(R.id.restaurant_info)
-        val route = dialogView.findViewById<Button>(R.id.button_route)
+        restaurantName.text = restaurant.name
         val photo = dialogView.findViewById<ImageView>(R.id.logo)
         photo.setImageBitmap(restaurant.image_title)
-        restaurantName.text = restaurant.name
-        restaurantInfo.text = restaurantNote
-        infoButton?.setOnClickListener {
-            if (context != null) {
+        val restaurantPriceRating = dialogView.findViewById<TextView>(R.id.restaurant_price_rating)
+        val formattedRating = if (restaurant.rating == 0f) "---" else "%.2f".format(restaurant.rating)
+        restaurantPriceRating.text = getString(R.string.restaurant_price_rating, restaurant.price, formattedRating)
+        val restaurantLunchHours = dialogView.findViewById<TextView>(R.id.restaurant_availability)
+        restaurantLunchHours.text =
+            getString(R.string.restaurant_availability, restaurant.hour_start, restaurant.hour_end)
 
-                val intent = Intent(context, RestaurantActivity::class.java)
-                intent.putExtra("restaurant", restaurant)
-                startActivity(intent)
-            }
-        }
 
+        val route = dialogView.findViewById<Button>(R.id.button_route)
         route?.setOnClickListener {
             if (context != null) {
                 val mapUri: Uri = Uri.parse("geo:0,0?q=" + Uri.encode(restaurant.address))
@@ -169,23 +141,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 startActivity(mapIntent)
             }
         }
+        val infoButton = dialogView.findViewById<Button>(R.id.button_more)
+        infoButton?.setOnClickListener {
+            if (context != null) {
+                val intent = Intent(context, RestaurantActivity::class.java)
+                intent.putExtra("restaurant", restaurant)
+                startActivity(intent)
+            }
+        }
         builder.setView(dialogView)
         builder.show()
-        true
-    }
-
-    private fun addMarkerToMap(map: GoogleMap, latitude: Double, longitude: Double, title: String) {
-        val markerOptions = MarkerOptions().position(LatLng(latitude, longitude)).title(title)
-        map.addMarker(markerOptions)
-
     }
 
 
     override fun onMapReady(map: GoogleMap) {
-
         this.map = map
-
-        val markers = mutableListOf<Marker>()
 
         getLocationPermission()
         updateLocationUI()
@@ -244,13 +214,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    @Deprecated("Use the ActivityCompat#requestPermissions() method instead.")
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
         locationPermissionGranted = false
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
-
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     locationPermissionGranted = true
@@ -286,10 +256,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         private val TAG = MapFragment::class.java.simpleName
         private const val DEFAULT_ZOOM = 15
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
-        private const val API = "AIzaSyATfNmd6D0HIN6nX_37e760xZUlq_LMZYQ"
         private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
-        //private const val MAP_TYPE_KEY = "ecab326e84e0f60f"
     }
 
     override fun onDestroy() {
@@ -299,7 +267,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             it.mapType = GoogleMap.MAP_TYPE_NONE
         }
         map = null
-        fusedLocationProviderClient.flushLocations()
         fusedLocationProviderClient.flushLocations()
     }
 }
