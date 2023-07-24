@@ -75,7 +75,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), MenuProvider {
         menuInflater.inflate(R.menu.search_sort_menu, menu)
         val itemView = menu.findItem(R.id.search_action)
         val searchView = itemView.actionView as SearchView
-        searchView.queryHint = R.string.search_hint.toString()
+        searchView.queryHint = getString(R.string.search_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return true
