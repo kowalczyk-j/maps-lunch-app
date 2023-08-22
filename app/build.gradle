@@ -2,10 +2,11 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-//    id 'com.google.dagger.hilt.android' version '2.41' apply false
     id 'kotlin-parcelize'
-//    id 'dagger.hilt.android.plugin'
 }
+
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace 'pw.pap22z.bulionapp'
@@ -19,14 +20,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner
         "androidx.test.runner.AndroidJUnitRunner"
-        kapt {
-//            javacOptions {
-//                // These options are normally set automatically via the Hilt Gradle plugin, but we
-//                // set them manually to workaround a bug in the Kotlin 1.5.20
-//                option("-Adagger.fastInit=ENABLED")
-//                option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
-//            }
-        }
+        buildConfigField "String", "API_KEY", localProperties['apiKey']
     }
 
     buildTypes {
@@ -57,12 +51,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-    implementation 'com.google.android.gms:play-services-cast-framework:21.2.0'
+    implementation 'com.google.android.gms:play-services-cast-framework:21.3.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.databinding:baseLibrary:3.2.0-alpha11'
-    implementation 'com.android.support:cardview-v7:26.0.0'
-
+    implementation 'androidx.cardview:cardview'
 
     //Google maps
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
@@ -71,21 +64,15 @@ dependencies {
     implementation 'com.google.maps.android:android-maps-utils:0.6+'
 
 
-
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
-// Room components
+
+    // Room components
     implementation "androidx.room:room-runtime:2.4.3"
     kapt "androidx.room:room-compiler:2.4.3"
     implementation "androidx.room:room-ktx:2.4.3"
     androidTestImplementation "androidx.room:room-testing:2.4.3"
-
-    // Dagger - Hilt
-//    implementation "com.google.dagger:hilt-android:2.31-alpha"
-//    kapt "com.google.dagger:hilt-android-compiler:2.28.3-alpha"
-//    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
-//    kapt "androidx.hilt:hilt-compiler:1.0.0"
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"

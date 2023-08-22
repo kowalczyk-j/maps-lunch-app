@@ -1,5 +1,6 @@
 package pw.pap22z.bulionapp
 
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var restaurantViewModel: RestaurantViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+        appInfo.metaData.putString("com.google.android.maps.v2.API_KEY", BuildConfig.API_KEY)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
